@@ -1,3 +1,4 @@
+import 'package:crt_chebba/Screens/authentication/login.dart';
 import 'package:flutter/material.dart';
 
 import 'Screens/authentication/SignUp.dart';
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'crt app',
       debugShowCheckedModeBanner: false,
-      home: SignUp(),
+      home: login(),
     );
   }
 }

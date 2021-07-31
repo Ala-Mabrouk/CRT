@@ -39,12 +39,17 @@ class _SignUpState extends State<SignUp> {
               print(email);
             },
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
               hintText: 'folen@5658',
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide(color: Colors.red, width: 2.0),
               ),
               focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: BorderSide(color: Colors.red, width: 2.0),
+              ),
+              errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide(color: Colors.red, width: 2.0),
               ),
@@ -107,13 +112,20 @@ class _SignUpState extends State<SignUp> {
             ),
           ),
           TextFormField(
+            validator: (val) =>
+                (val == null || val == '') ? 'Champ naicessaire' : null,
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
               hintText: hint,
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide(color: Colors.red, width: 2.0),
               ),
               focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: BorderSide(color: Colors.red, width: 2.0),
+              ),
+              errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide(color: Colors.red, width: 2.0),
               ),
@@ -135,7 +147,7 @@ class _SignUpState extends State<SignUp> {
           elevation: 5,
           onPressed: () {
             final formstatus = _SignUpFormkey.currentState;
-            if (!formstatus!.validate()) {
+            if (formstatus!.validate()) {
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text('email invalid !!!')));
             }
@@ -158,12 +170,18 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       body: Container(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 120),
           child: Form(
             key: _SignUpFormkey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Container(
+                  height: size.height * 0.35,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage('../assets/header.png'),
+                          fit: BoxFit.fill)),
+                ),
                 Text(
                   "Créer un compte",
                   style: TextStyle(
