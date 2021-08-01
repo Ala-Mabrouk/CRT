@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:crt_chebba/constants/constants.dart';
-
 class DefaultButton extends StatelessWidget {
   const DefaultButton(
       {Key? key, required this.text, required this.press, required this.kcolor})

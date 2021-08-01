@@ -167,6 +167,21 @@ class _SignUpState extends State<SignUp> {
       );
     }
 
+    Widget FinalLine() {
+      return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Text("Vous avez déja un compte ? "),
+        TextButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/login');
+          },
+          child: Text(
+            "se conneter ! ",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        )
+      ]);
+    }
+
     return Scaffold(
       body: Container(
         child: SingleChildScrollView(
@@ -177,10 +192,11 @@ class _SignUpState extends State<SignUp> {
               children: <Widget>[
                 Container(
                   height: size.height * 0.35,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('../assets/header.png'),
-                          fit: BoxFit.fill)),
+                  child: Image.asset('assets/header.png'),
+                  // decoration: BoxDecoration(
+                  //     image: DecorationImage(
+                  //         image: Image.asset('../assets/header.png'),
+                  //         fit: BoxFit.fill)),
                 ),
                 Text(
                   "Créer un compte",
@@ -217,6 +233,10 @@ class _SignUpState extends State<SignUp> {
                   height: 10,
                 ),
                 SignUpBTN(),
+                SizedBox(
+                  height: 20,
+                ),
+                FinalLine(),
               ],
             ),
           ),
