@@ -1,3 +1,4 @@
+import 'package:crt_chebba/Screens/Home/home.dart';
 import 'package:crt_chebba/Screens/authentication/SignUp.dart';
 import 'package:crt_chebba/Screens/authentication/login.dart';
 import 'package:crt_chebba/Screens/splash.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
               '/login': (context) => login(),
               '/signUp': (context) => SignUp(),
               '/donations': (context) => AjouterDon(),
+              '/Home': (context) => home(),
             },
           );
         }

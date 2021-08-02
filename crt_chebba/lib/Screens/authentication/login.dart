@@ -130,7 +130,7 @@ class _loginState extends State<login> {
               });
             }
           },
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.all(2),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
@@ -168,7 +168,7 @@ class _loginState extends State<login> {
             child: Column(
               children: <Widget>[
                 Container(
-                  height: 200,
+                  height: size.height * 0.35,
                   child: Image.asset('assets/header.png'),
 
                   // decoration: BoxDecoration(

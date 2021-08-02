@@ -1,3 +1,5 @@
+import 'package:crt_chebba/Screens/Services/auth.dart';
+import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
@@ -8,10 +10,26 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final _SignUpFormkey = GlobalKey<FormState>();
+  AuthenticationService auth = AuthenticationService();
 
-  String email = '';
-  String pass = '';
+  AgentCrt _agentCrt = AgentCrt();
+
   bool isAdmin = false;
+
+  DateTime selectedDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(1935, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -35,15 +53,16 @@ class _SignUpState extends State<SignUp> {
                 ? 'Email incorect'
                 : null,
             onChanged: (val) {
-              setState(() => email = val);
-              print(email);
+              setState(() {
+                _agentCrt.email = val;
+              });
             },
             decoration: InputDecoration(
               contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-              hintText: 'folen@5658',
+              hintText: 'Votre e-mail',
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
-                borderSide: BorderSide(color: Colors.red, width: 2.0),
+                borderSide: BorderSide(color: Colors.grey, width: 2.0),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
@@ -59,6 +78,56 @@ class _SignUpState extends State<SignUp> {
           SizedBox(
             height: 10,
           ),
+        ],
+      );
+    }
+
+    Widget DatePicker() {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(17, 0, 0, 5),
+            child: Text(
+              'Date de naissance',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          TextFormField(
+            enabled: true,
+            validator: (val) =>
+                (val == null || val == '') ? 'Champ naicessaire' : null,
+            decoration: InputDecoration(
+              suffixIcon: IconButton(
+                onPressed: () => _selectDate(context),
+                icon: Icon(
+                  Icons.calendar_today,
+                  color: Colors.black,
+                ),
+              ),
+              contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+              hintText: '2021/05/24',
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: BorderSide(color: Colors.grey, width: 2.0),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: BorderSide(color: Colors.red, width: 2.0),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: BorderSide(color: Colors.red, width: 2.0),
+              ),
+            ),
+            keyboardType: TextInputType.datetime,
+          ),
+          SizedBox(
+            height: 10,
+          )
         ],
       );
     }
@@ -97,7 +166,7 @@ class _SignUpState extends State<SignUp> {
       );
     }
 
-    Widget InputField({label, hint, obscur}) {
+    Widget InputField({label, hint, required bool obscur, field}) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -112,26 +181,83 @@ class _SignUpState extends State<SignUp> {
             ),
           ),
           TextFormField(
-            validator: (val) =>
-                (val == null || val == '') ? 'Champ naicessaire' : null,
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-              hintText: hint,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30),
-                borderSide: BorderSide(color: Colors.red, width: 2.0),
+              validator: (val) =>
+                  (val == null || val == '') ? 'Champ naicessaire' : null,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                hintText: hint,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide(color: Colors.grey, width: 2.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide(color: Colors.red, width: 2.0),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide(color: Colors.red, width: 2.0),
+                ),
               ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30),
-                borderSide: BorderSide(color: Colors.red, width: 2.0),
+              keyboardType: TextInputType.text,
+              obscureText: obscur,
+              onChanged: field
+              //  (val) {
+              //   setState(() {
+              //     _agentCrt.phone = val;
+              //   });
+              //   print(field);
+              // },
               ),
-              errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30),
-                borderSide: BorderSide(color: Colors.red, width: 2.0),
-              ),
+          SizedBox(
+            height: 10,
+          )
+        ],
+      );
+    }
+
+    Widget InputPhoneField({label, hint, obscur, field}) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(17, 0, 0, 5),
+            child: Text(
+              label,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
             ),
-            keyboardType: TextInputType.emailAddress,
           ),
+          TextFormField(
+              validator: (val) =>
+                  (val == null || val == '') ? 'Champ naicessaire' : null,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                hintText: hint,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide(color: Colors.grey, width: 2.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide(color: Colors.red, width: 2.0),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide(color: Colors.red, width: 2.0),
+                ),
+              ),
+              keyboardType: TextInputType.phone,
+              onChanged: field
+              //  (val) {
+              //   setState(() {
+              //     _agentCrt.phone = val;
+              //   });
+              //   print(field);
+              // },
+              ),
           SizedBox(
             height: 10,
           )
@@ -144,16 +270,20 @@ class _SignUpState extends State<SignUp> {
         height: 40,
         width: size.width * 0.5,
         child: RaisedButton(
-          elevation: 5,
-          onPressed: () {
-            final formstatus = _SignUpFormkey.currentState;
-            if (formstatus!.validate()) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text('email invalid !!!')));
+          onPressed: () async {
+            // final formstatus = _SignUpFormkey.currentState;
+            // if (formstatus!.validate()) {
+            //   ScaffoldMessenger.of(context)
+            //       .showSnackBar(SnackBar(content: Text('email invalid !!!')));
+            // }
+            _agentCrt.isAdmin = isAdmin;
+            _agentCrt.birthDate = selectedDate;
+            dynamic res = await auth.registerNewAgent(_agentCrt);
+            if (res != null) {
+              Navigator.pushNamed(context, '/Home');
             }
-            print('smt');
           },
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.all(2),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
@@ -211,20 +341,44 @@ class _SignUpState extends State<SignUp> {
                       const EdgeInsets.symmetric(horizontal: 35, vertical: 2),
                   child: Column(
                     children: <Widget>[
-                      InputField(label: 'Nom:', hint: 'foulen', obscur: false),
                       InputField(
-                          label: 'Prenom:', hint: 'foulen', obscur: false),
-
+                          label: 'Nom:',
+                          hint: 'Votre nom',
+                          obscur: false,
+                          field: (val1) {
+                            setState(() {
+                              _agentCrt.name = val1;
+                            });
+                          }),
+                      InputField(
+                          label: 'Prenom:',
+                          hint: 'Votre prenom',
+                          obscur: false,
+                          field: (val2) {
+                            setState(() {
+                              _agentCrt.lastName = val2;
+                            });
+                          }),
                       EmailField(),
                       InputField(
                           label: 'Mot de passe:',
                           hint: '********',
-                          obscur: true),
-                      //   DatePicker(),
-                      InputField(
+                          obscur: true,
+                          field: (val3) {
+                            setState(() {
+                              _agentCrt.password = val3;
+                            });
+                          }),
+                      DatePicker(),
+                      InputPhoneField(
                           label: 'Telephone:',
                           hint: '+216 22222222',
-                          obscur: false),
+                          obscur: false,
+                          field: (val4) {
+                            setState(() {
+                              _agentCrt.phone = val4;
+                            });
+                          }),
                       CheckBoxField(),
                     ],
                   ),
@@ -245,20 +399,6 @@ class _SignUpState extends State<SignUp> {
     );
   }
 }
-
-// Widget DatePicker() {
-//   return TextButton(
-//       onPressed: () {
-//        DatePicker.showDatePicker(context,
-//             showTitleActions: true,
-//             minTime: DateTime(2018, 3, 5),
-//             maxTime: DateTime(2019, 6, 7),)
-//       },
-//       child: Text(
-//         'show date time picker (Chinese)',
-//         style: TextStyle(color: Colors.blue),
-//       ));
-// }
 
 bool isEmailValid(String email) {
   Pattern pattern =
