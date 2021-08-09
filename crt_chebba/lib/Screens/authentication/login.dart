@@ -1,4 +1,5 @@
-import 'package:crt_chebba/Screens/Services/auth.dart';
+import 'package:crt_chebba/Screens/Home/home.dart';
+import 'package:crt_chebba/Services/authentication_Services/auth.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
@@ -119,14 +120,22 @@ class _loginState extends State<login> {
             // }
             // print('smt');
 
-            dynamic res = await auth.signInEmailPassword(email, pass);
+            print(email);
+            print(pass);
+            dynamic res = await auth
+                .signInEmailPassword(email, pass)
+                .onError((error, stackTrace) => setState(() {
+                      err = 'password is wrong';
+                    }));
             if (res != null) {
-              print("firebase connected");
               print(res);
-              Navigator.pushNamed(context, '/donations');
+              Navigator.pushReplacement(context,
+                  new MaterialPageRoute(builder: (context) => new home()));
+              // Navigator.of(context).pushReplacementNamed('/Home');
+              //  Navigator.pushNamed(context, home.routeName, arguments: 'home');
             } else {
               setState(() {
-                err = "invalid input ";
+                err = "user not found or bad input  ";
               });
             }
           },

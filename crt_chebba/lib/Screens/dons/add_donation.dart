@@ -1,3 +1,5 @@
+import 'package:crt_chebba/Services/donationServices/donationsServices.dart';
+import 'package:crt_chebba/models/Donation.dart';
 import 'package:flutter/material.dart';
 
 class AjouterDon extends StatefulWidget {
@@ -6,9 +8,11 @@ class AjouterDon extends StatefulWidget {
 }
 
 class _AjouterDonState extends State<AjouterDon> {
+  DonationService donService = DonationService();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    Donation don = Donation();
 
     return MaterialApp(
         home: Scaffold(
@@ -37,7 +41,9 @@ class _AjouterDonState extends State<AjouterDon> {
             height: 20,
           ),
           TextField(
-            onChanged: (value) {},
+            onChanged: (value) {
+              don.Equipe = value;
+            },
             decoration: InputDecoration(border: OutlineInputBorder()),
           ),
           SizedBox(
@@ -53,10 +59,36 @@ class _AjouterDonState extends State<AjouterDon> {
             ),
           ),
           TextField(
+            onChanged: (value) {
+              don.description = value;
+            },
             minLines: 2,
             maxLines: 8,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          RaisedButton(
+            elevation: 5,
+            onPressed: () async {
+              if (donService.addDonation(don) != Null) {
+                Navigator.pushReplacementNamed(context, '/Home');
+              }
+            },
+            padding: EdgeInsets.all(2),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            color: Colors.green,
+            child: Text(
+              "save don",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),
             ),
           ),
         ]),

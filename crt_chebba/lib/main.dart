@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crt_chebba/Screens/Family/detailleFamille.dart';
+import 'package:crt_chebba/Screens/Home/Hi.dart';
 import 'package:crt_chebba/Screens/Home/home.dart';
 import 'package:crt_chebba/Screens/authentication/SignUp.dart';
 import 'package:crt_chebba/Screens/authentication/login.dart';
@@ -7,39 +10,31 @@ import 'package:flutter/material.dart';
 
 import 'Screens/dons/add_donation.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  CollectionReference users =
+      FirebaseFirestore.instance.collection('CRT_Agents');
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      // Initialize FlutterFire
-      future: Firebase.initializeApp(),
-      builder: (context, snapshot) {
-        // Check for errors
-        if (snapshot.hasError) {
-          print('erreur inti');
-        }
-
-        // Once complete, show your application
-        if (snapshot.connectionState == ConnectionState.done) {
-          return MaterialApp(
-            initialRoute: '/login',
-            routes: {
-              '/': (context) => splashScreen(),
-              '/login': (context) => login(),
-              '/signUp': (context) => SignUp(),
-              '/donations': (context) => AjouterDon(),
-              '/Home': (context) => home(),
-            },
-          );
-        }
-
-        // Otherwise, show something whilst waiting for initialization to complete
-        return splashScreen();
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      routes: {
+        '/': (context) => splashScreen(),
+        '/login': (context) => login(),
+        '/signUp': (context) => SignUp(),
+        '/addDonations': (context) => AjouterDon(),
+        '/Home': (context) => home(),
+        '/detailFamily': (context) => detailleFamille(),
+        '/hi': (context) => Hi(),
       },
     );
   }

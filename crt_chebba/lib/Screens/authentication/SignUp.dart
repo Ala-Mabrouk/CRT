@@ -1,4 +1,4 @@
-import 'package:crt_chebba/Screens/Services/auth.dart';
+import 'package:crt_chebba/Services/authentication_Services/auth.dart';
 import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +12,7 @@ class _SignUpState extends State<SignUp> {
   final _SignUpFormkey = GlobalKey<FormState>();
   AuthenticationService auth = AuthenticationService();
 
-  AgentCrt _agentCrt = AgentCrt();
+  AgentCrt _agentCrt = AgentCrt.empty();
 
   bool isAdmin = false;
 
@@ -277,10 +277,10 @@ class _SignUpState extends State<SignUp> {
             //       .showSnackBar(SnackBar(content: Text('email invalid !!!')));
             // }
             _agentCrt.isAdmin = isAdmin;
-            _agentCrt.birthDate = selectedDate;
+            _agentCrt.birthDate = selectedDate.toString();
             dynamic res = await auth.registerNewAgent(_agentCrt);
             if (res != null) {
-              Navigator.pushNamed(context, '/Home');
+              Navigator.pushNamed(context, '/Hi');
             }
           },
           padding: EdgeInsets.all(2),
