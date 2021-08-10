@@ -74,8 +74,14 @@ class _AjouterDonState extends State<AjouterDon> {
           RaisedButton(
             elevation: 5,
             onPressed: () async {
+              don.publierPar = "admin for now";
+              don.dateDonation = DateTime.now();
+              don.idFamily = "family 1";
               if (donService.addDonation(don) != Null) {
-                Navigator.pushReplacementNamed(context, '/Home');
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new AjouterDon()));
               }
             },
             padding: EdgeInsets.all(2),

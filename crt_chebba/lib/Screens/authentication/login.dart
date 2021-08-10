@@ -3,6 +3,8 @@ import 'package:crt_chebba/Services/authentication_Services/auth.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
+import 'SignUp.dart';
+
 class login extends StatefulWidget {
   const login({Key? key}) : super(key: key);
 
@@ -135,7 +137,7 @@ class _loginState extends State<login> {
               //  Navigator.pushNamed(context, home.routeName, arguments: 'home');
             } else {
               setState(() {
-                err = "user not found or bad input  ";
+                // err = "user not found or bad input  ";
               });
             }
           },
@@ -158,7 +160,8 @@ class _loginState extends State<login> {
         Text("Vous n'avez pas encore un compte ? "),
         TextButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/signUp');
+            Navigator.push(context,
+                new MaterialPageRoute(builder: (context) => new SignUp()));
           },
           child: Text(
             "Creéz-en un ! ",

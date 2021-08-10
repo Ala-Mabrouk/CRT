@@ -3,6 +3,8 @@ import 'package:crt_chebba/Services/donationServices/donationsServices.dart';
 import 'package:crt_chebba/models/Donation.dart';
 import 'package:flutter/material.dart';
 
+import 'add_donation.dart';
+
 class dons extends StatefulWidget {
   const dons({Key? key, required this.familyId}) : super(key: key);
   final String familyId;
@@ -36,26 +38,32 @@ class _donsState extends State<dons> {
             //   ]),
             // ),
             Container(
-          child: StreamBuilder(
-            stream:
-                DonationService().fetchDonationsOfFamilyStream(widget.familyId),
-            builder: (context, AsyncSnapshot<List<Donation?>> snapshot) {
-              if (snapshot.hasData) {
-                donations = snapshot.data!.toList();
-                return ListView.builder(
-                  itemCount: donations.length,
-                  itemBuilder: (buildContext, index) =>
-                      itemdon(d: donations[index]!),
-                );
-              } else {
-                return Text('fetching');
-              }
-            },
+          child: SingleChildScrollView(
+            child: StreamBuilder(
+              stream: DonationService()
+                  .fetchDonationsOfFamilyStream(widget.familyId),
+              builder: (context, AsyncSnapshot<List<Donation?>> snapshot) {
+                if (snapshot.hasData) {
+                  donations = snapshot.data!.toList();
+                  return ListView.builder(
+                    itemCount: donations.length,
+                    itemBuilder: (buildContext, index) =>
+                        itemdon(d: donations[index]!),
+                  );
+                } else {
+                  return Text('fetching');
+                }
+              },
+            ),
           ),
         ),
+
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.red,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context,
+                new MaterialPageRoute(builder: (context) => new AjouterDon()));
+          },
           tooltip: 'ajouter don',
           child: Icon(Icons.add),
         ), //
