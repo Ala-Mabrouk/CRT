@@ -1,6 +1,10 @@
+import 'package:crt_chebba/Screens/dons/donation_card.dart';
+import 'package:crt_chebba/models/Family.dart';
 import 'package:flutter/material.dart';
 
 class detailleFamille extends StatefulWidget {
+  const detailleFamille({Key? key, required this.theFamily}) : super(key: key);
+  final Family theFamily;
   @override
   _detailleFamilleState createState() => _detailleFamilleState();
 }
@@ -16,25 +20,67 @@ class _detailleFamilleState extends State<detailleFamille> {
             onPressed: () => Navigator.of(context).pop(),
           ),
           backgroundColor: Colors.red,
-          title: Text("Famille : xxxx xxxx "),
+          title: Text("Famille :" + widget.theFamily.familyName),
           centerTitle: true,
         ),
         body: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(children: [
+            RaisedButton(
+              elevation: 5,
+              onPressed: () async {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) =>
+                            new dons(familyId: widget.theFamily.familyName)));
+              },
+              padding: EdgeInsets.all(2),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              color: Colors.green,
+              child: Text(
+                "detail dons",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
             redText(text1: "Informations des parents :"),
             Divider(color: Colors.black),
-            blackText(text1: "Nom du pere : ", text2: "xxxxxx"),
-            blackText(text1: "Date de naissance : ", text2: "xxxxxx"),
-            blackText(text1: "Numero de telephone : ", text2: "xxxxxx"),
-            blackText(text1: "CIN : ", text2: "xxxxxx"),
+            blackText(
+                text1: "Nom du pere : ",
+                text2: widget.theFamily.fatherFirstName +
+                    ' ' +
+                    widget.theFamily.fatherFirstName),
+            blackText(
+                text1: "Date de naissance : ",
+                text2: widget.theFamily.fatherBirthDate),
+            blackText(
+                text1: "Numero de telephone : ",
+                text2: widget.theFamily.fatherPhone),
+            blackText(text1: "CIN : ", text2: widget.theFamily.fatherCIN),
+            blackText(
+                text1: "Occupation : ", text2: widget.theFamily.FatherJob),
             SizedBox(
               height: 10,
             ),
-            blackText(text1: "Nom du mere : ", text2: "xxxxxx"),
-            blackText(text1: "Date de naissance : ", text2: "xxxxxx"),
-            blackText(text1: "Numero de telephone : ", text2: "xxxxxx"),
-            blackText(text1: "CIN : ", text2: "xxxxxx"),
+            blackText(
+                text1: "Nom du mere : ",
+                text2: widget.theFamily.motherFirstName +
+                    ' ' +
+                    widget.theFamily.motherLastName),
+            blackText(
+                text1: "Date de naissance : ",
+                text2: widget.theFamily.motherBirthDate),
+            blackText(
+                text1: "Numero de telephone : ",
+                text2: widget.theFamily.motherPhone),
+            blackText(text1: "CIN : ", text2: widget.theFamily.motherCIN),
+            blackText(
+                text1: "Occupation : ", text2: widget.theFamily.motherJob),
             SizedBox(
               height: 20,
             ),
@@ -83,6 +129,8 @@ Widget redText({text1}) {
 }
 
 Widget blackText({text1, text2}) {
+  print(text2);
+
   return Row(
     children: [
       Text(

@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         '/signUp': (context) => SignUp(),
         '/addDonations': (context) => AjouterDon(),
         '/Home': (context) => home(),
-        '/detailFamily': (context) => detailleFamille(),
+        //  '/detailFamily': (context) => detailleFamille(),
         '/hi': (context) => Hi(),
       },
     );

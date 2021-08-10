@@ -1,16 +1,29 @@
 class Family {
   String familyName = '';
   String familyID = '';
-  String fatherName = '';
+  String familyStatus = '';
+
+  String fatherFirstName = '';
+  String fatherLastName = '';
   String fatherCIN = '';
   String fatherPhone = '';
+  String fatherBirthDate = '';
+  String FatherJob = '';
 
-  String motherName = '';
+  String motherFirstName = '';
+  String motherLastName = '';
   String motherCIN = '';
   String motherPhone = '';
+  String motherBirthDate = '';
+  String motherJob = '';
+
+  String nbChildren = '';
+  String childrenInfo = '';
 
   String familyLocation = '';
   String IdQuartier = '';
+
+  String RQs = '';
 
   Family() {}
   Family.fill({required this.familyName});

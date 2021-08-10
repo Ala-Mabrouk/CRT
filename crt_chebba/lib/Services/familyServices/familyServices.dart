@@ -33,24 +33,37 @@ class FamilyService {
   //adding family
 
   Future addFamily(Family _family) async {
-    _family.familyID = getRandomID(8);
+    _family.familyID = getRandomID(12);
 
     return await familiesCollection
         .doc(_family.familyID)
         .set({
           'familyID': _family.familyID,
-          'fatherName': _family.fatherName,
+          'familyName': _family.fatherLastName,
+          'familyStatus': _family.familyStatus,
+//
+          'fatherFirstName': _family.fatherFirstName,
+          'fatherLasttName': _family.fatherLastName,
+          'fatherJob': _family.fatherLastName,
           'fatherCIN': _family.fatherCIN,
           'fatherPhone': _family.fatherPhone,
+          'fatherBirthDate': _family.fatherBirthDate,
+
 //
 
-          'motherName': _family.motherName,
+          'motherFirstName': _family.motherFirstName,
+          'motherLastName': _family.motherLastName,
           'motherCIN': _family.motherCIN,
           'motherPhone': _family.motherPhone,
+          'motherBirthDate': _family.motherBirthDate,
+          'motherJob': _family.fatherLastName,
+//
 //
 
           'familyLocation': _family.familyLocation,
           'IdQuartier': _family.IdQuartier,
+//
+          'familyRQs': _family.RQs,
         })
         .whenComplete(() => print("family item added to the database"))
         .catchError((e) => print(e));
@@ -62,15 +75,22 @@ class FamilyService {
     return await familiesCollection
         .doc(_family.familyID)
         .update({
-          'familyID': _family.familyID,
-          'fatherName': _family.fatherName,
+          'familyName': _family.fatherLastName,
+
+          'fatherFirstName': _family.fatherFirstName,
+          'fatherLasttName': _family.fatherLastName,
+
           'fatherCIN': _family.fatherCIN,
           'fatherPhone': _family.fatherPhone,
+          'fatherBirthDate': _family.fatherBirthDate,
 //
 
-          'motherName': _family.motherName,
+          'motherFirstName': _family.motherFirstName,
+          'motherLastName': _family.motherLastName,
           'motherCIN': _family.motherCIN,
           'motherPhone': _family.motherPhone,
+          'motherBirthDate': _family.motherBirthDate,
+//
 //
 
           'familyLocation': _family.familyLocation,

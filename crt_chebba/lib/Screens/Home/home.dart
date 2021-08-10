@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crt_chebba/Screens/Family/add_family.dart';
+import 'package:crt_chebba/Screens/Family/detailleFamille.dart';
 import 'package:crt_chebba/Screens/dons/donation_card.dart';
 import 'package:crt_chebba/Services/familyServices/familyServices.dart';
 import 'package:crt_chebba/models/Family.dart';
@@ -27,101 +28,99 @@ class _homeState extends State<home> {
           centerTitle: true,
         ),
         body: Container(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                DropdownButton(
-                    value: _value,
-                    items: [
-                      DropdownMenuItem(
-                        child: Text("quartier Bassatine"),
-                        value: 1,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("Sidi Salem"),
-                        value: 2,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("garaa tabel + beb nian"),
-                        value: 3,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("Henchir Moussa"),
-                        value: 4,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("wahab"),
-                        value: 5,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("El marssa"),
-                        value: 6,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("quartier charquia"),
-                        value: 7,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("Dowira"),
-                        value: 8,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("centre Ville"),
-                        value: 9,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("rue de tbarna + hratla"),
-                        value: 10,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("El frahta"),
-                        value: 11,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("exterieur de la Chebba , rue mahdia"),
-                        value: 12,
-                      ),
-                    ],
-                    // onChanged: (int value) {
-                    //   setState(() {
-                    //     _value = value;
-                    //   });
-                    // },
-                    hint: Text("Tous")),
-                StreamBuilder(
-                  stream: FamilyService().fetchFamiliesasStream(),
-                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasData) {
-                      families = snapshot.data!.docs.map((doc) {
-                        return Family.fromJSON(
-                            doc.data() as Map<String, dynamic>);
-                      }).toList();
+          child: StreamBuilder(
+            stream: FamilyService().fetchFamiliesasStream(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasData) {
+                families = snapshot.data!.docs.map((doc) {
+                  return Family.fromJSON(doc.data() as Map<String, dynamic>);
+                }).toList();
 
-                      return ListView.builder(
-                        itemCount: families.length,
-                        itemBuilder: (buildContext, index) =>
-                            FamilyCard(f: families[index]),
-                      );
-                    } else {
-                      return Text('fetching');
-                    }
-                  },
-                ),
-              ],
-            ),
+                return ListView.builder(
+                  itemCount: families.length,
+                  itemBuilder: (buildContext, index) =>
+                      FamilyCard(f: families[index]),
+                );
+              } else {
+                return Text('fetching');
+              }
+            },
           ),
+          // child: SingleChildScrollView(
+          //   child: Column(
+          //     children: [
+          //   DropdownButton(
+          //       value: _value,
+          //       items: [
+          //         DropdownMenuItem(
+          //           child: Text("quartier Bassatine"),
+          //           value: 1,
+          //         ),
+          //         DropdownMenuItem(
+          //           child: Text("Sidi Salem"),
+          //           value: 2,
+          //         ),
+          //         DropdownMenuItem(
+          //           child: Text("garaa tabel + beb nian"),
+          //           value: 3,
+          //         ),
+          //         DropdownMenuItem(
+          //           child: Text("Henchir Moussa"),
+          //           value: 4,
+          //         ),
+          //         DropdownMenuItem(
+          //           child: Text("wahab"),
+          //           value: 5,
+          //         ),
+          //         DropdownMenuItem(
+          //           child: Text("El marssa"),
+          //           value: 6,
+          //         ),
+          //         DropdownMenuItem(
+          //           child: Text("quartier charquia"),
+          //           value: 7,
+          //         ),
+          //         DropdownMenuItem(
+          //           child: Text("Dowira"),
+          //           value: 8,
+          //         ),
+          //         DropdownMenuItem(
+          //           child: Text("centre Ville"),
+          //           value: 9,
+          //         ),
+          //         DropdownMenuItem(
+          //           child: Text("rue de tbarna + hratla"),
+          //           value: 10,
+          //         ),
+          //         DropdownMenuItem(
+          //           child: Text("El frahta"),
+          //           value: 11,
+          //         ),
+          //         DropdownMenuItem(
+          //           child: Text("exterieur de la Chebba , rue mahdia"),
+          //           value: 12,
+          //         ),
+          //       ],
+          //       // onChanged: (int value) {
+          //       //   setState(() {
+          //       //     _value = value;
+          //       //   });
+          //       // },
+          //       hint: Text("Tous")),
+
+          // ],
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.red,
           onPressed: () {
-            Navigator.pushNamed(context, '/addFamily');
+            Navigator.push(context,
+                new MaterialPageRoute(builder: (context) => new addFamily()));
           },
           tooltip: 'ajouter don',
           child: Icon(Icons.add),
         ),
       ),
     );
-    // );
   }
 
   Widget FamilyCard({required Family f}) {
@@ -132,7 +131,7 @@ class _homeState extends State<home> {
           ListTile(
             title: Text('family of :' + f.familyName),
             subtitle: Text(
-              'f.familyLocation',
+              f.familyLocation,
               style: TextStyle(color: Colors.black.withOpacity(0.6)),
             ),
           ),
@@ -149,11 +148,13 @@ class _homeState extends State<home> {
               FlatButton(
                 onPressed: () {
                   // Perform some action
+
+                  print(f.fatherLastName);
                   Navigator.push(
                       context,
                       new MaterialPageRoute(
                           builder: (context) =>
-                              new dons(familyId: f.familyName)));
+                              new detailleFamille(theFamily: f)));
                 },
                 child: const Text('Voir Details'),
               ),
@@ -181,7 +182,7 @@ class _itemdonState extends State<itemdon> {
       child: Column(
         children: [
           ListTile(
-            title: Text('family of' + widget.theFamily.fatherName),
+            title: Text('family of' + widget.theFamily.familyName),
             subtitle: Text(
               widget.theFamily.familyLocation,
               style: TextStyle(color: Colors.black.withOpacity(0.6)),

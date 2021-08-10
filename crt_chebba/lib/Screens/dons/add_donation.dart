@@ -1,3 +1,4 @@
+import 'package:crt_chebba/Screens/dons/donation_card.dart';
 import 'package:crt_chebba/Services/donationServices/donationsServices.dart';
 import 'package:crt_chebba/models/Donation.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +82,8 @@ class _AjouterDonState extends State<AjouterDon> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (context) => new AjouterDon()));
+                        builder: (context) =>
+                            new dons(familyId: don.idFamily)));
               }
             },
             padding: EdgeInsets.all(2),

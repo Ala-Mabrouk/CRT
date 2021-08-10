@@ -38,25 +38,24 @@ class _donsState extends State<dons> {
             //   ]),
             // ),
             Container(
-          child: SingleChildScrollView(
-            child: StreamBuilder(
-              stream: DonationService()
-                  .fetchDonationsOfFamilyStream(widget.familyId),
-              builder: (context, AsyncSnapshot<List<Donation?>> snapshot) {
-                if (snapshot.hasData) {
-                  donations = snapshot.data!.toList();
-                  return ListView.builder(
-                    itemCount: donations.length,
-                    itemBuilder: (buildContext, index) =>
-                        itemdon(d: donations[index]!),
-                  );
-                } else {
-                  return Text('fetching');
-                }
-              },
-            ),
+          child: StreamBuilder(
+            stream:
+                DonationService().fetchDonationsOfFamilyStream(widget.familyId),
+            builder: (context, AsyncSnapshot<List<Donation?>> snapshot) {
+              if (snapshot.hasData) {
+                donations = snapshot.data!.toList();
+                return ListView.builder(
+                  itemCount: donations.length,
+                  itemBuilder: (buildContext, index) =>
+                      itemdon(d: donations[index]!),
+                );
+              } else {
+                return Text('fetching');
+              }
+            },
           ),
         ),
+        // ),
 
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.red,
