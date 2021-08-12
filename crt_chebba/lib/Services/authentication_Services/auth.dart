@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthenticationService {
   //FirebaseAuth instance.
@@ -10,27 +13,16 @@ class AuthenticationService {
   //users collection reference
   final CollectionReference usersColl =
       FirebaseFirestore.instance.collection("CRT_Agents");
-
-//auth user stream
+  //timer
+  Timer _authTimer = Timer(Duration(hours: 1), () {});
+  //auth user stream
   Stream<AgentCrt?> get user {
     return _auth
         .authStateChanges()
         .map((event) => _agentCrtFromFirebase(event));
   }
 
-//sign anoum for test
-  Future signInanoum() async {
-    try {
-      UserCredential result = await _auth.signInAnonymously();
-
-      return result.user;
-    } catch (e) {
-      print(e.toString());
-      return null;
-    }
-  }
-
-//convert firestoreUser to AgentCRt
+  //convert firestoreUser to AgentCRt
 
   AgentCrt? _agentCrtFromFirebase(User? fireUser) {
     //get the agetId from firebase auth
@@ -50,19 +42,36 @@ class AuthenticationService {
     });
   }
 
-//signIn with mail
+  //signIn with mail
   Future signInEmailPassword(String mail, String pass) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       UserCredential result =
           await _auth.signInWithEmailAndPassword(email: mail, password: pass);
+
+      //saving user info
+      if (result.user != null) {
+        prefs.setString('userEmail', result.user!.email.toString());
+        prefs.setString('userId', result.user!.uid);
+        //creation of tokens and expiration date
+        final DateTime expireDate = DateTime.now().add(Duration(hours: 24));
+        prefs.setString('expireDate', expireDate.toString());
+        setAuthTimeout(24);
+      }
+
       return result.user;
-    } catch (e) {
-      print(e.toString());
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+
       return null;
     }
   }
 
-//register a new Agent to firebase
+  //register a new Agent to firebase
   Future registerNewAgent(AgentCrt ag) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
@@ -95,5 +104,45 @@ class AuthenticationService {
       'isAdmin': _AgentCrt.isAdmin,
       'isConfirmed': _AgentCrt.isConfirmed
     });
+  }
+
+  //auto authentication ned to be called in the main
+
+  Future<bool> autoAthenticate() async {
+    print('autoAuthenticate()');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String UserId = prefs.getString('userId').toString();
+    print(UserId);
+    if (UserId != Null) {
+      final expiryTimeString = prefs.getString('expireDate').toString();
+
+      final parsedExpiryTime = DateTime.parse(expiryTimeString);
+      if (parsedExpiryTime.isBefore(DateTime.now())) {
+        return false;
+      }
+      return true;
+    }
+    return false;
+  }
+
+  // set auth timeout which will logout
+  void setAuthTimeout(int time) {
+    _authTimer = Timer(Duration(hours: time), () {
+      logout();
+      // _userSubject.add(false);
+    });
+  }
+
+  void logout() async {
+    print('Logout');
+
+    _auth.signOut();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+
+    // or do it individually
+    // prefs.remove('token');
+    // prefs.remove('userEmail');
+    // prefs.remove('userId');
   }
 }

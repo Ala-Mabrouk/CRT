@@ -2,6 +2,7 @@ import 'package:crt_chebba/Screens/Home/home.dart';
 import 'package:crt_chebba/Services/familyServices/familyServices.dart';
 import 'package:crt_chebba/models/Family.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class addFamily extends StatefulWidget {
   @override
@@ -10,6 +11,70 @@ class addFamily extends StatefulWidget {
 
 class _addFamilyState extends State<addFamily> {
   Family myNewFamily = Family();
+  DateTime selectedDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context, String field) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(1935, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        if (field == 'pere') {
+          myNewFamily.fatherBirthDate = picked;
+        } else {
+          myNewFamily.motherBirthDate = picked;
+        }
+      });
+  }
+
+  Widget filed({text1, text2, theField}) {
+    return TextField(
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: text1,
+        hintText: text2,
+      ),
+      onChanged: theField,
+    );
+  }
+
+  Widget redText({text1}) {
+    return Text(
+      text1,
+      style: TextStyle(
+          fontWeight: FontWeight.bold, fontSize: 18, color: Colors.red),
+    );
+  }
+
+  Widget DatePicker(String theField) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        TextFormField(
+          enabled: true,
+          validator: (val) =>
+              (val == null || val == '') ? 'Champ naicessaire' : null,
+          decoration: InputDecoration(
+            suffixIcon: IconButton(
+              onPressed: () =>
+                  _selectDate(context, theField), //_selectDateFather(context),
+              icon: Icon(
+                Icons.calendar_today,
+                color: Colors.black,
+              ),
+            ),
+            contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+            border: OutlineInputBorder(),
+            labelText: 'Date de naissance du ' + theField,
+          ),
+          keyboardType: TextInputType.datetime,
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,7 +85,7 @@ class _addFamilyState extends State<addFamily> {
             onPressed: () => Navigator.of(context).pop(),
           ),
           backgroundColor: Colors.red,
-          title: Text("Ajouter don"),
+          title: Text("Ajouter une famille"),
           centerTitle: true,
         ),
         body: SingleChildScrollView(
@@ -51,12 +116,13 @@ class _addFamilyState extends State<addFamily> {
                       myNewFamily.fatherCIN = val;
                     }),
                 SizedBox(height: 9),
-                filed(
-                    text1: "Date de naissance",
-                    text2: "",
-                    theField: (val) {
-                      myNewFamily.fatherBirthDate = val;
-                    }),
+                DatePicker('pere'),
+                // filed(
+                //     text1: "Date de naissance",
+                //     text2: "",
+                //     theField: (val) {
+                //       myNewFamily.fatherBirthDate = val;
+                //     }),
                 SizedBox(height: 9),
                 filed(
                     text1: "Numéro de téléphone",
@@ -95,12 +161,14 @@ class _addFamilyState extends State<addFamily> {
                       myNewFamily.motherCIN = val;
                     }),
                 SizedBox(height: 9),
-                filed(
-                    text1: "Date de naissance",
-                    text2: "",
-                    theField: (val) {
-                      myNewFamily.motherBirthDate = val;
-                    }),
+                DatePicker('mere'),
+
+                // filed(
+                //     text1: "Date de naissance",
+                //     text2: "",
+                //     theField: (val) {
+                //       myNewFamily.motherBirthDate = val;
+                //     }),
                 SizedBox(height: 9),
                 filed(
                     text1: "Numéro de téléphone",
@@ -125,12 +193,18 @@ class _addFamilyState extends State<addFamily> {
                     }),
                 redText(text1: "informations des enfants : "),
                 SizedBox(height: 9),
-                filed(
-                    text1: "Nombre des enfants",
-                    text2: "",
-                    theField: (val) {
-                      myNewFamily.nbChildren = val;
-                    }),
+                TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Nombre des enfants',
+                    hintText: 'Nombre des enfants',
+                  ),
+                  keyboardType: TextInputType.number,
+                  onChanged: (val) {
+                    myNewFamily.nbChildren = val;
+                  },
+                ),
+
                 SizedBox(height: 9),
                 TextField(
                   minLines: 2,
@@ -146,7 +220,12 @@ class _addFamilyState extends State<addFamily> {
                 SizedBox(height: 9),
                 redText(text1: "Localisation : "),
                 SizedBox(height: 9),
-                filed(text1: "Adresse", text2: ""),
+                filed(
+                    text1: "Adresse",
+                    text2: "",
+                    theField: (val) {
+                      myNewFamily.familyLocation = val;
+                    }),
                 SizedBox(height: 9),
                 filed(text1: "Map ID", text2: ""),
                 Row(
@@ -155,7 +234,7 @@ class _addFamilyState extends State<addFamily> {
                       elevation: 5,
                       onPressed: () async {
                         if (FamilyService().addFamily(myNewFamily) != null) {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               new MaterialPageRoute(
                                   builder: (context) => new home()));
@@ -204,23 +283,4 @@ class _addFamilyState extends State<addFamily> {
       ),
     );
   }
-
-  Widget filed({text1, text2, theField}) {
-    return TextField(
-      decoration: InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: text1,
-        hintText: text2,
-      ),
-      onChanged: theField,
-    );
-  }
-}
-
-Widget redText({text1}) {
-  return Text(
-    text1,
-    style:
-        TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.red),
-  );
 }

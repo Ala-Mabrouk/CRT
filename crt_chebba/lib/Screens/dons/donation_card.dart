@@ -26,7 +26,7 @@ class _donsState extends State<dons> {
             onPressed: () => Navigator.of(context).pop(),
           ),
           backgroundColor: Colors.red,
-          title: Text("Les dons de Ben Foulen Foulan"),
+          title: Text("Les dons de" + widget.familyId),
           centerTitle: true,
         ),
         body:
@@ -60,8 +60,12 @@ class _donsState extends State<dons> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.red,
           onPressed: () {
-            Navigator.push(context,
-                new MaterialPageRoute(builder: (context) => new AjouterDon()));
+            Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new AjouterDon(
+                          idfamily: widget.familyId,
+                        )));
           },
           tooltip: 'ajouter don',
           child: Icon(Icons.add),
@@ -77,16 +81,16 @@ Widget itemdon({required Donation d}) {
     child: Column(
       children: [
         ListTile(
-          title: const Text('Date : xx/xx/xxxx'),
+          title: Text('Date :' + d.dateDonation.toString()),
           subtitle: Text(
-            'Equipe : ala , Ahmed , hafeth',
+            'Equipe : ' + d.Equipe,
             style: TextStyle(color: Colors.black.withOpacity(0.6)),
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            'Description : xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+            'Description : ' + d.description,
             style: TextStyle(color: Colors.black.withOpacity(0.6)),
           ),
         ),
@@ -97,7 +101,7 @@ Widget itemdon({required Donation d}) {
               onPressed: () {
                 // Perform some action
               },
-              child: const Text('ajouter par : nom_user'),
+              child: Text('ajouter par : ' + d.publierPar),
             ),
           ],
         ),

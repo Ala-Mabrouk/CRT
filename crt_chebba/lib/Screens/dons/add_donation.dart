@@ -4,6 +4,8 @@ import 'package:crt_chebba/models/Donation.dart';
 import 'package:flutter/material.dart';
 
 class AjouterDon extends StatefulWidget {
+  const AjouterDon({Key? key, required this.idfamily}) : super(key: key);
+  final String idfamily;
   @override
   _AjouterDonState createState() => _AjouterDonState();
 }
@@ -75,11 +77,10 @@ class _AjouterDonState extends State<AjouterDon> {
           RaisedButton(
             elevation: 5,
             onPressed: () async {
-              don.publierPar = "admin for now";
               don.dateDonation = DateTime.now();
-              don.idFamily = "family 1";
+              don.idFamily = widget.idfamily;
               if (donService.addDonation(don) != Null) {
-                Navigator.push(
+                Navigator.pushReplacement(
                     context,
                     new MaterialPageRoute(
                         builder: (context) =>

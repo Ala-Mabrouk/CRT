@@ -25,7 +25,7 @@ class splashScreen extends StatelessWidget {
           home: AnimatedSplashScreen(
               duration: 2000,
               splash: Image.asset('assets/logo.png'),
-              nextScreen: connectedUser != Null ? login() : home(),
+              nextScreen: login(),
               splashTransition: SplashTransition.fadeTransition,
               backgroundColor: Colors.grey.shade100)),
     );

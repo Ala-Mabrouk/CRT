@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crt_chebba/Screens/Family/add_family.dart';
 import 'package:crt_chebba/Screens/Family/detailleFamille.dart';
-import 'package:crt_chebba/Screens/dons/donation_card.dart';
+
 import 'package:crt_chebba/Services/familyServices/familyServices.dart';
 import 'package:crt_chebba/models/Family.dart';
 import 'package:flutter/material.dart';
@@ -131,14 +131,14 @@ class _homeState extends State<home> {
           ListTile(
             title: Text('family of :' + f.familyName),
             subtitle: Text(
-              f.familyLocation,
+              'location' + f.familyLocation,
               style: TextStyle(color: Colors.black.withOpacity(0.6)),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              'Description : xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+              'Eatat famille :' + f.familyStatus,
               style: TextStyle(color: Colors.black.withOpacity(0.6)),
             ),
           ),

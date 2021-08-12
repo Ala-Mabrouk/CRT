@@ -54,10 +54,10 @@ class _detailleFamilleState extends State<detailleFamille> {
                 text1: "Nom du pere : ",
                 text2: widget.theFamily.fatherFirstName +
                     ' ' +
-                    widget.theFamily.fatherFirstName),
+                    widget.theFamily.fatherLastName),
             blackText(
                 text1: "Date de naissance : ",
-                text2: widget.theFamily.fatherBirthDate),
+                text2: widget.theFamily.fatherBirthDate.toString()),
             blackText(
                 text1: "Numero de telephone : ",
                 text2: widget.theFamily.fatherPhone),
@@ -74,7 +74,7 @@ class _detailleFamilleState extends State<detailleFamille> {
                     widget.theFamily.motherLastName),
             blackText(
                 text1: "Date de naissance : ",
-                text2: widget.theFamily.motherBirthDate),
+                text2: widget.theFamily.motherBirthDate.toString()),
             blackText(
                 text1: "Numero de telephone : ",
                 text2: widget.theFamily.motherPhone),
@@ -84,13 +84,17 @@ class _detailleFamilleState extends State<detailleFamille> {
             SizedBox(
               height: 20,
             ),
-            blackText(text1: "Etat de la famille : ", text2: "xxxxxx"),
+            blackText(
+                text1: "Etat de la famille : ",
+                text2: widget.theFamily.familyStatus),
             SizedBox(
               height: 20,
             ),
             redText(text1: "Enfants :"),
             Divider(color: Colors.black),
-            blackText(text1: "Nombre d'enfants : ", text2: "x"),
+            blackText(
+                text1: "Nombre d'enfants : ",
+                text2: widget.theFamily.nbChildren.toString()),
             EnfantText(text1: "details kol tfol "),
             blackText(text1: "Autre remarques : ", text2: "x"),
             SizedBox(
@@ -98,7 +102,8 @@ class _detailleFamilleState extends State<detailleFamille> {
             ),
             redText(text1: "Localisation :"),
             Divider(color: Colors.black),
-            blackText(text1: "Adresse : ", text2: "x"),
+            blackText(
+                text1: "Adresse : ", text2: widget.theFamily.familyLocation),
             blackText(text1: "Quartier : ", text2: "x"),
             blackText(text1: "Map : ", text2: " "),
           ]),

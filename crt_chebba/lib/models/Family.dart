@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Family {
   String familyName = '';
   String familyID = '';
@@ -7,14 +9,14 @@ class Family {
   String fatherLastName = '';
   String fatherCIN = '';
   String fatherPhone = '';
-  String fatherBirthDate = '';
+  DateTime fatherBirthDate = DateTime(2021);
   String FatherJob = '';
 
   String motherFirstName = '';
   String motherLastName = '';
   String motherCIN = '';
   String motherPhone = '';
-  String motherBirthDate = '';
+  DateTime motherBirthDate = DateTime(2021);
   String motherJob = '';
 
   String nbChildren = '';
@@ -27,8 +29,38 @@ class Family {
 
   Family() {}
   Family.fill({required this.familyName});
-  Family.fromJSON(Map<String, dynamic> map)
-      : familyName = map['familyName'] ?? '';
+  Family.fromJSON(Map<String, dynamic> map) {
+    familyName = map['familyName'] ?? '';
+    familyID = map['familyID'] ?? '';
+    familyStatus = map['familyStatus'] ?? '';
+
+    fatherFirstName = map['fatherFirstName'] ?? '';
+    fatherLastName = map['fatherLastName'] ?? '';
+    fatherCIN = map['fatherCIN'] ?? '';
+    fatherPhone = map['fatherPhone'] ?? '';
+    fatherBirthDate =
+        DateTime.parse(map['fatherBirthDate'].toDate().toString());
+    //   new DateTime.fromMicrosecondsSinceEpoch( as Timestamp * 1000);
+
+    FatherJob = map['FatherJob'] ?? '';
+
+    motherFirstName = map['motherFirstName'] ?? '';
+    motherLastName = map['motherLastName'] ?? '';
+    motherCIN = map['motherCIN'] ?? '';
+    motherPhone = map['motherPhone'] ?? '';
+    motherBirthDate =
+        DateTime.parse(map['motherBirthDate'].toDate().toString());
+    //  new DateTime.fromMicrosecondsSinceEpoch(map['motherBirthDate'] * 1000);
+    motherJob = map['motherJob'] ?? '';
+
+    nbChildren = map['nbChildren'] ?? '';
+    childrenInfo = map['childrenInfo'] ?? '';
+
+    familyLocation = map['familyLocation'] ?? '';
+    IdQuartier = map['IdQuartier'] ?? '';
+
+    RQs = map['RQs'] ?? '';
+  }
 
   static Family fromMap(dynamic map) {
     return Family.fill(

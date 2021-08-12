@@ -7,5 +7,13 @@ class Donation {
   String idFamily = '';
 
   Donation() {}
-  Donation.fromMap(Map don) : donationID = don['donationID'] ?? '';
+  Donation.fromMap(Map donMap) {
+    donationID = donMap['donationID'] ?? '';
+    description = donMap['description'] ?? '';
+    Equipe = donMap['Equipe'] ?? '';
+    publierPar = donMap['publierPar'] ?? '';
+    dateDonation = DateTime.parse(donMap['dateDonation'].toDate().toString());
+
+    idFamily = donMap['idFamily'] ?? '';
+  }
 }

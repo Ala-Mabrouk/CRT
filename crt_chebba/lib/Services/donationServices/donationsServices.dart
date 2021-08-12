@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crt_chebba/models/Donation.dart';
 import 'package:crt_chebba/models/Family.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DonationService {
   final CollectionReference donationsCollection =
@@ -37,8 +38,13 @@ class DonationService {
   //adding family
 
   Future addDonation(Donation _donation) async {
+    //need more working on
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
     _donation.donationID = getRandomID(8);
 
+    _donation.publierPar = prefs.getString('userEmail').toString();
+    print(_donation.idFamily + '++' + _donation.publierPar);
     return await donationsCollection
         .doc(_donation.donationID)
         .set({
@@ -47,6 +53,7 @@ class DonationService {
           'equipe': _donation.Equipe,
           'publierPar': _donation.publierPar,
           'donationDate': _donation.dateDonation,
+          'familyId': _donation.idFamily,
         })
         .whenComplete(() => print("donation item added to the database"))
         .catchError((e) => print(e));
