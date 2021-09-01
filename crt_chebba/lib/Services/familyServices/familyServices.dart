@@ -8,8 +8,16 @@ class FamilyService {
       FirebaseFirestore.instance.collection("CRT_Family");
 
 //family stream
-  Stream<QuerySnapshot> fetchFamiliesasStream() {
-    return familiesCollection.snapshots();
+  Future<List<Family>> fetchFamiliesasStream() async {
+    try {
+      var myList = await familiesCollection.get().then((value) => value.docs
+          .map((doc) => Family.fromJSON(doc.data() as Map<String, dynamic>))
+          .toList());
+
+      return myList;
+    } catch (e) {
+      return List.empty();
+    }
   }
 
 //families stream

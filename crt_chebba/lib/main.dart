@@ -4,7 +4,7 @@ import 'package:crt_chebba/Screens/Home/Hi.dart';
 import 'package:crt_chebba/Screens/Home/home.dart';
 import 'package:crt_chebba/Screens/authentication/SignUp.dart';
 import 'package:crt_chebba/Screens/authentication/login.dart';
-import 'package:crt_chebba/Screens/splash.dart';
+import 'package:crt_chebba/Screens/commun%20Screens/splash.dart';
 import 'package:crt_chebba/Services/authentication_Services/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

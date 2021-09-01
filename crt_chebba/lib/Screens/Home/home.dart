@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crt_chebba/Screens/Family/add_family.dart';
 import 'package:crt_chebba/Screens/Family/detailleFamille.dart';
+import 'package:crt_chebba/Screens/commun%20Screens/NavigationBar.dart';
+import 'package:crt_chebba/Screens/commun%20Screens/appBar.dart';
 
 import 'package:crt_chebba/Services/familyServices/familyServices.dart';
 import 'package:crt_chebba/models/Family.dart';
@@ -17,8 +19,18 @@ class _homeState extends State<home> {
   Widget build(BuildContext context) {
     int _value = 1;
     String _dropDownValue;
-    List<Family> families;
+    List<Family>? families = null;
+    List<Family> displayedList = List.empty();
     // final args = ModalRoute.of(context)!.settings.arguments as String;
+    void filtredList(int val) {
+      print('the quart' + val.toString());
+      print(families);
+      displayedList = families!
+          .where((element) => element.IdQuartier == val.toString())
+          .toList();
+      print(displayedList);
+      setState(() {});
+    }
 
     return MaterialApp(
       home: Scaffold(
@@ -28,88 +40,121 @@ class _homeState extends State<home> {
           centerTitle: true,
         ),
         body: Container(
-          child: StreamBuilder(
-            stream: FamilyService().fetchFamiliesasStream(),
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.hasData) {
-                families = snapshot.data!.docs.map((doc) {
-                  return Family.fromJSON(doc.data() as Map<String, dynamic>);
-                }).toList();
-
-                return ListView.builder(
-                  itemCount: families.length,
-                  itemBuilder: (buildContext, index) =>
-                      FamilyCard(f: families[index]),
-                );
-              } else {
-                return Text('fetching');
-              }
-            },
+          child: Column(
+            children: [
+              Center(
+                child: DropdownButton(
+                    value: _value,
+                    items: [
+                      DropdownMenuItem(
+                        child: Text("quartier Bassatine"),
+                        value: 1,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Sidi Salem"),
+                        value: 2,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("garaa tabel + beb nian"),
+                        value: 3,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Henchir Moussa"),
+                        value: 4,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("wahab"),
+                        value: 5,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("El marssa"),
+                        value: 6,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("quartier charquia"),
+                        value: 7,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Dowira"),
+                        value: 8,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("centre Ville"),
+                        value: 9,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("rue de tbarna + hratla"),
+                        value: 10,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("El frahta"),
+                        value: 11,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("exterieur de la Chebba , rue mahdia"),
+                        value: 12,
+                      ),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        _value = int.parse(value.toString());
+                        print('the quart' + _value.toString());
+                        print(families);
+                        displayedList = families!
+                            .where((element) =>
+                                element.IdQuartier == _value.toString())
+                            .toList();
+                        print(displayedList);
+                        setState(() {});
+                      });
+                    },
+                    hint: Text("Selon le quartier")),
+              ),
+              Container(
+                  // child: StreamBuilder(
+                  //   stream: FamilyService().fetchFamiliesasStream(),
+                  //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  //     if (snapshot.hasData) {
+                  //       families = snapshot.data!.docs.map((doc) {
+                  //         return Family.fromJSON(
+                  //             doc.data() as Map<String, dynamic>);
+                  //       }).toList();
+                  //       displayedList = families!;
+                  //       return ListView.builder(
+                  //         shrinkWrap: true,
+                  //         itemCount: displayedList.length,
+                  //         itemBuilder: (buildContext, index) =>
+                  //             FamilyCard(f: displayedList[index]),
+                  //       );
+                  //     } else {
+                  //       return Text('fetching');
+                  //     }
+                  //   },
+                  // ),
+                  child: FutureBuilder(
+                future: FamilyService().fetchFamiliesasStream(),
+                builder: (context, AsyncSnapshot<List<Family>> snap) {
+                  families = snap.data;
+                  displayedList = families!;
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: displayedList.length,
+                    itemBuilder: (buildContext, index) =>
+                        FamilyCard(f: displayedList[index]),
+                  );
+                },
+              )),
+              Text('******************************'),
+              new Expanded(
+                  child: new ListView.builder(
+                      itemCount: displayedList.length,
+                      itemBuilder: (BuildContext ctxt, int Index) {
+                        return FamilyCard(f: displayedList[Index]);
+                      }))
+            ],
           ),
-          // child: SingleChildScrollView(
-          //   child: Column(
-          //     children: [
-          //   DropdownButton(
-          //       value: _value,
-          //       items: [
-          //         DropdownMenuItem(
-          //           child: Text("quartier Bassatine"),
-          //           value: 1,
-          //         ),
-          //         DropdownMenuItem(
-          //           child: Text("Sidi Salem"),
-          //           value: 2,
-          //         ),
-          //         DropdownMenuItem(
-          //           child: Text("garaa tabel + beb nian"),
-          //           value: 3,
-          //         ),
-          //         DropdownMenuItem(
-          //           child: Text("Henchir Moussa"),
-          //           value: 4,
-          //         ),
-          //         DropdownMenuItem(
-          //           child: Text("wahab"),
-          //           value: 5,
-          //         ),
-          //         DropdownMenuItem(
-          //           child: Text("El marssa"),
-          //           value: 6,
-          //         ),
-          //         DropdownMenuItem(
-          //           child: Text("quartier charquia"),
-          //           value: 7,
-          //         ),
-          //         DropdownMenuItem(
-          //           child: Text("Dowira"),
-          //           value: 8,
-          //         ),
-          //         DropdownMenuItem(
-          //           child: Text("centre Ville"),
-          //           value: 9,
-          //         ),
-          //         DropdownMenuItem(
-          //           child: Text("rue de tbarna + hratla"),
-          //           value: 10,
-          //         ),
-          //         DropdownMenuItem(
-          //           child: Text("El frahta"),
-          //           value: 11,
-          //         ),
-          //         DropdownMenuItem(
-          //           child: Text("exterieur de la Chebba , rue mahdia"),
-          //           value: 12,
-          //         ),
-          //       ],
-          //       // onChanged: (int value) {
-          //       //   setState(() {
-          //       //     _value = value;
-          //       //   });
-          //       // },
-          //       hint: Text("Tous")),
-
-          // ],
         ),
+        bottomNavigationBar: BottumNavigationBar(),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.red,
           onPressed: () {

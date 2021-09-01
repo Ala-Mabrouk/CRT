@@ -5,7 +5,7 @@ import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'authentication/login.dart';
+import '../authentication/login.dart';
 
 class splashScreen extends StatelessWidget {
   const splashScreen({Key? key}) : super(key: key);

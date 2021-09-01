@@ -111,18 +111,21 @@ class AuthenticationService {
   Future<bool> autoAthenticate() async {
     print('autoAuthenticate()');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String UserId = prefs.getString('userId').toString();
-    print(UserId);
-    if (UserId != Null) {
-      final expiryTimeString = prefs.getString('expireDate').toString();
 
+    String UserId = await prefs.getString('userId').toString();
+    print(UserId);
+    if (UserId.length >= 8) {
+      final expiryTimeString = prefs.getString('expireDate').toString();
+      print('the expire date is:' + expiryTimeString);
       final parsedExpiryTime = DateTime.parse(expiryTimeString);
       if (parsedExpiryTime.isBefore(DateTime.now())) {
         return false;
       }
       return true;
+    } else {
+      return false;
     }
-    return false;
+    // return false;
   }
 
   // set auth timeout which will logout
@@ -133,12 +136,18 @@ class AuthenticationService {
     });
   }
 
-  void logout() async {
+  Future<bool> logout() async {
     print('Logout');
 
-    _auth.signOut();
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.clear();
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.clear();
+      await _auth.signOut();
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
 
     // or do it individually
     // prefs.remove('token');
