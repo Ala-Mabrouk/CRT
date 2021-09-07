@@ -1,8 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
+
 import 'package:crt_chebba/Screens/Family/add_family.dart';
 import 'package:crt_chebba/Screens/Family/detailleFamille.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/NavigationBar.dart';
-import 'package:crt_chebba/Screens/commun%20Screens/appBar.dart';
 
 import 'package:crt_chebba/Services/familyServices/familyServices.dart';
 import 'package:crt_chebba/models/Family.dart';
@@ -15,23 +15,33 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
+  List<Family>? families = [];
+  List<Family> displayedList = [];
+  int _value = 0;
+
   @override
-  Widget build(BuildContext context) {
-    int _value = 1;
-    String _dropDownValue;
-    List<Family>? families = null;
-    List<Family> displayedList = List.empty();
-    // final args = ModalRoute.of(context)!.settings.arguments as String;
-    void filtredList(int val) {
-      print('the quart' + val.toString());
-      print(families);
+  void initState() {
+    thefunc(_value);
+    super.initState();
+  }
+
+//the wanted function
+  Future<void> thefunc(int val) async {
+    await FamilyService()
+        .fetchFamiliesasStream()
+        .then((value) => families = value);
+    if (val == 0) {
+      displayedList = families!;
+    } else {
       displayedList = families!
           .where((element) => element.IdQuartier == val.toString())
           .toList();
-      print(displayedList);
-      setState(() {});
     }
+    setState(() {});
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -46,6 +56,10 @@ class _homeState extends State<home> {
                 child: DropdownButton(
                     value: _value,
                     items: [
+                      DropdownMenuItem(
+                        child: Text("ALL"),
+                        value: 0,
+                      ),
                       DropdownMenuItem(
                         child: Text("quartier Bassatine"),
                         value: 1,
@@ -96,61 +110,48 @@ class _homeState extends State<home> {
                       ),
                     ],
                     onChanged: (value) {
-                      setState(() {
+                      setState(() async {
                         _value = int.parse(value.toString());
-                        print('the quart' + _value.toString());
-                        print(families);
-                        displayedList = families!
-                            .where((element) =>
-                                element.IdQuartier == _value.toString())
-                            .toList();
-                        print(displayedList);
+                        value = _value;
+                        await thefunc(_value);
+
                         setState(() {});
                       });
                     },
                     hint: Text("Selon le quartier")),
               ),
-              Container(
-                  // child: StreamBuilder(
-                  //   stream: FamilyService().fetchFamiliesasStream(),
-                  //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  //     if (snapshot.hasData) {
-                  //       families = snapshot.data!.docs.map((doc) {
-                  //         return Family.fromJSON(
-                  //             doc.data() as Map<String, dynamic>);
-                  //       }).toList();
-                  //       displayedList = families!;
-                  //       return ListView.builder(
-                  //         shrinkWrap: true,
-                  //         itemCount: displayedList.length,
-                  //         itemBuilder: (buildContext, index) =>
-                  //             FamilyCard(f: displayedList[index]),
-                  //       );
-                  //     } else {
-                  //       return Text('fetching');
-                  //     }
-                  //   },
-                  // ),
-                  child: FutureBuilder(
-                future: FamilyService().fetchFamiliesasStream(),
-                builder: (context, AsyncSnapshot<List<Family>> snap) {
-                  families = snap.data;
-                  displayedList = families!;
-                  return ListView.builder(
+
+              // Text('******************************'),
+
+              // child: StreamBuilder(
+              //   stream: FamilyService().fetchFamiliesasStream(),
+              //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              //     if (snapshot.hasData) {
+              //       families = snapshot.data!.docs.map((doc) {
+              //         return Family.fromJSON(
+              //             doc.data() as Map<String, dynamic>);
+              //       }).toList();
+              //       displayedList = families!;
+              //       return ListView.builder(
+              //         shrinkWrap: true,
+              //         itemCount: displayedList.length,
+              //         itemBuilder: (buildContext, index) =>
+              //             FamilyCard(f: displayedList[index]),
+              //       );
+              //     } else {
+              //       return Text('fetching');
+              //     }
+              //   },
+              // ),
+              SingleChildScrollView(
+                child: ListView.builder(
+                    physics: ScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: displayedList.length,
-                    itemBuilder: (buildContext, index) =>
-                        FamilyCard(f: displayedList[index]),
-                  );
-                },
-              )),
-              Text('******************************'),
-              new Expanded(
-                  child: new ListView.builder(
-                      itemCount: displayedList.length,
-                      itemBuilder: (BuildContext ctxt, int Index) {
-                        return FamilyCard(f: displayedList[Index]);
-                      }))
+                    itemBuilder: (BuildContext context, Index) {
+                      return FamilyCard(f: displayedList[Index]);
+                    }),
+              ),
             ],
           ),
         ),
