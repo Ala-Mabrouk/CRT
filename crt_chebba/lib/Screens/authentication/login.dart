@@ -1,5 +1,8 @@
+import 'package:crt_chebba/Screens/Administration/usersList.dart';
 import 'package:crt_chebba/Screens/Home/home.dart';
+import 'package:crt_chebba/Screens/commun%20Screens/onHoldScreen.dart';
 import 'package:crt_chebba/Services/authentication_Services/auth.dart';
+import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
@@ -124,21 +127,28 @@ class _loginState extends State<login> {
 
             print(email);
             print(pass);
-            dynamic res = await auth
+            AgentCrt res = await auth
                 .signInEmailPassword(email, pass)
                 .onError((error, stackTrace) => setState(() {
                       err = 'password is wrong';
                     }));
             if (res != null) {
-              print(res);
-              Navigator.pushReplacement(context,
-                  new MaterialPageRoute(builder: (context) => new home()));
-              // Navigator.of(context).pushReplacementNamed('/Home');
-              //  Navigator.pushNamed(context, home.routeName, arguments: 'home');
-            } else {
-              setState(() {
-                // err = "user not found or bad input  ";
-              });
+              if (res.isConfirmed && res.isAdmin) {
+                Navigator.pushReplacement(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new AgentsList()));
+              } else if (res.isConfirmed) {
+                Navigator.pushReplacement(context,
+                    new MaterialPageRoute(builder: (context) => new home()));
+
+                setState(() {
+                  // err = "user not found or bad input  ";
+                });
+              } else {
+                Navigator.push(context,
+                    new MaterialPageRoute(builder: (context) => new HoldOn()));
+              }
             }
           },
           padding: EdgeInsets.all(2),

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:crt_chebba/Screens/Family/add_family.dart';
 import 'package:crt_chebba/Screens/Family/detailleFamille.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/NavigationBar.dart';
+import 'package:crt_chebba/Screens/commun%20Screens/loading.dart';
 
 import 'package:crt_chebba/Services/familyServices/familyServices.dart';
 import 'package:crt_chebba/models/Family.dart';

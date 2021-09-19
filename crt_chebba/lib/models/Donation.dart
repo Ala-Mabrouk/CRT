@@ -9,11 +9,10 @@ class Donation {
   Donation() {}
   Donation.fromMap(Map donMap) {
     donationID = donMap['donationID'] ?? '';
-    description = donMap['description'] ?? '';
-    Equipe = donMap['Equipe'] ?? '';
+    description = donMap['donationDescription'] ?? '';
+    Equipe = donMap['equipe'] ?? '';
     publierPar = donMap['publierPar'] ?? '';
-    dateDonation = DateTime.parse(donMap['dateDonation'].toDate().toString());
-
-    idFamily = donMap['idFamily'] ?? '';
+    dateDonation = DateTime.parse(donMap['donationDate'].toDate().toString());
+    idFamily = donMap['familyId'] ?? '';
   }
 }

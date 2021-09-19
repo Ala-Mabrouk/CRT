@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthenticationService {
@@ -37,7 +36,7 @@ class AuthenticationService {
       if (documentSnapshot.exists) {
         Map<String, dynamic> data =
             documentSnapshot.data() as Map<String, dynamic>;
-        return agCrt = AgentCrt.fromMap(data, uid);
+        return agCrt = AgentCrt.fromMap(data);
       }
     });
   }
@@ -48,18 +47,27 @@ class AuthenticationService {
     try {
       UserCredential result =
           await _auth.signInWithEmailAndPassword(email: mail, password: pass);
+      AgentCrt ag;
 
-      //saving user info
       if (result.user != null) {
-        prefs.setString('userEmail', result.user!.email.toString());
-        prefs.setString('userId', result.user!.uid);
-        //creation of tokens and expiration date
-        final DateTime expireDate = DateTime.now().add(Duration(hours: 24));
-        prefs.setString('expireDate', expireDate.toString());
-        setAuthTimeout(24);
+        //get user info from database
+        ag = await usersColl.doc(result.user!.uid).get().then(
+            (value) => AgentCrt.fromMap(value.data() as Map<String, dynamic>));
+        if (ag.isConfirmed) {
+          //saving user info
+
+          prefs.setString('userEmail', result.user!.email.toString());
+          prefs.setString('userId', result.user!.uid);
+          prefs.setBool('isAdmin', ag.isAdmin);
+          //creation of tokens and expiration date
+          final DateTime expireDate = DateTime.now().add(Duration(hours: 24));
+          prefs.setString('expireDate', expireDate.toString());
+          setAuthTimeout(24);
+        }
+        return ag;
       }
 
-      return result.user;
+      return null;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -106,7 +114,7 @@ class AuthenticationService {
     });
   }
 
-  //auto authentication ned to be called in the main
+  //auto authentication need to be called in the main
 
   Future<bool> autoAthenticate() async {
     print('autoAuthenticate()');
@@ -126,6 +134,16 @@ class AuthenticationService {
       return false;
     }
     // return false;
+  }
+
+  Future<bool> isAdmin() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? _isAdmin = await prefs.getBool('isAdmin');
+    if (_isAdmin != null)
+      return _isAdmin;
+    else
+      return false;
+    ;
   }
 
   // set auth timeout which will logout

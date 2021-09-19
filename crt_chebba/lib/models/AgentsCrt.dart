@@ -19,7 +19,7 @@ class AgentCrt {
       required this.isConfirmed});
   AgentCrt.empty();
 
-  static AgentCrt fromMap(Map<String, dynamic> map, String documentId) {
+  static AgentCrt fromMap(Map<String, dynamic> map) {
     return AgentCrt(
       name: map['name'] as String,
       lastName: map['lastName'] as String,

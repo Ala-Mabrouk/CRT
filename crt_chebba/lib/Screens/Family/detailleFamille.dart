@@ -134,8 +134,6 @@ Widget redText({text1}) {
 }
 
 Widget blackText({text1, text2}) {
-  print(text2);
-
   return Row(
     children: [
       Text(

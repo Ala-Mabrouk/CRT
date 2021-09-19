@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crt_chebba/models/Donation.dart';
-import 'package:crt_chebba/models/Family.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DonationService {
@@ -20,12 +19,14 @@ class DonationService {
             (myDocData['familyId'].toString() == id.toString()).toString());
         if ((myDocData['familyId'].toString() == id.toString()).toString() ==
             'true') {
+          print("in the if and donnation is");
+          print(myDocData);
           return Donation.fromMap(myDocData);
-        } else {
-          return null;
         }
       }).toList();
       myDonations.removeWhere((value) => value == null);
+      print("the donations are");
+      print(myDonations);
       return myDonations;
     });
   }
@@ -35,7 +36,8 @@ class DonationService {
   Future getDonationDetails(String _donationID) async {
     return await donationsCollection.doc(_donationID).snapshots();
   }
-  //adding family
+
+  //adding donnation
 
   Future addDonation(Donation _donation) async {
     //need more working on
@@ -75,7 +77,7 @@ class DonationService {
         .catchError((e) => print(e));
   }
 
-  //delete family
+  //delete donation
   Future deleteDonation(String _donationId) async {
     //
     //get the family data and move them to the archive
