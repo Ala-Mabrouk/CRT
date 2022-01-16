@@ -129,6 +129,7 @@ class _AgentsListState extends State<AgentsList> {
             ],
           ),
         ),
+        bottomNavigationBar: BottumNavigationBar(),
       ),
     );
   }
