@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:crt_chebba/Screens/Family/detailleFamille.dart';
 import 'package:crt_chebba/Screens/Home/Hi.dart';
 import 'package:crt_chebba/Screens/Home/home.dart';
 import 'package:crt_chebba/Screens/authentication/SignUp.dart';
@@ -10,10 +8,8 @@ import 'package:crt_chebba/Services/authentication_Services/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 
 import 'Screens/Administration/usersList.dart';
-import 'Screens/dons/add_donation.dart';
 
 bool _isLoged = false;
 bool _isAdmin = false;
@@ -24,9 +20,6 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  _isLoged = await AuthenticationService().autoAthenticate();
-  _isAdmin = await AuthenticationService().isAdmin();
-
   runApp(MyApp());
 }
 
@@ -42,11 +35,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => !_isLoged
-            ? splashScreen()
-            : _isAdmin
-                ? AgentsList()
-                : home(),
+        '/': (context) => splashScreen(),
         '/login': (context) => login(),
         '/signUp': (context) => SignUp(),
         //'/addDonations': (context) => AjouterDon(),
@@ -54,19 +43,6 @@ class _MyAppState extends State<MyApp> {
         //  '/detailFamily': (context) => detailleFamille(),
         '/hi': (context) => Hi(),
         '/HoldOn': (context) => HoldOn(),
-      },
-      // create multiple sub route
-      onGenerateRoute: (RouteSettings settings) {
-        if (!_isLoged) {
-          return MaterialPageRoute<bool>(
-            builder: (BuildContext context) => login(),
-          );
-        } //end if
-      },
-
-      onUnknownRoute: (RouteSettings setting) {
-        return MaterialPageRoute(
-            builder: (BuildContext context) => new splashScreen());
       },
     );
   }

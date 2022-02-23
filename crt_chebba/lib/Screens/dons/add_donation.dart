@@ -17,8 +17,7 @@ class _AjouterDonState extends State<AjouterDon> {
     Size size = MediaQuery.of(context).size;
     Donation don = Donation();
 
-    return MaterialApp(
-        home: Scaffold(
+    return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
@@ -102,6 +101,6 @@ class _AjouterDonState extends State<AjouterDon> {
           ),
         ]),
       ),
-    ));
+    );
   }
 }

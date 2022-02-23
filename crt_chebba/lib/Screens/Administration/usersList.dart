@@ -16,19 +16,12 @@ class _AgentsListState extends State<AgentsList> {
   List<AgentCrt> _agentsList = [];
   List<AgentCrt> _displayedList = [];
   TypeDisplay _typeDisplay = TypeDisplay.All;
-  @override
-  void initState() {
-    //get all saved agents in database
-    thefunc(TypeDisplay.All);
-    super.initState();
-  }
 
   //the wanted function
-  Future<void> thefunc(TypeDisplay val) async {
+  Future thefunc(TypeDisplay val) async {
     await AgentManagement()
         .fetchAgentsAsStream()
         .then((value) => _agentsList = value);
-
     switch (val) {
       case TypeDisplay.Active:
         _displayedList = _agentsList
@@ -44,46 +37,37 @@ class _AgentsListState extends State<AgentsList> {
       default:
         _displayedList = _agentsList;
     }
+
     setState(() {});
   }
 
   @override
+  void initState() {
+    //get all saved agents in database
+    thefunc(TypeDisplay.All);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.red,
-          title: Text("CRT CHEBBA"),
-          centerTitle: true,
-        ),
-        body: Container(
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Expanded(
-                      child: ListTile(
-                        title: const Text('All'),
-                        contentPadding: EdgeInsets.all(0),
-                        leading: Radio(
-                          value: TypeDisplay.All,
-                          groupValue: _typeDisplay,
-                          onChanged: (TypeDisplay? value) {
-                            setState(() async {
-                              _typeDisplay = value!;
-                              await thefunc(_typeDisplay);
-                            });
-                          },
-                        ),
-                      ),
-                      flex: 1),
-                  Expanded(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.red,
+        title: Text("CRT CHEBBA"),
+        centerTitle: true,
+      ),
+      body: Container(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Expanded(
                     child: ListTile(
-                      title: const Text('Active'),
+                      title: const Text('All'),
                       contentPadding: EdgeInsets.all(0),
                       leading: Radio(
-                        value: TypeDisplay.Active,
+                        value: TypeDisplay.All,
                         groupValue: _typeDisplay,
                         onChanged: (TypeDisplay? value) {
                           setState(() async {
@@ -93,44 +77,58 @@ class _AgentsListState extends State<AgentsList> {
                         },
                       ),
                     ),
-                    flex: 1,
-                  ),
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Non-Active'),
-                      contentPadding: EdgeInsets.all(2),
-                      leading: Radio(
-                        value: TypeDisplay.Non_Active,
-                        groupValue: _typeDisplay,
-                        onChanged: (TypeDisplay? value) {
-                          setState(() async {
-                            _typeDisplay = value!;
-                            await thefunc(_typeDisplay);
-                          });
-                        },
-                      ),
+                    flex: 1),
+                Expanded(
+                  child: ListTile(
+                    title: const Text('Active'),
+                    contentPadding: EdgeInsets.all(0),
+                    leading: Radio(
+                      value: TypeDisplay.Active,
+                      groupValue: _typeDisplay,
+                      onChanged: (TypeDisplay? value) {
+                        setState(() async {
+                          _typeDisplay = value!;
+                          await thefunc(_typeDisplay);
+                        });
+                      },
                     ),
-                    flex: 1,
                   ),
-                ],
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  physics: ScrollPhysics(),
-                  child: ListView.builder(
-                      physics: ScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: _displayedList.length,
-                      itemBuilder: (BuildContext context, Index) {
-                        return AgentCard(agentCrt: _displayedList[Index]);
-                      }),
+                  flex: 1,
                 ),
+                Expanded(
+                  child: ListTile(
+                    title: const Text('Non-Active'),
+                    contentPadding: EdgeInsets.all(2),
+                    leading: Radio(
+                      value: TypeDisplay.Non_Active,
+                      groupValue: _typeDisplay,
+                      onChanged: (TypeDisplay? value) {
+                        setState(() async {
+                          _typeDisplay = value!;
+                          await thefunc(_typeDisplay);
+                        });
+                      },
+                    ),
+                  ),
+                  flex: 1,
+                ),
+              ],
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: ListView.builder(
+                    physics: ScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: _displayedList.length,
+                    itemBuilder: (BuildContext context, Index) {
+                      return AgentCard(agentCrt: _displayedList[Index]);
+                    }),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        bottomNavigationBar: BottumNavigationBar(),
       ),
+      bottomNavigationBar: BottumNavigationBar(),
     );
   }
 

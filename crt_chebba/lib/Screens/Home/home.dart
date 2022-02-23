@@ -28,9 +28,7 @@ class _homeState extends State<home> {
 
 //the wanted function
   Future<void> thefunc(int val) async {
-    await FamilyService()
-        .fetchFamiliesasStream()
-        .then((value) => families = value);
+    await FamilyService().fetchFamilies().then((value) => families = value);
     if (val == 0) {
       displayedList = families!;
     } else {
@@ -43,108 +41,107 @@ class _homeState extends State<home> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.red,
-          title: Text("CRT CHEBBA"),
-          centerTitle: true,
-        ),
-        body: Container(
-          child: Column(
-            children: [
-              Center(
-                child: DropdownButton(
-                    value: _value,
-                    items: [
-                      DropdownMenuItem(
-                        child: Text("ALL"),
-                        value: 0,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("quartier Bassatine"),
-                        value: 1,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("Sidi Salem"),
-                        value: 2,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("garaa tabel + beb nian"),
-                        value: 3,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("Henchir Moussa"),
-                        value: 4,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("wahab"),
-                        value: 5,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("El marssa"),
-                        value: 6,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("quartier charquia"),
-                        value: 7,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("Dowira"),
-                        value: 8,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("centre Ville"),
-                        value: 9,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("rue de tbarna + hratla"),
-                        value: 10,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("El frahta"),
-                        value: 11,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("exterieur de la Chebba , rue mahdia"),
-                        value: 12,
-                      ),
-                    ],
-                    onChanged: (value) {
-                      setState(() async {
-                        _value = int.parse(value.toString());
-                        value = _value;
-                        await thefunc(_value);
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.red,
+        title: Text("CRT CHEBBA"),
+        centerTitle: true,
+      ),
+      body: Container(
+        child: Column(
+          children: [
+            Center(
+              child: DropdownButton(
+                  value: _value,
+                  items: [
+                    DropdownMenuItem(
+                      child: Text("ALL"),
+                      value: 0,
+                    ),
+                    DropdownMenuItem(
+                      child: Text("quartier Bassatine"),
+                      value: 1,
+                    ),
+                    DropdownMenuItem(
+                      child: Text("Sidi Salem"),
+                      value: 2,
+                    ),
+                    DropdownMenuItem(
+                      child: Text("garaa tabel + beb nian"),
+                      value: 3,
+                    ),
+                    DropdownMenuItem(
+                      child: Text("Henchir Moussa"),
+                      value: 4,
+                    ),
+                    DropdownMenuItem(
+                      child: Text("wahab"),
+                      value: 5,
+                    ),
+                    DropdownMenuItem(
+                      child: Text("El marssa"),
+                      value: 6,
+                    ),
+                    DropdownMenuItem(
+                      child: Text("quartier charquia"),
+                      value: 7,
+                    ),
+                    DropdownMenuItem(
+                      child: Text("Dowira"),
+                      value: 8,
+                    ),
+                    DropdownMenuItem(
+                      child: Text("centre Ville"),
+                      value: 9,
+                    ),
+                    DropdownMenuItem(
+                      child: Text("rue de tbarna + hratla"),
+                      value: 10,
+                    ),
+                    DropdownMenuItem(
+                      child: Text("El frahta"),
+                      value: 11,
+                    ),
+                    DropdownMenuItem(
+                      child: Text("exterieur de la Chebba , rue mahdia"),
+                      value: 12,
+                    ),
+                  ],
+                  onChanged: (value) {
+                    setState(() async {
+                      _value = int.parse(value.toString());
+                      value = _value;
+                      await thefunc(_value);
+                      setState(() {});
+                    });
+                  },
+                  hint: Text("Selon le quartier")),
+            ),
 
-                        setState(() {});
-                      });
-                    },
-                    hint: Text("Selon le quartier")),
-              ),
+            // Text('******************************'),
 
-              // Text('******************************'),
-
-              // child: StreamBuilder(
-              //   stream: FamilyService().fetchFamiliesasStream(),
-              //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              //     if (snapshot.hasData) {
-              //       families = snapshot.data!.docs.map((doc) {
-              //         return Family.fromJSON(
-              //             doc.data() as Map<String, dynamic>);
-              //       }).toList();
-              //       displayedList = families!;
-              //       return ListView.builder(
-              //         shrinkWrap: true,
-              //         itemCount: displayedList.length,
-              //         itemBuilder: (buildContext, index) =>
-              //             FamilyCard(f: displayedList[index]),
-              //       );
-              //     } else {
-              //       return Text('fetching');
-              //     }
-              //   },
-              // ),
-              SingleChildScrollView(
+            // child: StreamBuilder(
+            //   stream: FamilyService().fetchFamiliesasStream(),
+            //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            //     if (snapshot.hasData) {
+            //       families = snapshot.data!.docs.map((doc) {
+            //         return Family.fromJSON(
+            //             doc.data() as Map<String, dynamic>);
+            //       }).toList();
+            //       displayedList = families!;
+            //       return ListView.builder(
+            //         shrinkWrap: true,
+            //         itemCount: displayedList.length,
+            //         itemBuilder: (buildContext, index) =>
+            //             FamilyCard(f: displayedList[index]),
+            //       );
+            //     } else {
+            //       return Text('fetching');
+            //     }
+            //   },
+            // ),
+            Expanded(
+              child: SingleChildScrollView(
                 child: ListView.builder(
                     physics: ScrollPhysics(),
                     shrinkWrap: true,
@@ -153,19 +150,19 @@ class _homeState extends State<home> {
                       return FamilyCard(f: displayedList[Index]);
                     }),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        bottomNavigationBar: BottumNavigationBar(),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.red,
-          onPressed: () {
-            Navigator.push(context,
-                new MaterialPageRoute(builder: (context) => new addFamily()));
-          },
-          tooltip: 'ajouter don',
-          child: Icon(Icons.add),
-        ),
+      ),
+      bottomNavigationBar: BottumNavigationBar(),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.red,
+        onPressed: () {
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => new addFamily()));
+        },
+        tooltip: 'ajouter don',
+        child: Icon(Icons.add),
       ),
     );
   }

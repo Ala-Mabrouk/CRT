@@ -12,7 +12,7 @@ class FamilyService {
   //   return familiesCollection.snapshots();
   // }
 
-  Future<List<Family>> fetchFamiliesasStream() async {
+  Future<List<Family>> fetchFamilies() async {
     try {
       var myList = await familiesCollection.get().then((value) => value.docs
           .map((doc) => Family.fromJSON(doc.data() as Map<String, dynamic>))

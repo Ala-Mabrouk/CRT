@@ -125,26 +125,21 @@ class _loginState extends State<login> {
             // }
             // print('smt');
 
-            print(email);
-            print(pass);
-            AgentCrt res = await auth
-                .signInEmailPassword(email, pass)
-                .onError((error, stackTrace) => setState(() {
-                      err = 'password is wrong';
-                    }));
+/*             print(email);
+            print(pass); */
+            AgentCrt? res =
+                await AuthenticationService().signInEmailPassword(email, pass);
             if (res != null) {
               if (res.isConfirmed && res.isAdmin) {
-                Navigator.pushReplacement(
+                Navigator.pushAndRemoveUntil(
                     context,
-                    new MaterialPageRoute(
-                        builder: (context) => new AgentsList()));
+                    MaterialPageRoute(builder: (context) => const AgentsList()),
+                    (route) => false);
               } else if (res.isConfirmed) {
-                Navigator.pushReplacement(context,
-                    new MaterialPageRoute(builder: (context) => new home()));
-
-                setState(() {
-                  // err = "user not found or bad input  ";
-                });
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => home()),
+                    (route) => false);
               } else {
                 Navigator.push(context,
                     new MaterialPageRoute(builder: (context) => new HoldOn()));
@@ -170,8 +165,8 @@ class _loginState extends State<login> {
         Text("Vous n'avez pas encore un compte ? "),
         TextButton(
           onPressed: () {
-            Navigator.push(context,
-                new MaterialPageRoute(builder: (context) => new SignUp()));
+            Navigator.push(
+                context, new MaterialPageRoute(builder: (context) => SignUp()));
           },
           child: Text(
             "Creéz-en un ! ",

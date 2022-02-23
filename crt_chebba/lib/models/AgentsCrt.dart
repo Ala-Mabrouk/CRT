@@ -10,24 +10,32 @@ class AgentCrt {
   bool isConfirmed = false;
 
   AgentCrt(
-      {required this.name,
-      required this.lastName,
-      required this.birthDate,
-      required this.phone,
-      required this.email,
-      required this.isAdmin,
-      required this.isConfirmed});
+    String usermail,
+    String username,
+    String userlastname,
+    String userBirthDate,
+    String userphone,
+    bool isAd,
+    bool isCon,
+  ) {
+    this.name = username;
+    this.lastName = userlastname;
+    this.birthDate = userBirthDate;
+    this.phone = userphone;
+    this.email = usermail;
+    this.isAdmin = isAd;
+    this.isConfirmed = isCon;
+  }
+
   AgentCrt.empty();
 
-  static AgentCrt fromMap(Map<String, dynamic> map) {
-    return AgentCrt(
-      name: map['name'] as String,
-      lastName: map['lastName'] as String,
-      birthDate: map['birthDate'].toString(),
-      phone: map['phone'] as String,
-      email: map['email'] as String,
-      isAdmin: map['isAdmin'] as bool,
-      isConfirmed: map['isConfirmed'] as bool,
-    );
+  AgentCrt.fromMap(Map<String, dynamic> map) {
+    name = map['name'] ?? '';
+    lastName = map['lastName'] ?? '';
+    birthDate = map['birthDate'] ?? '';
+    phone = map['phone'] ?? '';
+    email = map['email'] ?? '';
+    isAdmin = map['isAdmin'] ?? false;
+    isConfirmed = map['isConfirmed'] ?? false;
   }
 }

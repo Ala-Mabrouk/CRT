@@ -17,59 +17,57 @@ class _donsState extends State<dons> {
     List<Donation?> donations;
     print("the family looking for :" + widget.familyId);
 
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          backgroundColor: Colors.red,
-          title: Text("Les dons de" + widget.familyId),
-          centerTitle: true,
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        body:
-            // Padding(
-            //   padding: const EdgeInsets.all(15.0),
-            //   child: Column(children: [
-            //     itemdon(),
-            //     itemdon(),
-            //   ]),
-            // ),
-            Container(
-          child: StreamBuilder(
-            stream:
-                DonationService().fetchDonationsOfFamilyStream(widget.familyId),
-            builder: (context, AsyncSnapshot<List<Donation?>> snapshot) {
-              if (snapshot.hasData) {
-                donations = snapshot.data!.toList();
-                return ListView.builder(
-                  itemCount: donations.length,
-                  itemBuilder: (buildContext, index) =>
-                      itemdon(d: donations[index]!),
-                );
-              } else {
-                return Text('fetching');
-              }
-            },
-          ),
-        ),
-        // ),
-
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.red,
-          onPressed: () {
-            Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (context) => new AjouterDon(
-                          idfamily: widget.familyId,
-                        )));
-          },
-          tooltip: 'ajouter don',
-          child: Icon(Icons.add),
-        ), //
+        backgroundColor: Colors.red,
+        title: Text("Les dons de" + widget.familyId),
+        centerTitle: true,
       ),
+      body:
+          // Padding(
+          //   padding: const EdgeInsets.all(15.0),
+          //   child: Column(children: [
+          //     itemdon(),
+          //     itemdon(),
+          //   ]),
+          // ),
+          Container(
+        child: StreamBuilder(
+          stream:
+              DonationService().fetchDonationsOfFamilyStream(widget.familyId),
+          builder: (context, AsyncSnapshot<List<Donation?>> snapshot) {
+            if (snapshot.hasData) {
+              donations = snapshot.data!.toList();
+              return ListView.builder(
+                itemCount: donations.length,
+                itemBuilder: (buildContext, index) =>
+                    itemdon(d: donations[index]!),
+              );
+            } else {
+              return Text('fetching');
+            }
+          },
+        ),
+      ),
+      // ),
+
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.red,
+        onPressed: () {
+          Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (context) => new AjouterDon(
+                        idfamily: widget.familyId,
+                      )));
+        },
+        tooltip: 'ajouter don',
+        child: Icon(Icons.add),
+      ), //
     );
   }
 }

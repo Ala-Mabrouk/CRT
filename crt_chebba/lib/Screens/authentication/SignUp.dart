@@ -1,3 +1,5 @@
+import 'package:crt_chebba/Screens/authentication/login.dart';
+import 'package:crt_chebba/Screens/commun%20Screens/onHoldScreen.dart';
 import 'package:crt_chebba/Services/authentication_Services/auth.dart';
 import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:email_validator/email_validator.dart';
@@ -17,6 +19,13 @@ class _SignUpState extends State<SignUp> {
   bool isAdmin = false;
 
   DateTime selectedDate = DateTime.now();
+
+  bool isEmailValid(String email) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern.toString());
+    return regex.hasMatch(email);
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -278,9 +287,12 @@ class _SignUpState extends State<SignUp> {
             // }
             _agentCrt.isAdmin = isAdmin;
             _agentCrt.birthDate = selectedDate.toString();
-            dynamic res = await auth.registerNewAgent(_agentCrt);
-            if (res != null) {
-              Navigator.pushNamed(context, '/Hi');
+            bool res = await auth.registerNewAgent(_agentCrt);
+            if (res) {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HoldOn()),
+                  (route) => false);
             }
           },
           padding: EdgeInsets.all(2),
@@ -302,7 +314,10 @@ class _SignUpState extends State<SignUp> {
         Text("Vous avez déja un compte ? "),
         TextButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/login');
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => login()),
+                (route) => false);
           },
           child: Text(
             "se conneter ! ",
@@ -398,11 +413,4 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
-}
-
-bool isEmailValid(String email) {
-  Pattern pattern =
-      r'^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-  RegExp regex = new RegExp(pattern.toString());
-  return regex.hasMatch(email);
 }

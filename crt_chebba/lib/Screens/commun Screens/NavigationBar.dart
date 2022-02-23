@@ -15,7 +15,6 @@ class BottumNavigationBar extends StatelessWidget {
         print('home screen');
         break;
       case 2:
-        print("log out alert");
         _showMyDialog(context);
         break;
       default:
@@ -73,8 +72,10 @@ class BottumNavigationBar extends StatelessWidget {
               onPressed: () async {
                 print('you are loged out !!!');
                 await AuthenticationService().logout();
-                Navigator.pushReplacement(context,
-                    new MaterialPageRoute(builder: (context) => login()));
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => login()),
+                    (route) => false);
               },
             )
           ],

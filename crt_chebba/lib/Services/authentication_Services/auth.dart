@@ -1,61 +1,34 @@
-import 'dart:async';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crt_chebba/Services/usersServices/UserServices.dart';
 import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async';
 
 class AuthenticationService {
-  //FirebaseAuth instance.
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  //users collection reference
-  final CollectionReference usersColl =
-      FirebaseFirestore.instance.collection("CRT_Agents");
-  //timer
   Timer _authTimer = Timer(Duration(hours: 1), () {});
-  //auth user stream
-  Stream<AgentCrt?> get user {
-    return _auth
-        .authStateChanges()
-        .map((event) => _agentCrtFromFirebase(event));
-  }
+  AgentCrt agentCrt = AgentCrt.empty();
+//  Future<AgentCrt?> get agentCRT async => await autoAthenticate();
 
-  //convert firestoreUser to AgentCRt
-
-  AgentCrt? _agentCrtFromFirebase(User? fireUser) {
-    //get the agetId from firebase auth
-    String uid = fireUser!.uid;
-    //get the agent from the firestore using the uid
-    AgentCrt agCrt = AgentCrt.empty();
-    FirebaseFirestore.instance
-        .collection('CRT_Agents')
-        .doc(uid)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        Map<String, dynamic> data =
-            documentSnapshot.data() as Map<String, dynamic>;
-        return agCrt = AgentCrt.fromMap(data);
-      }
+  // set auth timeout which will logout
+  void setAuthTimeout(int time) {
+    _authTimer = Timer(Duration(hours: time), () {
+      logout();
     });
   }
 
   //signIn with mail
-  Future signInEmailPassword(String mail, String pass) async {
+  Future<AgentCrt?> signInEmailPassword(String mail, String pass) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       UserCredential result =
           await _auth.signInWithEmailAndPassword(email: mail, password: pass);
-      AgentCrt ag;
 
       if (result.user != null) {
-        //get user info from database
-        ag = await usersColl.doc(result.user!.uid).get().then(
-            (value) => AgentCrt.fromMap(value.data() as Map<String, dynamic>));
+        AgentCrt ag = await UserServices().getUserInfo(result.user!.uid);
         if (ag.isConfirmed) {
           //saving user info
-
           prefs.setString('userEmail', result.user!.email.toString());
           prefs.setString('userId', result.user!.uid);
           prefs.setBool('isAdmin', ag.isAdmin);
@@ -80,7 +53,7 @@ class AuthenticationService {
   }
 
   //register a new Agent to firebase
-  Future registerNewAgent(AgentCrt ag) async {
+  Future<bool> registerNewAgent(AgentCrt ag) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: ag.email, password: ag.password);
@@ -89,74 +62,39 @@ class AuthenticationService {
       //that saves in firestore to save the full AgentCRT
       if (result != null) {
         ag.agentId = result.user!.uid;
-        addUsers(ag);
-
-        return result.user;
+        UserServices().addUsers(ag);
+        return true;
       }
-      return null;
+      return false;
     } catch (e) {
       print(e);
-      return null;
+      return false;
     }
-  }
-
-  //save new agent to database
-  Future addUsers(AgentCrt _AgentCrt) async {
-    return await usersColl.doc(_AgentCrt.agentId).set({
-      'agentId': _AgentCrt.agentId,
-      'name': _AgentCrt.name,
-      'lastName': _AgentCrt.lastName,
-      'birthDate': _AgentCrt.birthDate,
-      'phone': _AgentCrt.phone,
-      'email': _AgentCrt.email,
-      'isAdmin': _AgentCrt.isAdmin,
-      'isConfirmed': _AgentCrt.isConfirmed
-    });
   }
 
   //auto authentication need to be called in the main
 
-  Future<bool> autoAthenticate() async {
-    print('autoAuthenticate()');
+  Future<AgentCrt?> autoAthenticate() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-
     String UserId = await prefs.getString('userId').toString();
-    print(UserId);
     if (UserId.length >= 8) {
       final expiryTimeString = prefs.getString('expireDate').toString();
-      print('the expire date is:' + expiryTimeString);
+      //changing "expiryTimeString" to date type
       final parsedExpiryTime = DateTime.parse(expiryTimeString);
-      if (parsedExpiryTime.isBefore(DateTime.now())) {
-        return false;
+      if (parsedExpiryTime.isAfter(DateTime.now())) {
+        return UserServices().getUserInfo(UserId);
       }
-      return true;
-    } else {
-      return false;
     }
-    // return false;
+    return agentCrt;
   }
 
   Future<bool> isAdmin() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? _isAdmin = await prefs.getBool('isAdmin');
-    if (_isAdmin != null)
-      return _isAdmin;
-    else
-      return false;
-    ;
-  }
-
-  // set auth timeout which will logout
-  void setAuthTimeout(int time) {
-    _authTimer = Timer(Duration(hours: time), () {
-      logout();
-      // _userSubject.add(false);
-    });
+    bool _isAdmin = await prefs.getBool('isAdmin') ?? false;
+    return _isAdmin;
   }
 
   Future<bool> logout() async {
-    print('Logout');
-
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.clear();
