@@ -1,7 +1,10 @@
 import 'package:crt_chebba/Screens/commun%20Screens/NavigationBar.dart';
 import 'package:crt_chebba/Services/administrationServices/agentsManagment.dart';
+import 'package:crt_chebba/constants/constants.dart';
 import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:flutter/material.dart';
+
+import '../test.dart';
 
 class AgentsList extends StatefulWidget {
   const AgentsList({Key? key}) : super(key: key);
@@ -51,23 +54,70 @@ class _AgentsListState extends State<AgentsList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.red,
-        title: Text("CRT CHEBBA"),
-        centerTitle: true,
-      ),
       body: Container(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Expanded(
+        child: SafeArea(
+          child: Column(
+            children: [
+              Container(
+                height: 60,
+                color: kLightGreyColor,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(width: 10),
+                      // iconAppBar(
+                      //   color: kSecondryColor,
+                      //   icon: Icons.arrow_back_ios_new_outlined,
+                      // ),
+                      Text(
+                        'Les dons :',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: kSecondryColor),
+                      ),
+                      Text(
+                        'Foulene Ben Foulene ',
+                        style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: kSecondryColor),
+                      ),
+                      // iconAppBar(
+                      //   color: kGreenColor,
+                      //   icon: Icons.phone, onPress: null,
+                      // ),
+                      SizedBox(width: 10),
+                    ]),
+              ),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        new MaterialPageRoute(builder: (context) => test()));
+                  },
+                  child: Text('test')),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Expanded(
+                      child: ListTile(
+                        title: const Text('All'),
+                        contentPadding: EdgeInsets.all(0),
+                        leading: Radio(
+                          value: TypeDisplay.All,
+                          groupValue: _typeDisplay,
+                          onChanged: (TypeDisplay? value) {
+                            setState(() async {
+                              _typeDisplay = value!;
+                              await thefunc(_typeDisplay);
+                            });
+                          },
+                        ),
+                      ),
+                      flex: 1),
+                  Expanded(
                     child: ListTile(
-                      title: const Text('All'),
+                      title: const Text('Active'),
                       contentPadding: EdgeInsets.all(0),
                       leading: Radio(
-                        value: TypeDisplay.All,
+                        value: TypeDisplay.Active,
                         groupValue: _typeDisplay,
                         onChanged: (TypeDisplay? value) {
                           setState(() async {
@@ -77,55 +127,40 @@ class _AgentsListState extends State<AgentsList> {
                         },
                       ),
                     ),
-                    flex: 1),
-                Expanded(
-                  child: ListTile(
-                    title: const Text('Active'),
-                    contentPadding: EdgeInsets.all(0),
-                    leading: Radio(
-                      value: TypeDisplay.Active,
-                      groupValue: _typeDisplay,
-                      onChanged: (TypeDisplay? value) {
-                        setState(() async {
-                          _typeDisplay = value!;
-                          await thefunc(_typeDisplay);
-                        });
-                      },
-                    ),
+                    flex: 1,
                   ),
-                  flex: 1,
-                ),
-                Expanded(
-                  child: ListTile(
-                    title: const Text('Non-Active'),
-                    contentPadding: EdgeInsets.all(2),
-                    leading: Radio(
-                      value: TypeDisplay.Non_Active,
-                      groupValue: _typeDisplay,
-                      onChanged: (TypeDisplay? value) {
-                        setState(() async {
-                          _typeDisplay = value!;
-                          await thefunc(_typeDisplay);
-                        });
-                      },
+                  Expanded(
+                    child: ListTile(
+                      title: const Text('Non-Active'),
+                      contentPadding: EdgeInsets.all(2),
+                      leading: Radio(
+                        value: TypeDisplay.Non_Active,
+                        groupValue: _typeDisplay,
+                        onChanged: (TypeDisplay? value) {
+                          setState(() async {
+                            _typeDisplay = value!;
+                            await thefunc(_typeDisplay);
+                          });
+                        },
+                      ),
                     ),
+                    flex: 1,
                   ),
-                  flex: 1,
-                ),
-              ],
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: ListView.builder(
-                    physics: ScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: _displayedList.length,
-                    itemBuilder: (BuildContext context, Index) {
-                      return AgentCard(agentCrt: _displayedList[Index]);
-                    }),
+                ],
               ),
-            ),
-          ],
+              Expanded(
+                child: SingleChildScrollView(
+                  child: ListView.builder(
+                      physics: ScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: _displayedList.length,
+                      itemBuilder: (BuildContext context, Index) {
+                        return AgentCard(agentCrt: _displayedList[Index]);
+                      }),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottumNavigationBar(),

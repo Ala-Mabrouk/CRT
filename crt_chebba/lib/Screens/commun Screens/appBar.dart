@@ -5,10 +5,18 @@ class TopBar extends StatelessWidget {
   final String myText;
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      backgroundColor: Colors.red,
-      title: Text(myText),
-      centerTitle: true,
-    );
+    return AppBar(flexibleSpace: Container(
+        child: Row(
+           children: [
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: const TextStyle(fontSize: 20),
+            ),
+            onPressed: () {},
+            child: const Text('Enabled'),
+          ),
+        ],
+        ),
+      ),);
   }
 }
