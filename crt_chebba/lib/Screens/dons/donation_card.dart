@@ -27,15 +27,7 @@ class _donsState extends State<dons> {
         title: Text("Les dons de" + widget.familyId),
         centerTitle: true,
       ),
-      body:
-          // Padding(
-          //   padding: const EdgeInsets.all(15.0),
-          //   child: Column(children: [
-          //     itemdon(),
-          //     itemdon(),
-          //   ]),
-          // ),
-          Container(
+      body: Container(
         child: StreamBuilder(
           stream:
               DonationService().fetchDonationsOfFamilyStream(widget.familyId),
@@ -73,36 +65,88 @@ class _donsState extends State<dons> {
 }
 
 Widget itemdon({required Donation d}) {
-  return Card(
-    clipBehavior: Clip.antiAlias,
-    child: Column(
-      children: [
-        ListTile(
-          title: Text('Date :' + d.dateDonation.toString()),
-          subtitle: Text(
-            'Equipe : ' + d.Equipe,
-            style: TextStyle(color: Colors.black.withOpacity(0.6)),
+  return Container(
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Text("Date: ",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  )),
+              SizedBox(
+                width: 10,
+              ),
+              Text('24-02-2020',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                  )),
+            ],
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            'Description : ' + d.description,
-            style: TextStyle(color: Colors.black.withOpacity(0.6)),
+          SizedBox(
+            height: 10,
           ),
-        ),
-        ButtonBar(
-          alignment: MainAxisAlignment.end,
-          children: [
-            FlatButton(
-              onPressed: () {
-                // Perform some action
-              },
-              child: Text('ajouter par : ' + d.publierPar),
+          Row(
+            children: [
+              Text("Equipe: ",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  )),
+              SizedBox(
+                width: 10,
+              ),
+              Text('foulen floulen foulen',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                  )),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              Text("Description: ",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  )),
+            ],
+          ),
+          Container(
+            child: Text(
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, . Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.sunt in culpa qui officia deserunt mollit anim id est laborum.",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
-          ],
-        ),
-      ],
+          ),
+          ButtonBar(
+            alignment: MainAxisAlignment.end,
+            children: [
+              FlatButton(
+                onPressed: () {
+                  // Perform some action
+                },
+                child: Row(
+                  children: [
+                    Text('Ajouter par : ',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(d.publierPar),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     ),
   );
 }
