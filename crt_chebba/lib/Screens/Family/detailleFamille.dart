@@ -1,8 +1,11 @@
+import 'package:crt_chebba/Screens/commun%20Screens/AppBarCrt.dart';
+import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAgentCRT.dart';
+import 'package:crt_chebba/Screens/dons/ajouterDon.dart';
 import 'package:crt_chebba/Screens/dons/donation_card.dart';
 import 'package:crt_chebba/models/Family.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+//new Widget:familly details : children and donnations ***( problem in btns)
 class detailleFamille extends StatefulWidget {
   const detailleFamille({Key? key, required this.theFamily}) : super(key: key);
   final Family theFamily;
@@ -39,117 +42,121 @@ class _detailleFamilleState extends State<detailleFamille>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        backgroundColor: Colors.red,
-        title: Text("Famille :" + widget.theFamily.familyName),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 15),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            RaisedButton(
-              elevation: 5,
-              onPressed: () async {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) =>
-                            new dons(familyId: widget.theFamily.familyName)));
-              },
-              padding: EdgeInsets.all(2),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AppBarCrt(nomFamille: widget.theFamily.familyName),
+              SizedBox(
+                height: 20,
               ),
-              color: Colors.green,
-              child: Text(
-                "detail dons",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
+              Text(
+                "Localisation:",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              "Localisation:",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            Text("Map here"),
-            SizedBox(
-              height: 100,
-            ),
-            Container(
-              height: 45,
-              decoration: BoxDecoration(
-                color: Colors.white24,
+              Text("Map here"),
+              SizedBox(
+                height: 100,
               ),
-              child: Expanded(
-                child: TabBar(
-                  onTap: (value) {
-                    setState(() {
-                      groupValue = value;
-                    });
-                  },
-                  controller: _tabController,
-                  indicator: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(width: 2.5, color: Colors.red),
-                    ),
-                  ),
-                  labelColor: Colors.blue,
-                  unselectedLabelColor: Colors.blue,
-                  tabs: [
-                    Text("Parants",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue,
-                        )),
-                    Text("Enfants",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue,
-                        )),
-                    Text("Endroit",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue,
-                        )),
-                  ],
+              Container(
+                height: 45,
+                decoration: BoxDecoration(
+                  color: Colors.white24,
                 ),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        child: getResult(groupValue!),
+                child: Expanded(
+                  child: TabBar(
+                    onTap: (value) {
+                      setState(() {
+                        groupValue = value;
+                      });
+                    },
+                    controller: _tabController,
+                    indicator: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(width: 2.5, color: Colors.red),
                       ),
                     ),
-                    Row(
-                      children: [Dons()],
-                    )
-                  ],
+                    labelColor: Colors.blue,
+                    unselectedLabelColor: Colors.blue,
+                    tabs: [
+                      Text("Parants",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                          )),
+                      Text("Enfants",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                          )),
+                      Text("Endroit",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                          )),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          child: getResult(groupValue!),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButtonCRT(
+                              myText: "Les Dons",
+                              BackgroundColor: Colors.red,
+                              TextColor: Color(0x00000000),
+                              f: () {},
+                              icon: Icons.hail_sharp),
+                          RaisedButton(
+                            elevation: 5,
+                            onPressed: () async {
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (context) => new dons(
+                                          familyId:
+                                              widget.theFamily.familyName)));
+                            },
+                            padding: EdgeInsets.all(2),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            color: Colors.green,
+                            child: Text(
+                              "detail dons",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
+      bottomNavigationBar: bottomNavigationBarAgent(),
     );
   }
 }
@@ -299,34 +306,6 @@ Widget InfoEnfant({required Family f}) {
           ],
         ),
       ],
-    ),
-  );
-}
-
-Widget Dons() {
-  return Container(
-    decoration:
-        BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(2))),
-    width: 150,
-    child: Center(
-      child: FlatButton(
-        height: 50,
-        onPressed: () {},
-        textColor: Colors.white,
-        color: Colors.red,
-        child: Row(
-          children: [
-            Icon(Icons.clean_hands_rounded),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              'Les Dons',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-      ),
     ),
   );
 }

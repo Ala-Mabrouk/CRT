@@ -1,20 +1,19 @@
 import 'package:crt_chebba/Screens/commun%20Screens/AppBarCrt.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/RowText.dart';
-import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAdmin.dart';
+import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAgentCRT.dart';
 import 'package:crt_chebba/constants/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
-
 import 'package:intl/intl.dart';
 
-class test extends StatefulWidget {
-  const test({Key? key}) : super(key: key);
-
+//new Widget: add donnation to a family !! ******** done!
+class AjouterLeDon extends StatefulWidget {
+  const AjouterLeDon({Key? key, required this.idfamily}) : super(key: key);
+  final String idfamily;
   @override
-  _testState createState() => _testState();
+  _AjouterLeDonState createState() => _AjouterLeDonState();
 }
 
-class _testState extends State<test> {
+class _AjouterLeDonState extends State<AjouterLeDon> {
   @override
   Color get selectionColor => kGreenColor;
 
@@ -25,7 +24,7 @@ class _testState extends State<test> {
           child: Column(
             children: [
               AppBarCrt(
-                nomFamille: 'test',
+                nomFamille: 'Ajouter Le Don',
               ),
               Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -36,11 +35,14 @@ class _testState extends State<test> {
                         champ2: new DateFormat("dd-MM-yyyy")
                             .format(DateTime.now())),
                     SizedBox(height: 10),
-                    RowText(champ1: 'Ajouté par : ', champ2: ' nom user '),
+                    RowText(
+                        champ1: 'Ajouté par : ', champ2: ' Connected user '),
                     SizedBox(height: 10),
                     RowText(champ1: 'Equipe :', champ2: ''),
                     TextField(
-                      onChanged: (value) {},
+                      onChanged: (value) {
+                        //here we need to save the selected equipe
+                      },
                       decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: kPrimaryColor),
@@ -54,7 +56,9 @@ class _testState extends State<test> {
                       textInputAction: TextInputAction.newline,
                       minLines: 1,
                       maxLines: 20,
-                      onChanged: (value) {},
+                      onChanged: (value) {
+                        //here we need to save the description of the donnation
+                      },
                       decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: kPrimaryColor),
@@ -68,25 +72,37 @@ class _testState extends State<test> {
           ),
         ),
       ),
-      bottomNavigationBar: bottomNavigationBarAdmin(),
       bottomSheet: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Row(
           children: [
             Expanded(
               flex: 2,
-              child: TextButtonCrt(BackgroundColor: kSecondryColor, f: () {  }, myText: 'Ajouter', TextColor: kWhitColor,),
+              child: TextButtonCrt(
+                BackgroundColor: kSecondryColor,
+                f: () {
+                  //fonction de sauvegarde du dons
+                },
+                myText: 'Ajouter',
+                TextColor: kWhitColor,
+              ),
             ),
             SizedBox(
               width: 20,
             ),
             Expanded(
               flex: 2,
-              child: TextButtonCrt(BackgroundColor: kGreyColor, f: () {  }, myText: 'Annuler', TextColor: kWhitColor,),
+              child: TextButtonCrt(
+                BackgroundColor: kGreyColor,
+                f: () {},
+                myText: 'Annuler',
+                TextColor: kWhitColor,
+              ),
             ),
           ],
         ),
       ),
+      bottomNavigationBar: bottomNavigationBarAgent(),
     );
   }
 }
@@ -108,7 +124,7 @@ class TextButtonCrt extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: f(),
-      child: Text(myText , style : TextStyle(color: TextColor)),
+      child: Text(myText, style: TextStyle(color: TextColor)),
       style: TextButton.styleFrom(
         backgroundColor: BackgroundColor,
         primary: kWhitColor,
@@ -118,26 +134,29 @@ class TextButtonCrt extends StatelessWidget {
 }
 
 class IconButtonCRT extends StatelessWidget {
-  const IconButtonCRT({ Key? key ,required this.myText,
+  const IconButtonCRT(
+      {Key? key,
+      required this.myText,
       required this.BackgroundColor,
       required this.TextColor,
-      required this.f(),  required this.icon}) : super(key: key);
-        final String myText;
+      required this.f,
+      required this.icon})
+      : super(key: key);
+  final String myText;
   final Color BackgroundColor;
   final Color TextColor;
   final Function f;
   final IconData icon;
 
-
   @override
   Widget build(BuildContext context) {
     return TextButton.icon(
-                            style: TextButton.styleFrom(
-                              backgroundColor: BackgroundColor,
-                              primary: TextColor,
-                            ),
-                            label: Text(myText),
-                            icon: Icon(icon),
-                            onPressed: f() );
+        style: TextButton.styleFrom(
+          backgroundColor: BackgroundColor,
+          primary: TextColor,
+        ),
+        label: Text(myText),
+        icon: Icon(icon),
+        onPressed: f());
   }
 }

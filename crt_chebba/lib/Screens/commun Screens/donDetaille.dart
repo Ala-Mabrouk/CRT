@@ -1,19 +1,12 @@
-
 import 'package:crt_chebba/Screens/commun%20Screens/RowText.dart';
 import 'package:crt_chebba/constants/constants.dart';
+import 'package:crt_chebba/models/Donation.dart';
 import 'package:flutter/material.dart';
 
 class donDetaille extends StatefulWidget {
-  final String date;
-  final String ajouterPar;
-  final String equipe;
+  final Donation don;
 
-  const donDetaille(
-      {Key? key,
-      required this.date,
-      required this.ajouterPar,
-      required this.equipe})
-      : super(key: key);
+  const donDetaille({Key? key, required this.don}) : super(key: key);
 
   @override
   _donDetailleState createState() => _donDetailleState();
@@ -36,9 +29,10 @@ class _donDetailleState extends State<donDetaille> {
           padding: const EdgeInsets.fromLTRB(15, 8, 20, 8),
           child: Column(
             children: [
-              RowText(champ1: 'Date : ', champ2: widget.date),
-              
-              RowText(champ1: 'Equipe : ', champ2: widget.equipe),
+              RowText(
+                  champ1: 'Date : ',
+                  champ2: widget.don.dateDonation.toString()),
+              RowText(champ1: 'Equipe : ', champ2: widget.don.Equipe),
               RowText(champ1: 'Description : ', champ2: ''),
               Row(
                 children: [
@@ -54,7 +48,7 @@ class _donDetailleState extends State<donDetaille> {
                         fontWeight: FontWeight.bold, color: kSecondryColor),
                   ),
                   Text(
-                    widget.ajouterPar,
+                    widget.don.publierPar,
                     style: TextStyle(color: kSecondryColor),
                   )
                 ],

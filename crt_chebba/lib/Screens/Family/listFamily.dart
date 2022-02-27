@@ -1,4 +1,4 @@
-import 'package:crt_chebba/models/Family.dart';
+/* import 'package:crt_chebba/models/Family.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -66,3 +66,4 @@ Widget FamilyCard(Family f) {
     ),
   );
 }
+ */

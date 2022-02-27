@@ -75,14 +75,24 @@ class _testState extends State<test> {
           children: [
             Expanded(
               flex: 2,
-              child: TextButtonCrt(BackgroundColor: kSecondryColor, f: () {  }, myText: 'Ajouter', TextColor: kWhitColor,),
+              child: TextButtonCrt(
+                BackgroundColor: kSecondryColor,
+                f: () {},
+                myText: 'Ajouter',
+                TextColor: kWhitColor,
+              ),
             ),
             SizedBox(
               width: 20,
             ),
             Expanded(
               flex: 2,
-              child: TextButtonCrt(BackgroundColor: kGreyColor, f: () {  }, myText: 'Annuler', TextColor: kWhitColor,),
+              child: TextButtonCrt(
+                BackgroundColor: kGreyColor,
+                f: () {},
+                myText: 'Annuler',
+                TextColor: kWhitColor,
+              ),
             ),
           ],
         ),
@@ -108,36 +118,11 @@ class TextButtonCrt extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: f(),
-      child: Text(myText , style : TextStyle(color: TextColor)),
+      child: Text(myText, style: TextStyle(color: TextColor)),
       style: TextButton.styleFrom(
         backgroundColor: BackgroundColor,
         primary: kWhitColor,
       ),
     );
-  }
-}
-
-class IconButtonCRT extends StatelessWidget {
-  const IconButtonCRT({ Key? key ,required this.myText,
-      required this.BackgroundColor,
-      required this.TextColor,
-      required this.f(),  required this.icon}) : super(key: key);
-        final String myText;
-  final Color BackgroundColor;
-  final Color TextColor;
-  final Function f;
-  final IconData icon;
-
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton.icon(
-                            style: TextButton.styleFrom(
-                              backgroundColor: BackgroundColor,
-                              primary: TextColor,
-                            ),
-                            label: Text(myText),
-                            icon: Icon(icon),
-                            onPressed: f() );
   }
 }

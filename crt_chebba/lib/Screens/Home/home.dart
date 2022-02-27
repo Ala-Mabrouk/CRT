@@ -1,11 +1,10 @@
 import 'dart:async';
-
 import 'package:crt_chebba/Screens/Family/add_family.dart';
 import 'package:crt_chebba/Screens/Family/detailleFamille.dart';
-import 'package:crt_chebba/Screens/commun%20Screens/NavigationBar.dart';
-import 'package:crt_chebba/Screens/commun%20Screens/loading.dart';
-
+import 'package:crt_chebba/Screens/commun%20Screens/HomeAppBar.dart';
+import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAgentCRT.dart';
 import 'package:crt_chebba/Services/familyServices/familyServices.dart';
+import 'package:crt_chebba/constants/constants.dart';
 import 'package:crt_chebba/models/Family.dart';
 import 'package:flutter/material.dart';
 
@@ -42,20 +41,16 @@ class _homeState extends State<home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text("saber CHEBBA"),
-        centerTitle: true,
-      ),
-      body: Container(
+      body: SafeArea(
         child: Column(
           children: [
-            Center(
+            HomeAppBar(),
+            Container(
               child: DropdownButton(
                   value: _value,
                   items: [
                     DropdownMenuItem(
-                      child: Text("ALL"),
+                      child: Text("Tous"),
                       value: 0,
                     ),
                     DropdownMenuItem(
@@ -117,29 +112,6 @@ class _homeState extends State<home> {
                   },
                   hint: Text("Selon le quartier")),
             ),
-
-            // Text('******************************'),
-
-            // child: StreamBuilder(
-            //   stream: FamilyService().fetchFamiliesasStream(),
-            //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            //     if (snapshot.hasData) {
-            //       families = snapshot.data!.docs.map((doc) {
-            //         return Family.fromJSON(
-            //             doc.data() as Map<String, dynamic>);
-            //       }).toList();
-            //       displayedList = families!;
-            //       return ListView.builder(
-            //         shrinkWrap: true,
-            //         itemCount: displayedList.length,
-            //         itemBuilder: (buildContext, index) =>
-            //             FamilyCard(f: displayedList[index]),
-            //       );
-            //     } else {
-            //       return Text('fetching');
-            //     }
-            //   },
-            // ),
             Expanded(
               child: SingleChildScrollView(
                 child: ListView.builder(
@@ -154,14 +126,13 @@ class _homeState extends State<home> {
           ],
         ),
       ),
-      bottomNavigationBar: BottumNavigationBar(),
+      bottomNavigationBar: bottomNavigationBarAgent(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.red,
         onPressed: () {
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => new addFamily()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => addFamily()));
         },
-        tooltip: 'ajouter don',
         child: Icon(Icons.add),
       ),
     );
@@ -170,19 +141,106 @@ class _homeState extends State<home> {
   Widget FamilyCard({required Family f}) {
     return Card(
       clipBehavior: Clip.antiAlias,
-      child: Column(
+      child: Container(
+        decoration: BoxDecoration(
+          color: kGreyColor.withOpacity(0.3),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: kLightGreyColor,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(5),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 70,
+                height: 70,
+                child: Icon(Icons.people),
+              ),
+              SizedBox(
+                width: 25,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Famille: ",
+                            style: TextStyle(
+                                color: Colors.blue[900],
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ),
+                          Text(
+                            f.familyName,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                                color: Colors.blue[900]),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "Adresse: ",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          Text(
+                            f.familyLocation,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ]),
+              ),
+              ButtonBar(
+                alignment: MainAxisAlignment.end,
+                children: [
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  detailleFamille(theFamily: f)));
+                    },
+                    child: const Text('Voir Details'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    /*  Column(
         children: [
           ListTile(
             title: Text('family of :' + f.familyName),
             subtitle: Text(
-              'location' + f.familyLocation,
+              'location: ' + f.familyLocation,
               style: TextStyle(color: Colors.black.withOpacity(0.6)),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              'Eatat famille :' + f.familyStatus,
+              'Etat famille :' + f.familyStatus,
               style: TextStyle(color: Colors.black.withOpacity(0.6)),
             ),
           ),
@@ -191,25 +249,21 @@ class _homeState extends State<home> {
             children: [
               FlatButton(
                 onPressed: () {
-                  // Perform some action
-
-                  print(f.fatherLastName);
                   Navigator.push(
                       context,
-                      new MaterialPageRoute(
-                          builder: (context) =>
-                              new detailleFamille(theFamily: f)));
+                      MaterialPageRoute(
+                          builder: (context) => detailleFamille(theFamily: f)));
                 },
                 child: const Text('Voir Details'),
               ),
             ],
           ),
         ],
-      ),
-    );
+      ), 
+    );*/
   }
 }
-
+/* 
 class itemdon extends StatefulWidget {
   final Family theFamily;
   const itemdon({Key? key, required this.theFamily}) : super(key: key);
@@ -226,7 +280,7 @@ class _itemdonState extends State<itemdon> {
       child: Column(
         children: [
           ListTile(
-            title: Text('family of' + widget.theFamily.familyName),
+            title: Text('family of: ' + widget.theFamily.familyName),
             subtitle: Text(
               widget.theFamily.familyLocation,
               style: TextStyle(color: Colors.black.withOpacity(0.6)),
@@ -254,4 +308,4 @@ class _itemdonState extends State<itemdon> {
       ),
     );
   }
-}
+} */

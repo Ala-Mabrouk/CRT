@@ -4,14 +4,9 @@ import 'package:crt_chebba/Screens/authentication/SignUp.dart';
 import 'package:crt_chebba/Screens/authentication/login.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/onHoldScreen.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/splash.dart';
-import 'package:crt_chebba/Services/authentication_Services/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-
-import 'Screens/Administration/usersList.dart';
-import 'Screens/test.dart';
-import 'constants/constants.dart';
 
 bool _isLoged = false;
 bool _isAdmin = false;
@@ -45,9 +40,6 @@ class _MyAppState extends State<MyApp> {
         //  '/detailFamily': (context) => detailleFamille(),
         '/hi': (context) => Hi(),
         '/HoldOn': (context) => HoldOn(),
-
-
-        
       },
     );
   }

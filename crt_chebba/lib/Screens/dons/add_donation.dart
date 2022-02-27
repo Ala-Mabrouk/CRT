@@ -1,8 +1,9 @@
-import 'package:crt_chebba/Screens/dons/donation_card.dart';
+/* import 'package:crt_chebba/Screens/dons/donation_card.dart';
 import 'package:crt_chebba/Services/donationServices/donationsServices.dart';
 import 'package:crt_chebba/models/Donation.dart';
 import 'package:flutter/material.dart';
 
+//old class
 class AjouterDon extends StatefulWidget {
   const AjouterDon({Key? key, required this.idfamily}) : super(key: key);
   final String idfamily;
@@ -104,3 +105,4 @@ class _AjouterDonState extends State<AjouterDon> {
     );
   }
 }
+ */

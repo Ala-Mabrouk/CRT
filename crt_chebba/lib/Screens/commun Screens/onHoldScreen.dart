@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// waiting after first account creation ***done!
 class HoldOn extends StatelessWidget {
   const HoldOn({Key? key}) : super(key: key);
 
@@ -16,38 +17,48 @@ class HoldOn extends StatelessWidget {
           Container(
             height: size.height * 0.4,
             child: Image.asset('assets/logo.png'),
-
-            // decoration: BoxDecoration(
-            //     image: DecorationImage(
-            //         image: AssetImage('../assets/header.png'),
-            //         fit: BoxFit.fill)),
           ),
           SizedBox(
             height: 20,
           ),
-          Text(
-            "Your account is not conformed yet !!",
-            style: TextStyle(
-                color: Colors.orange[900],
-                fontSize: 30,
-                fontWeight: FontWeight.w800,
-                fontStyle: FontStyle.italic),
-            textAlign: TextAlign.center,
+          Row(
+            children: [
+              Text(
+                "Bonjour cher ",
+                style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.normal),
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                "USER ",
+                style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 28,
+                    fontWeight: FontWeight.w500,
+                    fontStyle: FontStyle.italic),
+              ),
+            ],
           ),
           SizedBox(
             height: 10,
           ),
           Text(
-            "Please wait for an admin agent to confirm your account.",
+            "Merci d'avoir créer un compte !",
             style: TextStyle(
               color: Colors.black,
-              fontSize: 20,
-              fontWeight: FontWeight.normal,
+              fontSize: 26,
+              fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.center,
           ),
+          SizedBox(
+            height: 20,
+          ),
           Text(
-            "You can call the adminstration to make a request",
+            "veuillez contactez un admin pour confirmer la création de votre compte",
             style: TextStyle(
               color: Colors.black,
               fontSize: 20,
