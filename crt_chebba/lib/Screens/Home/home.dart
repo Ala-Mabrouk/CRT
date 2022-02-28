@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:crt_chebba/Screens/Family/add_family.dart';
 import 'package:crt_chebba/Screens/Family/detailleFamille.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/HomeAppBar.dart';
+import 'package:crt_chebba/Screens/commun%20Screens/RowText.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAgentCRT.dart';
 import 'package:crt_chebba/Services/familyServices/familyServices.dart';
 import 'package:crt_chebba/constants/constants.dart';
@@ -128,7 +129,7 @@ class _homeState extends State<home> {
       ),
       bottomNavigationBar: bottomNavigationBarAgent(),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.red,
+        backgroundColor: kPrimaryColor,
         onPressed: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => addFamily()));
@@ -139,92 +140,90 @@ class _homeState extends State<home> {
   }
 
   Widget FamilyCard({required Family f}) {
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: Container(
-        decoration: BoxDecoration(
-          color: kGreyColor.withOpacity(0.3),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: kLightGreyColor,
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 5,
           ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(5),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 70,
-                height: 70,
-                child: Icon(Icons.people),
+          Container(
+            decoration: BoxDecoration(
+              color: kGreyColor.withOpacity(0.3),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: kLightGreyColor,
               ),
-              SizedBox(
-                width: 25,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Famille: ",
-                            style: TextStyle(
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                    flex: 1,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Icon(Icons.people, size: 50),
+                      ],
+                    )),
+                Expanded(
+                  flex: 3,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Famille: ",
+                              style: TextStyle(
                                 color: Colors.blue[900],
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          ),
-                          Text(
-                            f.familyName,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18,
-                                color: Colors.blue[900]),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Adresse: ",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
-                          ),
-                          Text(
-                            f.familyLocation,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ]),
+                            Text(
+                              f.familyName + ' ' + f.fatherFirstName,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue[900]),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        RowText(champ1: 'Adresse: ', champ2: f.familyLocation),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                           TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => detailleFamille()));
+                },
+                child: const Text('Voir Details'),
               ),
-              ButtonBar(
-                alignment: MainAxisAlignment.end,
-                children: [
-                  FlatButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  detailleFamille(theFamily: f)));
-                    },
-                    child: const Text('Voir Details'),
-                  ),
-                ],
-              ),
-            ],
+                            SizedBox(
+                              width: 20,
+                            )
+                          ],
+                        ),
+                      ]),
+                ),
+              ],
+            ),
           ),
-        ),
+          SizedBox(
+            height: 5,
+          )
+        ],
       ),
     );
 
@@ -262,6 +261,8 @@ class _homeState extends State<home> {
       ), 
     );*/
   }
+
+  onPressed() {}
 }
 /* 
 class itemdon extends StatefulWidget {

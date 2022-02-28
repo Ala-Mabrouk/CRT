@@ -22,8 +22,8 @@ class IconButtonCRT extends StatelessWidget {
           backgroundColor: BackgroundColor,
           primary: TextColor,
         ),
-        label: Text(myText),
-        icon: Icon(icon),
+        label: Text(myText , style: TextStyle( color: TextColor),),
+        icon: Icon(icon , color : TextColor),
         onPressed: f());
   }
 }

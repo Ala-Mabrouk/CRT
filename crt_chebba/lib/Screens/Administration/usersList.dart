@@ -1,7 +1,9 @@
+import 'package:crt_chebba/Screens/Family/detailleFamille.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/NavigationBar.dart';
 import 'package:crt_chebba/Services/administrationServices/agentsManagment.dart';
 import 'package:crt_chebba/constants/constants.dart';
 import 'package:crt_chebba/models/AgentsCrt.dart';
+import 'package:crt_chebba/models/Family.dart';
 import 'package:flutter/material.dart';
 
 import '../test.dart';
@@ -90,7 +92,7 @@ class _AgentsListState extends State<AgentsList> {
               TextButton(
                   onPressed: () {
                     Navigator.push(context,
-                        new MaterialPageRoute(builder: (context) => test()));
+                        new MaterialPageRoute(builder: (context) => detailleFamille()));
                   },
                   child: Text('test')),
               Row(
