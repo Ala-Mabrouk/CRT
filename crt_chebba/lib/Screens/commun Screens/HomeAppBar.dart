@@ -1,4 +1,3 @@
-import 'package:crt_chebba/Screens/commun%20Screens/RowText.dart';
 import 'package:crt_chebba/constants/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -19,17 +18,18 @@ class HomeAppBar extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(30, 8, 8, 8),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 "Salut ",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               Text(
                 "User NAME ",
                 style: TextStyle(
                     fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.normal,
-                    fontSize: 25),
+                    fontSize: 18),
               ),
               SizedBox(
                 width: 90,

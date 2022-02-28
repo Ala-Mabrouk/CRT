@@ -46,71 +46,111 @@ class _homeState extends State<home> {
           children: [
             HomeAppBar(),
             Container(
-              child: DropdownButton(
-                  value: _value,
-                  items: [
-                    DropdownMenuItem(
-                      child: Text("Tous"),
-                      value: 0,
+              decoration: BoxDecoration(
+                color: kGreyColor.withOpacity(0.12),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: kLightGreyColor,
+                ),
+              ),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 50),
+                child: DropdownButton(
+                    underline: Container(
+                      height: 1,
+                      color: Colors.transparent,
                     ),
-                    DropdownMenuItem(
-                      child: Text("quartier Bassatine"),
-                      value: 1,
+                    icon: Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.black,
                     ),
-                    DropdownMenuItem(
-                      child: Text("Sidi Salem"),
-                      value: 2,
-                    ),
-                    DropdownMenuItem(
-                      child: Text("garaa tabel + beb nian"),
-                      value: 3,
-                    ),
-                    DropdownMenuItem(
-                      child: Text("Henchir Moussa"),
-                      value: 4,
-                    ),
-                    DropdownMenuItem(
-                      child: Text("wahab"),
-                      value: 5,
-                    ),
-                    DropdownMenuItem(
-                      child: Text("El marssa"),
-                      value: 6,
-                    ),
-                    DropdownMenuItem(
-                      child: Text("quartier charquia"),
-                      value: 7,
-                    ),
-                    DropdownMenuItem(
-                      child: Text("Dowira"),
-                      value: 8,
-                    ),
-                    DropdownMenuItem(
-                      child: Text("centre Ville"),
-                      value: 9,
-                    ),
-                    DropdownMenuItem(
-                      child: Text("rue de tbarna + hratla"),
-                      value: 10,
-                    ),
-                    DropdownMenuItem(
-                      child: Text("El frahta"),
-                      value: 11,
-                    ),
-                    DropdownMenuItem(
-                      child: Text("exterieur de la Chebba , rue mahdia"),
-                      value: 12,
-                    ),
-                  ],
-                  onChanged: (value) {
-                    setState(() async {
-                      _value = int.parse(value.toString());
-                      value = _value;
-                      await thefunc(_value);
-                      setState(() {});
-                    });
-                  },
-                  hint: Text("Selon le quartier")),
+                    iconSize: 40,
+                    isExpanded: true,
+                    borderRadius: BorderRadius.circular(9),
+                    value: _value,
+                    items: [
+                      DropdownMenuItem(
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 6.0),
+                          child: Container(
+                              width: double.infinity,
+                              padding:
+                                  const EdgeInsets.fromLTRB(0, 8.0, 0, 6.0),
+                              child: Text("Tous"),
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          color: Colors.grey, width: 1)))),
+                        ),
+                        value: 0,
+                      ),
+                      DropdownMenuItem(
+                        child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 6.0),
+                            child: Text("quartier Bassatine"),
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(
+                                        color: Colors.grey, width: 1)))),
+                        value: 1,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Sidi Salem"),
+                        value: 2,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("garaa tabel + beb nian"),
+                        value: 3,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Henchir Moussa"),
+                        value: 4,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("wahab"),
+                        value: 5,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("El marssa"),
+                        value: 6,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("quartier charquia"),
+                        value: 7,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Dowira"),
+                        value: 8,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("centre Ville"),
+                        value: 9,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("rue de tbarna + hratla"),
+                        value: 10,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("El frahta"),
+                        value: 11,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("exterieur de la Chebba , rue mahdia"),
+                        value: 12,
+                      ),
+                    ],
+                    onChanged: (value) {
+                      setState(() async {
+                        _value = int.parse(value.toString());
+                        value = _value;
+                        await thefunc(_value);
+                        setState(() {});
+                      });
+                    },
+                    hint: Text("Selon le quartier")),
+              ),
             ),
             Expanded(
               child: SingleChildScrollView(
@@ -128,7 +168,7 @@ class _homeState extends State<home> {
       ),
       bottomNavigationBar: bottomNavigationBarAgent(),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.red,
+        backgroundColor: kPrimaryColor,
         onPressed: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => addFamily()));
@@ -139,8 +179,8 @@ class _homeState extends State<home> {
   }
 
   Widget FamilyCard({required Family f}) {
-    return Card(
-      clipBehavior: Clip.antiAlias,
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
       child: Container(
         decoration: BoxDecoration(
           color: kGreyColor.withOpacity(0.3),
@@ -150,78 +190,92 @@ class _homeState extends State<home> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(5),
+          padding: const EdgeInsets.fromLTRB(10, 15, 5, 5),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: 70,
+              Image.asset(
+                'assets/family1Icon.png',
+                fit: BoxFit.fill,
                 height: 70,
-                child: Icon(Icons.people),
+                width: 80,
               ),
               SizedBox(
-                width: 25,
+                width: 15,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Famille: ",
-                            style: TextStyle(
-                                color: Colors.blue[900],
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
+              Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Famille: ",
+                          style: TextStyle(
+                              color: Colors.blue[900],
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18),
+                        ),
+                        Text(
+                          f.familyName,
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 15,
+                              color: Colors.blue[900]),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Adresse: ",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                        Text(
+                          f.familyLocation,
+                          maxLines: 2,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
                           ),
-                          Text(
-                            f.familyName,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 160,
+                        ),
+                        RaisedButton(
+                          child: const Text(
+                            'Voir Details',
                             style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18,
-                                color: Colors.blue[900]),
+                                fontStyle: FontStyle.italic,
+                                color: Colors.white),
                           ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Adresse: ",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
-                          ),
-                          Text(
-                            f.familyLocation,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ]),
-              ),
-              ButtonBar(
-                alignment: MainAxisAlignment.end,
-                children: [
-                  FlatButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  detailleFamille(theFamily: f)));
-                    },
-                    child: const Text('Voir Details'),
-                  ),
-                ],
-              ),
+                          color: kPrimaryColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(9.0),
+                              side: BorderSide(color: kPrimaryColor)),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        detailleFamille(theFamily: f)));
+                          },
+                        ),
+                      ],
+                    ),
+                  ]),
             ],
           ),
         ),
