@@ -4,6 +4,7 @@ import 'package:crt_chebba/Screens/authentication/SignUp.dart';
 import 'package:crt_chebba/Screens/authentication/login.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/onHoldScreen.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/splash.dart';
+import 'package:crt_chebba/constants/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -29,6 +30,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(fontFamily: '29LT Bukra', 
+ 
+       ),
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {

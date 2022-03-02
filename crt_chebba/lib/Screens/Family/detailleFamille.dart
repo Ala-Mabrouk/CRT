@@ -1,14 +1,15 @@
 import 'package:crt_chebba/Screens/commun%20Screens/AppBarCrt.dart';
+import 'package:crt_chebba/Screens/commun%20Screens/IconButtonCRT.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAgentCRT.dart';
-import 'package:crt_chebba/Screens/dons/ajouterDon.dart';
 import 'package:crt_chebba/Screens/dons/donation_card.dart';
+import 'package:crt_chebba/constants/constants.dart';
 import 'package:crt_chebba/models/Family.dart';
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 
 //new Widget:familly details : children and donnations ***( problem in btns)
 class detailleFamille extends StatefulWidget {
-  const detailleFamille({Key? key, required this.theFamily}) : super(key: key);
-  final Family theFamily;
+  const detailleFamille({Key? key, }) : super(key: key);
   @override
   _detailleFamilleState createState() => _detailleFamilleState();
 }
@@ -16,17 +17,17 @@ class detailleFamille extends StatefulWidget {
 class _detailleFamilleState extends State<detailleFamille>
     with SingleTickerProviderStateMixin {
   String _thevalue = "parent";
-
+Family theFamily = Family();
   Widget getResult(int info) {
     switch (info) {
       case 0:
-        return InfoParent(f: widget.theFamily);
+        return InfoParent(f: theFamily);
       case 1:
-        return InfoEnfant(f: widget.theFamily);
+        return InfoEnfant(f: theFamily);
       case 2:
-        return FamilyDescription(f: widget.theFamily);
+        return FamilyDescription(f: theFamily);
       default:
-        return InfoParent(f: widget.theFamily);
+        return InfoParent(f: theFamily);
     }
   }
 
@@ -49,7 +50,7 @@ class _detailleFamilleState extends State<detailleFamille>
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppBarCrt(nomFamille: widget.theFamily.familyName),
+              AppBarCrt(nomFamille: theFamily.familyName),
               SizedBox(
                 height: 20,
               ),
@@ -86,19 +87,19 @@ class _detailleFamilleState extends State<detailleFamille>
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Colors.blue,
+                            color: kSecondryColor,
                           )),
                       Text("Enfants",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Colors.blue,
+                            color: kSecondryColor,
                           )),
                       Text("Endroit",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Colors.blue,
+                            color:kSecondryColor,
                           )),
                     ],
                   ),
@@ -115,37 +116,53 @@ class _detailleFamilleState extends State<detailleFamille>
                         ),
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          IconButtonCRT(
-                              myText: "Les Dons",
-                              BackgroundColor: Colors.red,
-                              TextColor: Color(0x00000000),
-                              f: () {},
-                              icon: Icons.hail_sharp),
-                          RaisedButton(
-                            elevation: 5,
-                            onPressed: () async {
-                              Navigator.push(
-                                  context,
-                                  new MaterialPageRoute(
-                                      builder: (context) => new dons(
-                                          familyId:
-                                              widget.theFamily.familyName)));
-                            },
-                            padding: EdgeInsets.all(2),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0),
+                            Expanded(
+
+                              child: IconButtonCRT(
+                                                  BackgroundColor: kPrimaryColor,
+                                                  f: () {},
+                                                  icon: LineIcons.handHoldingHeart,
+                                                  myText: 'Les dons',
+                                                  TextColor: kWhitColor,
+                                                ),
                             ),
-                            color: Colors.green,
-                            child: Text(
-                              "detail dons",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
+                        SizedBox(width: 10,),
+                            Expanded(
+
+                              child: IconButtonCRT(
+                                                  BackgroundColor: kSecondryColor,
+                                                  f: () {},
+                                                  icon: LineIcons.handHoldingHeart,
+                                                  myText: 'Ajouter don',
+                                                  TextColor: kWhitColor,
+                                                ),
                             ),
-                          ),
+                          // Expanded(
+                          //   child: RaisedButton(
+                          //     elevation: 5,
+                          //     onPressed: () async {
+                          //       Navigator.push(
+                          //           context,
+                          //           new MaterialPageRoute(
+                          //               builder: (context) => new dons(
+                          //                   familyId:
+                          //                       theFamily.familyName)));
+                          //     },
+                          //     padding: EdgeInsets.all(2),
+                          //     shape: RoundedRectangleBorder(
+                          //       borderRadius: BorderRadius.circular(20.0),
+                          //     ),
+                          //     color: Colors.green,
+                          //     child: Text(
+                          //       "detail dons",
+                          //       style: TextStyle(
+                          //           color: Colors.white,
+                          //           fontSize: 18,
+                          //           fontWeight: FontWeight.bold),
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       )
                     ],
