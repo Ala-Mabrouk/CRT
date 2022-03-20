@@ -1,12 +1,13 @@
-
 import 'package:crt_chebba/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_caller/phone_caller.dart';
 
 class AppBarCrt extends StatefulWidget {
   final String nomFamille;
+  final String info;
 
-  const AppBarCrt({Key? key , required this.nomFamille}) : super(key: key);
+  const AppBarCrt({Key? key, required this.nomFamille, required this.info})
+      : super(key: key);
 
   @override
   _AppBarCrtState createState() => _AppBarCrtState();
@@ -27,17 +28,17 @@ class _AppBarCrtState extends State<AppBarCrt> {
         Row(
           children: [
             Text(
-              'Les dons :',
-              style: TextStyle(fontWeight: FontWeight.bold, color: kSecondryColor),
+              widget.info + ':',
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: kSecondryColor),
             ),
-             Text(
-         widget.nomFamille,
-          style:
-              TextStyle(fontWeight: FontWeight.normal, color: kSecondryColor),
-        ),
+            Text(
+              widget.nomFamille,
+              style: TextStyle(
+                  fontWeight: FontWeight.normal, color: kSecondryColor),
+            ),
           ],
         ),
-       
         iconAppBarphone(
           color: kGreenColor,
           icon: Icons.phone,
@@ -47,7 +48,6 @@ class _AppBarCrtState extends State<AppBarCrt> {
     );
   }
 }
-
 
 class iconAppBarphone extends StatefulWidget {
   final Color color;

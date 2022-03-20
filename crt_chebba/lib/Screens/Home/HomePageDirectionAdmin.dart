@@ -1,3 +1,4 @@
+import 'package:crt_chebba/Screens/Administration/Settings.dart';
 import 'package:crt_chebba/Screens/Family/ListAllFamilies.dart';
 import 'package:crt_chebba/Screens/Profile/profil.dart';
 import 'package:crt_chebba/Services/authentication_Services/auth.dart';
@@ -6,15 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 
-class bottomNavigationBarAdmin extends StatefulWidget {
-  const bottomNavigationBarAdmin({Key? key}) : super(key: key);
+class HomePageDirectionAdmin extends StatefulWidget {
+  const HomePageDirectionAdmin({Key? key}) : super(key: key);
 
   @override
-  _bottomNavigationBarAdminState createState() =>
-      _bottomNavigationBarAdminState();
+  State<HomePageDirectionAdmin> createState() => _HomePageDirectionAdminState();
 }
 
-class _bottomNavigationBarAdminState extends State<bottomNavigationBarAdmin> {
+int _selectedIndex = 0;
+
+class _HomePageDirectionAdminState extends State<HomePageDirectionAdmin> {
   showAlertDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -89,31 +91,35 @@ class _bottomNavigationBarAdminState extends State<bottomNavigationBarAdmin> {
     );
   }
 
-  Widget moveTo(int index, BuildContext cntx) {
+  Widget getBody(int index, BuildContext cntx) {
     switch (index) {
       case 0:
-        return Profil();
+        return ListAllFamilies();
       case 1:
-        return ListAllFamilies();
+        return Settings();
       case 2:
-        return ListAllFamilies();
+        return Profil();
       case 3:
         showAlertDialog(cntx);
         setState(() {
-          _selectedIndex = 1;
+          _selectedIndex = 0;
         });
-
         return ListAllFamilies();
-        break;
 
       default:
-        return ListAllFamilies();
+        return Settings();
     }
   }
 
-  int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      bottomNavigationBar: bottomNavigationBarAdmin(context),
+      body: getBody(_selectedIndex, context),
+    );
+  }
+
+  Widget bottomNavigationBarAdmin(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -165,7 +171,7 @@ class _bottomNavigationBarAdminState extends State<bottomNavigationBarAdmin> {
               setState(() {
                 _selectedIndex = index;
               });
-              moveTo(index, context);
+              getBody(index, context);
             },
           ),
         ),

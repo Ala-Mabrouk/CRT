@@ -1,3 +1,4 @@
+import 'package:crt_chebba/Screens/commun%20Screens/TextButtonCrt.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAdmin.dart';
 import 'package:crt_chebba/constants/constants.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +92,9 @@ class _SettingsState extends State<Settings> {
                         },
                         child: Text(
                           "Actif",
-                          style: TextStyle(color: c22,),
+                          style: TextStyle(
+                            color: c22,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -111,7 +114,9 @@ class _SettingsState extends State<Settings> {
                         },
                         child: Text(
                           "En attente",
-                          style: TextStyle(color: c33,),
+                          style: TextStyle(
+                            color: c33,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -131,7 +136,9 @@ class _SettingsState extends State<Settings> {
                         },
                         child: Text(
                           "bloqué",
-                          style: TextStyle(color: c44,),
+                          style: TextStyle(
+                            color: c44,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -143,8 +150,7 @@ class _SettingsState extends State<Settings> {
             getCustomContainer(),
           ],
         ),
-              bottomNavigationBar: bottomNavigationBarAdmin(),
-
+        //  bottomNavigationBar: bottomNavigationBarAdmin(),
       ),
     );
   }

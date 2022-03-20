@@ -10,32 +10,27 @@ class HoldOn extends StatefulWidget {
 }
 
 class _HoldOnState extends State<HoldOn> {
-
   @override
   Widget build(BuildContext context) {
-      Size size = MediaQuery. of(context). size;
+    Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         body: Stack(
           children: [
-           
             Positioned(
               bottom: 0,
               child: Container(
-                  decoration: BoxDecoration(
-                                  color: kGreyColor.withOpacity(0.4),
-
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(40),
-                    topRight: Radius.circular(40),
-                  )),
+                decoration: BoxDecoration(
+                    color: kGreyColor.withOpacity(0.4),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40),
+                      topRight: Radius.circular(40),
+                    )),
                 width: size.width,
-                height: size.height*0.7 -50,
+                height: size.height * 0.7 - 50,
                 child: Column(
                   children: [
-                     SizedBox(
-                      height: 150
-                    ),
+                    SizedBox(height: 150),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -61,7 +56,7 @@ class _HoldOnState extends State<HoldOn> {
                     SizedBox(height: 30),
                     Text('veuillez contactez un admin pour '),
                     Text(' confirmer la création de votre compte'),
-                     SizedBox(height: 30),
+                    SizedBox(height: 30),
                     IconButtonCRT(
                       BackgroundColor: kPrimaryColor,
                       f: () {},
@@ -73,14 +68,10 @@ class _HoldOnState extends State<HoldOn> {
                 ),
               ),
             ),
-             Positioned(
-              right: size.width*0.5 -100 ,
-              top: size.height*0.3 -80 ,
-              child: Image(
-                height: 200,
-                image: AssetImage(
-                  
-                  'assets/logo.png')),
+            Positioned(
+              right: size.width * 0.5 - 100,
+              top: size.height * 0.3 - 80,
+              child: Image(height: 200, image: AssetImage('assets/logo.png')),
             ),
           ],
         ),

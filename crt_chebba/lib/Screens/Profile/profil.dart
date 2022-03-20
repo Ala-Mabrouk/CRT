@@ -1,5 +1,6 @@
 import 'package:crt_chebba/Screens/authentication/login.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/AppBarCrt.dart';
+import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAgentCRT.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/loading.dart';
 import 'package:crt_chebba/Services/authentication_Services/auth.dart';
 import 'package:crt_chebba/Services/usersServices/UserServices.dart';
@@ -23,6 +24,7 @@ class _ProfilState extends State<Profil> {
 
   @override
   void initState() {
+    print("profil is displayed");
     super.initState();
     /*    SharedPreferences.getInstance().then((prefValue) => {
           setState(() {
@@ -34,7 +36,7 @@ class _ProfilState extends State<Profil> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    Future logOut() {
+    /*    Future logOut() {
       return showDialog<void>(
         context: context,
         barrierDismissible: false, // user must tap button!
@@ -71,13 +73,14 @@ class _ProfilState extends State<Profil> {
           );
         },
       );
-    }
+    } */
 
     return Scaffold(
+      // bottomNavigationBar: bottomNavigationBarAgent(),
       body: SafeArea(
         child: Column(
           children: [
-            AppBarCrt(nomFamille: "Profile"),
+            AppBarCrt(info: 'Profile', nomFamille: ""),
             Center(
               child: FutureBuilder(
                   future: UserServices().getUserInfo(uID),
