@@ -2,9 +2,9 @@ import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAdmin.dar
 import 'package:crt_chebba/constants/constants.dart';
 import 'package:flutter/material.dart';
 
-import 'commun Screens/AppBarCrtType2.dart';
-import 'commun Screens/RowText.dart';
-import 'dons/ajouterDon.dart';
+import '../commun Screens/AppBarCrtType2.dart';
+import '../commun Screens/RowText.dart';
+import '../dons/ajouterDon.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
