@@ -1,5 +1,6 @@
 import 'package:crt_chebba/Screens/commun%20Screens/AppBarCrt.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/RowText.dart';
+import 'package:crt_chebba/Screens/commun%20Screens/TextButtonCrt.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAgentCRT.dart';
 import 'package:crt_chebba/constants/constants.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,8 @@ class _AjouterLeDonState extends State<AjouterLeDon> {
           child: Column(
             children: [
               AppBarCrt(
-                nomFamille: 'Ajouter Le Don',
+                info: 'Ajouter Le Don',
+                nomFamille: '',
               ),
               Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -94,7 +96,7 @@ class _AjouterLeDonState extends State<AjouterLeDon> {
               flex: 2,
               child: TextButtonCrt(
                 BackgroundColor: kGreyColor,
-                f: () {},
+                f: () => Navigator.of(context).pop(true),
                 myText: 'Annuler',
                 TextColor: kWhitColor,
               ),
@@ -102,61 +104,7 @@ class _AjouterLeDonState extends State<AjouterLeDon> {
           ],
         ),
       ),
-      bottomNavigationBar: bottomNavigationBarAgent(),
+      //    bottomNavigationBar: bottomNavigationBarAgent(),
     );
-  }
-}
-
-class TextButtonCrt extends StatelessWidget {
-  const TextButtonCrt(
-      {Key? key,
-      required this.myText,
-      required this.BackgroundColor,
-      required this.TextColor,
-      required this.f()})
-      : super(key: key);
-  final String myText;
-  final Color BackgroundColor;
-  final Color TextColor;
-  final Function f;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: f(),
-      child: Text(myText, style: TextStyle(color: TextColor)),
-      style: TextButton.styleFrom(
-        backgroundColor: BackgroundColor,
-        primary: kWhitColor,
-      ),
-    );
-  }
-}
-
-class IconButtonCRT extends StatelessWidget {
-  const IconButtonCRT(
-      {Key? key,
-      required this.myText,
-      required this.BackgroundColor,
-      required this.TextColor,
-      required this.f,
-      required this.icon})
-      : super(key: key);
-  final String myText;
-  final Color BackgroundColor;
-  final Color TextColor;
-  final Function f;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton.icon(
-        style: TextButton.styleFrom(
-          backgroundColor: BackgroundColor,
-          primary: TextColor,
-        ),
-        label: Text(myText),
-        icon: Icon(icon),
-        onPressed: f());
   }
 }

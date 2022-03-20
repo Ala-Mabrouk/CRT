@@ -38,8 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   phone_caller: ^0.0.1
   google_nav_bar: ^5.0.5
-  line_icons: ^2.0.1 
-
+  line_icons: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -71,10 +70,10 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: 29LT Bukra 
+    - family: 29LT Bukra
       fonts:
-        - asset: assets/fonts/29LT.ttf
-        - asset: assets/fonts/29LT-Bold.otf
+        - asset: assets/fonts/Muli.ttf
+        - asset: assets/fonts/Muli-Bold.ttf
         #   weight: 700
   #   - family: Trajan Pro
   #     fonts:

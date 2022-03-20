@@ -1,10 +1,12 @@
 import 'package:crt_chebba/Screens/commun%20Screens/AppBarCrt.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAgentCRT.dart';
-import 'package:crt_chebba/Screens/commun%20Screens/donDetaille.dart';
 import 'package:crt_chebba/Screens/dons/ajouterDon.dart';
+
 import 'package:crt_chebba/Services/donationServices/donationsServices.dart';
 import 'package:crt_chebba/models/Donation.dart';
 import 'package:flutter/material.dart';
+
+import 'donDetaille.dart';
 
 //new widget:list of donnation of a specific family ***done !
 class dons extends StatefulWidget {
@@ -19,11 +21,11 @@ class _donsState extends State<dons> {
   Widget build(BuildContext context) {
     List<Donation?> donations;
     return Scaffold(
-      bottomNavigationBar: bottomNavigationBarAgent(),
+      //  bottomNavigationBar: bottomNavigationBarAgent(),
       body: SafeArea(
         child: Column(
           children: [
-            AppBarCrt(nomFamille: widget.familyId),
+            AppBarCrt(info: 'Les dons de', nomFamille: widget.familyId),
             Expanded(
               child: StreamBuilder(
                 stream: DonationService()

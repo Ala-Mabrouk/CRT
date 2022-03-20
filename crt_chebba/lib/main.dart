@@ -1,10 +1,8 @@
-import 'package:crt_chebba/Screens/Home/Hi.dart';
-import 'package:crt_chebba/Screens/Home/home.dart';
+import 'package:crt_chebba/Screens/Family/ListAllFamilies.dart';
 import 'package:crt_chebba/Screens/authentication/SignUp.dart';
 import 'package:crt_chebba/Screens/authentication/login.dart';
-import 'package:crt_chebba/Screens/commun%20Screens/onHoldScreen.dart';
+import 'package:crt_chebba/Screens/authentication/onHoldScreen.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/splash.dart';
-import 'package:crt_chebba/constants/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -30,9 +28,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(fontFamily: '29LT Bukra', 
- 
-       ),
+      theme: ThemeData(
+        fontFamily: '29LT Bukra',
+      ),
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
@@ -40,9 +38,8 @@ class _MyAppState extends State<MyApp> {
         '/login': (context) => login(),
         '/signUp': (context) => SignUp(),
         //'/addDonations': (context) => AjouterDon(),
-        '/Home': (context) => home(),
+        '/ListAllFamilies': (context) => ListAllFamilies(),
         //  '/detailFamily': (context) => detailleFamille(),
-        '/hi': (context) => Hi(),
         '/HoldOn': (context) => HoldOn(),
       },
     );

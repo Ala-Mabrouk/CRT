@@ -1,20 +1,23 @@
 import 'package:crt_chebba/Screens/Family/ListAllFamilies.dart';
+import 'package:crt_chebba/Screens/Family/ListAllFamilies.dart';
 import 'package:crt_chebba/Screens/Profile/profil.dart';
+import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAgentCRT.dart';
 import 'package:crt_chebba/Services/authentication_Services/auth.dart';
 import 'package:crt_chebba/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 
-class bottomNavigationBarAdmin extends StatefulWidget {
-  const bottomNavigationBarAdmin({Key? key}) : super(key: key);
+class HomePageDirection extends StatefulWidget {
+  const HomePageDirection({Key? key}) : super(key: key);
 
   @override
-  _bottomNavigationBarAdminState createState() =>
-      _bottomNavigationBarAdminState();
+  State<HomePageDirection> createState() => _HomePageDirectionState();
 }
 
-class _bottomNavigationBarAdminState extends State<bottomNavigationBarAdmin> {
+int selectedIndex = 1;
+
+class _HomePageDirectionState extends State<HomePageDirection> {
   showAlertDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -89,31 +92,34 @@ class _bottomNavigationBarAdminState extends State<bottomNavigationBarAdmin> {
     );
   }
 
-  Widget moveTo(int index, BuildContext cntx) {
+  Widget getBody(int index, BuildContext cntx) {
     switch (index) {
       case 0:
-        return Profil();
+        return new Profil();
       case 1:
         return ListAllFamilies();
+
       case 2:
-        return ListAllFamilies();
-      case 3:
         showAlertDialog(cntx);
         setState(() {
-          _selectedIndex = 1;
+          selectedIndex = 1;
         });
-
         return ListAllFamilies();
-        break;
 
       default:
         return ListAllFamilies();
     }
   }
 
-  int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      bottomNavigationBar: bottomNavigationBarAgent(context),
+      body: getBody(selectedIndex, context),
+    );
+  }
+
+  Widget bottomNavigationBarAgent(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -126,7 +132,7 @@ class _bottomNavigationBarAdminState extends State<bottomNavigationBarAdmin> {
       ),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           child: GNav(
             rippleColor: Colors.grey[300]!,
             hoverColor: Colors.grey[100]!,
@@ -139,14 +145,6 @@ class _bottomNavigationBarAdminState extends State<bottomNavigationBarAdmin> {
             color: Colors.black,
             tabs: [
               GButton(
-                icon: LineIcons.home,
-                text: 'Acceuil',
-              ),
-              GButton(
-                icon: LineIcons.cog,
-                text: 'Paramètres',
-              ),
-              GButton(
                 icon: LineIcons.user,
                 leading: CircleAvatar(
                   radius: 12,
@@ -156,16 +154,20 @@ class _bottomNavigationBarAdminState extends State<bottomNavigationBarAdmin> {
                 text: 'Profile',
               ),
               GButton(
+                icon: LineIcons.home,
+                text: 'Acceuil',
+              ),
+              GButton(
                 icon: LineIcons.alternateSignOut,
                 text: 'Se deconnecter',
               ),
             ],
-            selectedIndex: _selectedIndex,
+            selectedIndex: selectedIndex,
             onTabChange: (index) {
               setState(() {
-                _selectedIndex = index;
+                selectedIndex = index;
+                getBody(index, context);
               });
-              moveTo(index, context);
             },
           ),
         ),

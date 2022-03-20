@@ -1,7 +1,8 @@
 import 'package:crt_chebba/Screens/commun%20Screens/AppBarCrt.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/IconButtonCRT.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAgentCRT.dart';
-import 'package:crt_chebba/Screens/dons/donation_card.dart';
+import 'package:crt_chebba/Screens/dons/ajouterDon.dart';
+import 'package:crt_chebba/Screens/dons/donationsList.dart';
 import 'package:crt_chebba/constants/constants.dart';
 import 'package:crt_chebba/models/Family.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,9 @@ import 'package:line_icons/line_icons.dart';
 
 //new Widget:familly details : children and donnations ***( problem in btns)
 class detailleFamille extends StatefulWidget {
-  const detailleFamille({Key? key, }) : super(key: key);
+  const detailleFamille({
+    Key? key,
+  }) : super(key: key);
   @override
   _detailleFamilleState createState() => _detailleFamilleState();
 }
@@ -17,7 +20,7 @@ class detailleFamille extends StatefulWidget {
 class _detailleFamilleState extends State<detailleFamille>
     with SingleTickerProviderStateMixin {
   String _thevalue = "parent";
-Family theFamily = Family();
+  Family theFamily = Family();
   Widget getResult(int info) {
     switch (info) {
       case 0:
@@ -50,7 +53,10 @@ Family theFamily = Family();
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppBarCrt(nomFamille: theFamily.familyName),
+              AppBarCrt(
+                nomFamille: theFamily.familyName + 'name',
+                info: 'La Famille de',
+              ),
               SizedBox(
                 height: 20,
               ),
@@ -99,7 +105,7 @@ Family theFamily = Family();
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color:kSecondryColor,
+                            color: kSecondryColor,
                           )),
                     ],
                   ),
@@ -117,52 +123,36 @@ Family theFamily = Family();
                       ),
                       Row(
                         children: [
-                            Expanded(
-
-                              child: IconButtonCRT(
-                                                  BackgroundColor: kPrimaryColor,
-                                                  f: () {},
-                                                  icon: LineIcons.handHoldingHeart,
-                                                  myText: 'Les dons',
-                                                  TextColor: kWhitColor,
-                                                ),
+                          Expanded(
+                            child: IconButtonCRT(
+                              BackgroundColor: kPrimaryColor,
+                              f: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => dons(
+                                          familyId: theFamily.familyName))),
+                              icon: LineIcons.handHoldingHeart,
+                              myText: 'Les dons',
+                              TextColor: kWhitColor,
                             ),
-                        SizedBox(width: 10,),
-                            Expanded(
-
-                              child: IconButtonCRT(
-                                                  BackgroundColor: kSecondryColor,
-                                                  f: () {},
-                                                  icon: LineIcons.handHoldingHeart,
-                                                  myText: 'Ajouter don',
-                                                  TextColor: kWhitColor,
-                                                ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: IconButtonCRT(
+                              BackgroundColor: kSecondryColor,
+                              f: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AjouterLeDon(
+                                            idfamily: theFamily.familyID,
+                                          ))),
+                              icon: LineIcons.handHoldingHeart,
+                              myText: 'Ajouter don',
+                              TextColor: kWhitColor,
                             ),
-                          // Expanded(
-                          //   child: RaisedButton(
-                          //     elevation: 5,
-                          //     onPressed: () async {
-                          //       Navigator.push(
-                          //           context,
-                          //           new MaterialPageRoute(
-                          //               builder: (context) => new dons(
-                          //                   familyId:
-                          //                       theFamily.familyName)));
-                          //     },
-                          //     padding: EdgeInsets.all(2),
-                          //     shape: RoundedRectangleBorder(
-                          //       borderRadius: BorderRadius.circular(20.0),
-                          //     ),
-                          //     color: Colors.green,
-                          //     child: Text(
-                          //       "detail dons",
-                          //       style: TextStyle(
-                          //           color: Colors.white,
-                          //           fontSize: 18,
-                          //           fontWeight: FontWeight.bold),
-                          //     ),
-                          //   ),
-                          // ),
+                          ),
                         ],
                       )
                     ],
@@ -173,7 +163,7 @@ Family theFamily = Family();
           ),
         ),
       ),
-      bottomNavigationBar: bottomNavigationBarAgent(),
+      //  bottomNavigationBar: bottomNavigationBarAgent(),
     );
   }
 }

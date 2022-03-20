@@ -1,6 +1,9 @@
+import 'package:crt_chebba/Screens/Administration/Settings.dart';
 import 'package:crt_chebba/Screens/Administration/usersList.dart';
-import 'package:crt_chebba/Screens/Home/home.dart';
-import 'package:crt_chebba/Screens/commun%20Screens/onHoldScreen.dart';
+import 'package:crt_chebba/Screens/Home/HomePageDirection.dart';
+import 'package:crt_chebba/Screens/Home/HomePageDirectionAdmin.dart';
+import 'package:crt_chebba/Screens/Family/ListAllFamilies.dart';
+import 'package:crt_chebba/Screens/authentication/onHoldScreen.dart';
 import 'package:crt_chebba/Services/authentication_Services/auth.dart';
 import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:email_validator/email_validator.dart';
@@ -118,27 +121,20 @@ class _loginState extends State<login> {
         child: RaisedButton(
           elevation: 5,
           onPressed: () async {
-            // final formstatus = _SignInFomKey.currentState;
-            // if (formstatus!.validate()) {
-            //   ScaffoldMessenger.of(context)
-            //       .showSnackBar(SnackBar(content: Text('email invalid !!!')));
-            // }
-            // print('smt');
-
-/*             print(email);
-            print(pass); */
             AgentCrt? res =
                 await AuthenticationService().signInEmailPassword(email, pass);
             if (res != null) {
               if (res.isConfirmed && res.isAdmin) {
                 Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => const AgentsList()),
+                    MaterialPageRoute(
+                        builder: (context) => new HomePageDirectionAdmin()),
                     (route) => false);
               } else if (res.isConfirmed) {
                 Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => home()),
+                    MaterialPageRoute(
+                        builder: (context) => new HomePageDirection()),
                     (route) => false);
               } else {
                 Navigator.push(context,
@@ -185,7 +181,7 @@ class _loginState extends State<login> {
             child: Column(
               children: <Widget>[
                 Container(
-                  width: size.width ,
+                  width: size.width,
                   child: Image.asset('assets/header.png'),
 
                   // decoration: BoxDecoration(

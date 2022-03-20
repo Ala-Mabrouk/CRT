@@ -1,4 +1,4 @@
-import 'package:crt_chebba/Screens/Home/home.dart';
+import 'package:crt_chebba/Screens/Family/ListAllFamilies.dart';
 import 'package:crt_chebba/Services/familyServices/familyServices.dart';
 import 'package:crt_chebba/models/Family.dart';
 import 'package:flutter/material.dart';
@@ -236,7 +236,7 @@ class _addFamilyState extends State<addFamily> {
                         Navigator.pushReplacement(
                             context,
                             new MaterialPageRoute(
-                                builder: (context) => new home()));
+                                builder: (context) => new ListAllFamilies()));
                       }
                     },
                     padding: EdgeInsets.all(2),
@@ -258,7 +258,7 @@ class _addFamilyState extends State<addFamily> {
                       Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) => new home()));
+                              builder: (context) => new ListAllFamilies()));
                     },
                     padding: EdgeInsets.all(2),
                     shape: RoundedRectangleBorder(

@@ -6,13 +6,13 @@ class IconButtonCRT extends StatelessWidget {
       required this.myText,
       required this.BackgroundColor,
       required this.TextColor,
-      required this.f(),
+      required this.f,
       required this.icon})
       : super(key: key);
   final String myText;
   final Color BackgroundColor;
   final Color TextColor;
-  final Function f;
+  final VoidCallback f;
   final IconData icon;
 
   @override
@@ -22,8 +22,8 @@ class IconButtonCRT extends StatelessWidget {
           backgroundColor: BackgroundColor,
           primary: TextColor,
         ),
-        label: Text(myText , style: TextStyle( color: TextColor),),
-        icon: Icon(icon , color : TextColor),
-        onPressed: f());
+        label: Text(myText),
+        icon: Icon(icon),
+        onPressed: f);
   }
 }

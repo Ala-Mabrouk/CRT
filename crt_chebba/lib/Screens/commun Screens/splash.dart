@@ -1,7 +1,10 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:crt_chebba/Screens/Administration/Settings.dart';
 import 'package:crt_chebba/Screens/Administration/usersList.dart';
-import 'package:crt_chebba/Screens/Home/home.dart';
-import 'package:crt_chebba/Screens/commun%20Screens/onHoldScreen.dart';
+import 'package:crt_chebba/Screens/Home/HomePageDirection.dart';
+import 'package:crt_chebba/Screens/Home/HomePageDirectionAdmin.dart';
+import 'package:crt_chebba/Screens/Family/ListAllFamilies.dart';
+import 'package:crt_chebba/Screens/authentication/onHoldScreen.dart';
 import 'package:crt_chebba/Services/authentication_Services/auth.dart';
 import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +19,9 @@ class splashScreen extends StatelessWidget {
       //connected
       if (ag.isConfirmed) {
         if (!ag.isAdmin) {
-          return new home();
+          return new HomePageDirection();
         } else {
-          return new AgentsList();
+          return new HomePageDirectionAdmin();
         }
       }
       return new HoldOn();
