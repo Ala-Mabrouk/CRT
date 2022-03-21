@@ -3,9 +3,11 @@ import 'package:crt_chebba/Screens/authentication/SignUp.dart';
 import 'package:crt_chebba/Screens/authentication/login.dart';
 import 'package:crt_chebba/Screens/authentication/onHoldScreen.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/splash.dart';
+import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 bool _isLoged = false;
 bool _isAdmin = false;
@@ -16,7 +18,7 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  initializeDateFormatting('fr_FR', null).then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -40,7 +42,9 @@ class _MyAppState extends State<MyApp> {
         //'/addDonations': (context) => AjouterDon(),
         '/ListAllFamilies': (context) => ListAllFamilies(),
         //  '/detailFamily': (context) => detailleFamille(),
-        '/HoldOn': (context) => HoldOn(),
+        '/HoldOn': (context) => HoldOn(
+              agentCrt: AgentCrt.empty(),
+            ),
       },
     );
   }

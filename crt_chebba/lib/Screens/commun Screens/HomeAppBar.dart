@@ -1,5 +1,8 @@
+import 'package:crt_chebba/Services/authentication_Services/auth.dart';
 import 'package:crt_chebba/constants/constants.dart';
+import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeAppBar extends StatelessWidget {
   const HomeAppBar({Key? key}) : super(key: key);
@@ -18,9 +21,17 @@ class HomeAppBar extends StatelessWidget {
             Text('Salut : ',
                 style:
                     TextStyle(fontWeight: FontWeight.bold, color: kBlackColor)),
-            Text('widget.nomFamille' + ' !',
-                style: TextStyle(
-                    fontWeight: FontWeight.normal, color: kBlackColor)),
+            FutureBuilder(
+                future: AuthenticationService().autoAthenticate(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    AgentCrt ag = snapshot.data as AgentCrt;
+                    return Text(ag.name + ' ' + ag.lastName,
+                        style: TextStyle(
+                            fontWeight: FontWeight.normal, color: kBlackColor));
+                  }
+                  return Text("");
+                }),
             Row(
               children: [
                 SizedBox(

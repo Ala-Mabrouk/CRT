@@ -1,11 +1,12 @@
 import 'package:crt_chebba/Screens/commun%20Screens/TextButtonCrt.dart';
-import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAdmin.dart';
+import 'package:crt_chebba/Screens/commun%20Screens/loading.dart';
+import 'package:crt_chebba/Services/administrationServices/agentsManagment.dart';
 import 'package:crt_chebba/constants/constants.dart';
+import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:flutter/material.dart';
-
+import 'package:phone_caller/phone_caller.dart';
 import '../commun Screens/AppBarCrtType2.dart';
 import '../commun Screens/RowText.dart';
-import '../dons/ajouterDon.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -15,9 +16,11 @@ class Settings extends StatefulWidget {
 }
 
 enum WidgetMarker { all, active, holon, blocked }
+List<AgentCrt> allAgents = List.empty(growable: true);
+List<AgentCrt> displayedAgents = List.empty(growable: true);
+WidgetMarker selectedWidgetMarker = WidgetMarker.all;
 
 class _SettingsState extends State<Settings> {
-  WidgetMarker selectedWidgetMarker = WidgetMarker.all;
   Color c1 = kSecondryColor;
   Color c11 = kWhitColor;
   Color c2 = kWhitColor;
@@ -31,7 +34,6 @@ class _SettingsState extends State<Settings> {
     switch (selectedWidgetMarker) {
       case WidgetMarker.all:
         return getAll();
-
       case WidgetMarker.active:
         return getActive();
       case WidgetMarker.holon:
@@ -43,131 +45,131 @@ class _SettingsState extends State<Settings> {
     }
   }
 
+  /*  Future<List<AgentCrt>> gettingAllAgents() async {
+    var listAgents = await AgentManagement().fetchAgentsAsStream();
+    return listAgents;
+  } */
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          children: [
-            AppBarCrtType2(
-              champ1: ' Les membres CRT Chebba',
-              champ2: '',
-            ),
-            Container(
-              child: Center(
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: c1,
-                          primary: c11,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            selectedWidgetMarker = WidgetMarker.all;
-                            c1 = c22 = c33 = c44 = kSecondryColor;
-                            c11 = c2 = c3 = c4 = kWhitColor;
-                          });
-                        },
-                        child: Text(
-                          "Tous",
-                          style: TextStyle(color: c11),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: c2,
-                          primary: c22,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            selectedWidgetMarker = WidgetMarker.active;
-                            c11 = c2 = c33 = c44 = kSecondryColor;
-                            c1 = c22 = c3 = c4 = kWhitColor;
-                          });
-                        },
-                        child: Text(
-                          "Actif",
-                          style: TextStyle(
-                            color: c22,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: c3,
-                          primary: c33,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            selectedWidgetMarker = WidgetMarker.holon;
-                            c11 = c22 = c3 = c44 = kSecondryColor;
-                            c1 = c2 = c33 = c4 = kWhitColor;
-                          });
-                        },
-                        child: Text(
-                          "En attente",
-                          style: TextStyle(
-                            color: c33,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: c4,
-                          primary: c44,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            selectedWidgetMarker = WidgetMarker.blocked;
-                            c11 = c22 = c33 = c4 = kSecondryColor;
-                            c1 = c2 = c3 = c44 = kWhitColor;
-                          });
-                        },
-                        child: Text(
-                          "bloqué",
-                          style: TextStyle(
-                            color: c44,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                    ]),
-              ),
-            ),
-            getCustomContainer(),
-          ],
-        ),
+        body: StreamBuilder(
+            stream: AgentManagement().fetchAgentsAsStream(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                allAgents = snapshot.data as List<AgentCrt>;
+                return Column(
+                  children: [
+                    AppBarCrtType2(
+                      champ1: ' Les membres CRT Chebba',
+                      champ2: '',
+                    ),
+                    Center(
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: c1,
+                                primary: c11,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  selectedWidgetMarker = WidgetMarker.all;
+                                  c1 = c22 = c33 = c44 = kSecondryColor;
+                                  c11 = c2 = c3 = c4 = kWhitColor;
+                                });
+                              },
+                              child: Text(
+                                "Tous",
+                                style: TextStyle(color: c11),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: c2,
+                                primary: c22,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  selectedWidgetMarker = WidgetMarker.active;
+                                  c11 = c2 = c33 = c44 = kSecondryColor;
+                                  c1 = c22 = c3 = c4 = kWhitColor;
+                                });
+                              },
+                              child: Text(
+                                "Actif",
+                                style: TextStyle(
+                                  color: c22,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: c3,
+                                primary: c33,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  selectedWidgetMarker = WidgetMarker.holon;
+                                  c11 = c22 = c3 = c44 = kSecondryColor;
+                                  c1 = c2 = c33 = c4 = kWhitColor;
+                                });
+                              },
+                              child: Text(
+                                "En attente",
+                                style: TextStyle(
+                                  color: c33,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: c4,
+                                primary: c44,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  selectedWidgetMarker = WidgetMarker.blocked;
+                                  c11 = c22 = c33 = c4 = kSecondryColor;
+                                  c1 = c2 = c3 = c44 = kWhitColor;
+                                });
+                              },
+                              child: Text(
+                                "bloqué",
+                                style: TextStyle(
+                                  color: c44,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                          ]),
+                    ),
+                    getCustomContainer(),
+                  ],
+                );
+              }
+              return Loding();
+            }),
         //  bottomNavigationBar: bottomNavigationBarAdmin(),
       ),
-    );
-  }
-}
-
-class getByDateMovie extends StatefulWidget {
-  const getByDateMovie({Key? key}) : super(key: key);
-
-  @override
-  _getByDateMovieState createState() => _getByDateMovieState();
-}
-
-class _getByDateMovieState extends State<getByDateMovie> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Text('data'),
     );
   }
 }
@@ -182,26 +184,25 @@ class getAll extends StatefulWidget {
 class _getAllState extends State<getAll> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          CardAgent(
-            nameFc: 'Accepter',
-            color: kGreenColor,
-            Backgroundcolor: kLightYellowColor,
-          ),
-          CardAgent(
-            nameFc: 'Bloquer',
-            color: kPrimaryColor,
-            Backgroundcolor: kLightBlueColor,
-          ),
-          CardAgent(
-            nameFc: 'Debloquer',
-            color: kPurpleColor,
-            Backgroundcolor: kLightPurpleColor,
-          ),
-        ],
-      ),
+    return Expanded(
+      child: ListView.builder(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemCount: allAgents.length,
+          itemBuilder: (BuildContext context, int index) {
+            String tempEtat = "";
+            switch (allAgents[index].isConfirmed) {
+              case true:
+                tempEtat = 'Actif';
+                break;
+              case false:
+                tempEtat = 'notConfirmed';
+                break;
+              default:
+            }
+
+            return CardAgent(etat: tempEtat, ag: allAgents[index]);
+          }),
     );
   }
 }
@@ -216,26 +217,18 @@ class getActive extends StatefulWidget {
 class _getActiveState extends State<getActive> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          CardAgent(
-            nameFc: 'Bloquer',
-            color: kPrimaryColor,
-            Backgroundcolor: kLightBlueColor,
-          ),
-          CardAgent(
-            nameFc: 'Bloquer',
-            color: kPrimaryColor,
-            Backgroundcolor: kLightBlueColor,
-          ),
-          CardAgent(
-            nameFc: 'Bloquer',
-            color: kPrimaryColor,
-            Backgroundcolor: kLightBlueColor,
-          ),
-        ],
-      ),
+    //filter the list
+    List<AgentCrt> activeAg =
+        allAgents.where((ag) => ag.isConfirmed == true).toList();
+
+    return Expanded(
+      child: ListView.builder(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemCount: activeAg.length,
+          itemBuilder: (BuildContext context, int index) {
+            return CardAgent(etat: 'Actif', ag: activeAg[index]);
+          }),
     );
   }
 }
@@ -248,28 +241,18 @@ class getholdon extends StatefulWidget {
 }
 
 class _getholdonState extends State<getholdon> {
+  List<AgentCrt> holdonAg =
+      allAgents.where((ag) => ag.isConfirmed == false).toList();
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          CardAgent(
-            nameFc: 'Accepter',
-            color: kGreenColor,
-            Backgroundcolor: kLightYellowColor,
-          ),
-          CardAgent(
-            nameFc: 'Accepter',
-            color: kGreenColor,
-            Backgroundcolor: kLightYellowColor,
-          ),
-          CardAgent(
-            nameFc: 'Accepter',
-            color: kGreenColor,
-            Backgroundcolor: kLightYellowColor,
-          ),
-        ],
-      ),
+    return Expanded(
+      child: ListView.builder(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemCount: holdonAg.length,
+          itemBuilder: (BuildContext context, int index) {
+            return CardAgent(etat: 'notConfirmed', ag: holdonAg[index]);
+          }),
     );
   }
 }
@@ -284,40 +267,26 @@ class getBlocked extends StatefulWidget {
 class _getBlockedState extends State<getBlocked> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          CardAgent(
-            nameFc: 'Debloquer',
-            color: kPurpleColor,
-            Backgroundcolor: kLightPurpleColor,
-          ),
-          CardAgent(
-            nameFc: 'Debloquer',
-            color: kPurpleColor,
-            Backgroundcolor: kLightPurpleColor,
-          ),
-          CardAgent(
-            nameFc: 'Debloquer',
-            color: kPurpleColor,
-            Backgroundcolor: kLightPurpleColor,
-          ),
-        ],
-      ),
+    List<AgentCrt> blockedAg =
+        allAgents.where((ag) => ag.isConfirmed == false).toList();
+    return Expanded(
+      child: ListView.builder(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemCount: blockedAg.length,
+          itemBuilder: (BuildContext context, int index) {
+            return CardAgent(etat: 'bloquer', ag: blockedAg[index]);
+          }),
     );
   }
 }
 
 class CardAgent extends StatefulWidget {
-  final String nameFc;
-  final Color color;
-  final Color Backgroundcolor;
+  final String etat;
 
-  const CardAgent(
-      {Key? key,
-      required this.nameFc,
-      required this.color,
-      required this.Backgroundcolor})
+  final AgentCrt ag;
+
+  const CardAgent({Key? key, required this.etat, required this.ag})
       : super(key: key);
 
   @override
@@ -325,8 +294,37 @@ class CardAgent extends StatefulWidget {
 }
 
 class _CardAgentState extends State<CardAgent> {
+  Color bgColor = kGreyColor;
+  Color bgBtnColor = kGreyColor;
+  String textFunction = "kGreyColor";
+
   @override
   Widget build(BuildContext context) {
+    switch (widget.etat) {
+      case "bloquer":
+        {
+          bgColor = kLightPurpleColor;
+          bgBtnColor = kPurpleColor;
+          textFunction = "Debloquer";
+          break;
+        }
+      case "notConfirmed":
+        {
+          bgColor = kLightYellowColor;
+          bgBtnColor = kGreenColor;
+          textFunction = "Accepter";
+          break;
+        }
+      case "Actif":
+        {
+          bgColor = kLightBlueColor;
+          bgBtnColor = kPrimaryColor;
+          textFunction = "Bloquer";
+          break;
+        }
+
+      default:
+    }
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: Column(
@@ -336,7 +334,7 @@ class _CardAgentState extends State<CardAgent> {
           ),
           Container(
             decoration: BoxDecoration(
-              color: widget.Backgroundcolor,
+              color: bgColor,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 color: kLightGreyColor,
@@ -346,8 +344,10 @@ class _CardAgentState extends State<CardAgent> {
               padding: const EdgeInsets.fromLTRB(15, 5, 15, 2),
               child:
                   Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-                RowText(champ1: 'Ben Ali sabeur ', champ2: ' '),
-                RowText(champ1: 'Telephone : ', champ2: '58 92 76 76'),
+                RowText(
+                    champ1: widget.ag.name + ' ' + widget.ag.lastName,
+                    champ2: ' '),
+                RowText(champ1: 'Telephone : ', champ2: widget.ag.phone),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -356,7 +356,9 @@ class _CardAgentState extends State<CardAgent> {
                       flex: 2,
                       child: TextButtonCrt(
                         BackgroundColor: kSecondryColor,
-                        f: () {},
+                        f: () async {
+                          await PhoneCaller.callNumber(widget.ag.phone);
+                        },
                         myText: 'Appeler',
                         TextColor: kWhitColor,
                       ),
@@ -367,9 +369,30 @@ class _CardAgentState extends State<CardAgent> {
                     Expanded(
                       flex: 2,
                       child: TextButtonCrt(
-                        BackgroundColor: widget.color,
-                        f: () {},
-                        myText: widget.nameFc,
+                        BackgroundColor: bgBtnColor,
+                        f: () {
+                          switch (widget.etat) {
+                            case "notConfirmed":
+                              {
+                                print("going to activate");
+                                AgentManagement()
+                                    .activateAgent(widget.ag.agentId);
+                                break;
+                              }
+                            case "Actif":
+                              {
+                                print("going to block");
+                                AgentManagement().blockAgent(widget.ag.agentId);
+                                break;
+                              }
+
+                            default:
+                          }
+                          setState(() {
+                            //selectedWidgetMarker = WidgetMarker.all;
+                          });
+                        },
+                        myText: textFunction,
                         TextColor: kWhitColor,
                       ),
                     ),

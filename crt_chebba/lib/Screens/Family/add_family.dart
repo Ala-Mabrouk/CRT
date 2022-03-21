@@ -208,10 +208,12 @@ class _addFamilyState extends State<addFamily> {
                       ),
                       keyboardType: TextInputType.number,
                       onChanged: (val) {
-                        myNewFamily.nbChildren = val;
+                        myNewFamily.nbChildren = int.parse(val);
                       },
                     ),
-SizedBox(height: 9,),
+                    SizedBox(
+                      height: 9,
+                    ),
                     TextField(
                       minLines: 2,
                       maxLines: 8,

@@ -19,7 +19,7 @@ class Family {
   DateTime motherBirthDate = DateTime(2021);
   String motherJob = '';
 
-  String nbChildren = '';
+  int nbChildren = 0;
   String childrenInfo = '';
 
   String familyLocation = '';
@@ -42,7 +42,7 @@ class Family {
         DateTime.parse(map['fatherBirthDate'].toDate().toString());
     //   new DateTime.fromMicrosecondsSinceEpoch( as Timestamp * 1000);
 
-    FatherJob = map['FatherJob'] ?? '';
+    FatherJob = map['fatherJob'] ?? '';
 
     motherFirstName = map['motherFirstName'] ?? '';
     motherLastName = map['motherLastName'] ?? '';
@@ -53,7 +53,7 @@ class Family {
     //  new DateTime.fromMicrosecondsSinceEpoch(map['motherBirthDate'] * 1000);
     motherJob = map['motherJob'] ?? '';
 
-    nbChildren = map['nbChildren'] ?? '';
+    nbChildren = map['nbChildren'] ?? -1;
     childrenInfo = map['childrenInfo'] ?? '';
 
     familyLocation = map['familyLocation'] ?? '';

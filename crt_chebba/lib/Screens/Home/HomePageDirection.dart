@@ -1,6 +1,7 @@
 import 'package:crt_chebba/Screens/Family/ListAllFamilies.dart';
 import 'package:crt_chebba/Screens/Family/ListAllFamilies.dart';
 import 'package:crt_chebba/Screens/Profile/profil.dart';
+import 'package:crt_chebba/Screens/authentication/login.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAgentCRT.dart';
 import 'package:crt_chebba/Services/authentication_Services/auth.dart';
 import 'package:crt_chebba/constants/constants.dart';
@@ -19,74 +20,40 @@ int selectedIndex = 1;
 
 class _HomePageDirectionState extends State<HomePageDirection> {
   showAlertDialog(BuildContext context) {
-    showDialog(
+    return showDialog<void>(
       context: context,
+      barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-          child: Container(
-            height: 250,
-            child: Column(
-              children: [
-                Expanded(
-                  child: Container(
-                    color: Colors.white70,
-                    child: const Icon(
-                      Icons.account_balance_wallet,
-                      size: 60,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    child: SizedBox.expand(
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "vous venez de se deconnecter !! ",
-                              style: const TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  RaisedButton(
-                                    color: Colors.white,
-                                    child: const Text('Annuler'),
-                                    onPressed: () =>
-                                        {Navigator.of(context).pop()},
-                                  ),
-                                  RaisedButton(
-                                      color: Colors.blue,
-                                      child: const Text('Continuer'),
-                                      onPressed: () {
-                                        AuthenticationService().logout();
-                                        Navigator.pushNamed(context, '/login');
-                                      }),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                )
+        return AlertDialog(
+          title: const Center(child: Text('Deconnexion')),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Vous êtes sur le point de vous déconnecter ?'),
               ],
             ),
           ),
+          actions: <Widget>[
+            TextButton(
+                child: const Text('Annuler'),
+                onPressed: () {
+                  print('alert dissmiss');
+                  Navigator.pop(context);
+                }),
+            TextButton(
+              child: const Text('Déconnecter'),
+              onPressed: () async {
+                print('you are loged out !!!');
+                await AuthenticationService().logout();
+
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => new login()),
+                    (route) => false);
+                //(context,MaterialPageRoute(builder: (context) => const signIn()));
+              },
+            )
+          ],
         );
       },
     );

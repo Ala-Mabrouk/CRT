@@ -7,11 +7,15 @@ import 'package:crt_chebba/constants/constants.dart';
 import 'package:crt_chebba/models/Family.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:intl/intl.dart';
 
 //new Widget:familly details : children and donnations ***( problem in btns)
 class detailleFamille extends StatefulWidget {
+  final Family selectedFamily;
+
   const detailleFamille({
     Key? key,
+    required this.selectedFamily,
   }) : super(key: key);
   @override
   _detailleFamilleState createState() => _detailleFamilleState();
@@ -20,17 +24,17 @@ class detailleFamille extends StatefulWidget {
 class _detailleFamilleState extends State<detailleFamille>
     with SingleTickerProviderStateMixin {
   String _thevalue = "parent";
-  Family theFamily = Family();
+
   Widget getResult(int info) {
     switch (info) {
       case 0:
-        return InfoParent(f: theFamily);
+        return InfoParent(f: widget.selectedFamily);
       case 1:
-        return InfoEnfant(f: theFamily);
+        return InfoEnfant(f: widget.selectedFamily);
       case 2:
-        return FamilyDescription(f: theFamily);
+        return FamilyDescription(f: widget.selectedFamily);
       default:
-        return InfoParent(f: theFamily);
+        return InfoParent(f: widget.selectedFamily);
     }
   }
 
@@ -54,7 +58,7 @@ class _detailleFamilleState extends State<detailleFamille>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppBarCrt(
-                nomFamille: theFamily.familyName + 'name',
+                nomFamille: widget.selectedFamily.familyName + 'name',
                 info: 'La Famille de',
               ),
               SizedBox(
@@ -130,7 +134,14 @@ class _detailleFamilleState extends State<detailleFamille>
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => dons(
-                                          familyId: theFamily.familyName))),
+                                            familyId:
+                                                widget.selectedFamily.familyID,
+                                            familyName: widget
+                                                    .selectedFamily.familyName +
+                                                ' ' +
+                                                widget.selectedFamily
+                                                    .fatherLastName,
+                                          ))),
                               icon: LineIcons.handHoldingHeart,
                               myText: 'Les dons',
                               TextColor: kWhitColor,
@@ -146,7 +157,8 @@ class _detailleFamilleState extends State<detailleFamille>
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => AjouterLeDon(
-                                            idfamily: theFamily.familyID,
+                                            idfamily:
+                                                widget.selectedFamily.familyID,
                                           ))),
                               icon: LineIcons.handHoldingHeart,
                               myText: 'Ajouter don',
@@ -192,12 +204,10 @@ Widget choiceInfo(String info) {
 Widget InfoParent({required Family f}) {
   return Container(
     child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            SizedBox(
-              width: 30,
-            ),
             Text("Nom Pere:",
                 style: TextStyle(
                   fontSize: 20,
@@ -207,7 +217,7 @@ Widget InfoParent({required Family f}) {
             SizedBox(
               width: 10,
             ),
-            Text('f.nomPere',
+            Text(f.fatherFirstName + ' ' + f.fatherLastName,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -217,10 +227,7 @@ Widget InfoParent({required Family f}) {
         ),
         Row(
           children: [
-            SizedBox(
-              width: 30,
-            ),
-            Text("Nom Pere:",
+            Text("numero du pere:",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -229,7 +236,7 @@ Widget InfoParent({required Family f}) {
             SizedBox(
               width: 10,
             ),
-            Text('f.nomPere',
+            Text(f.fatherPhone,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -239,10 +246,7 @@ Widget InfoParent({required Family f}) {
         ),
         Row(
           children: [
-            SizedBox(
-              width: 30,
-            ),
-            Text("Nom Pere:",
+            Text("date de naissance Pere:",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -251,9 +255,31 @@ Widget InfoParent({required Family f}) {
             SizedBox(
               width: 10,
             ),
-            Text('f.nomPere',
+          ],
+        ),
+        Text(
+            new DateFormat("EEEE, d-MMMM-y")
+                .format(f.fatherBirthDate)
+                .toString(),
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            )),
+        Row(
+          children: [
+            Text("Profession Pere:",
                 style: TextStyle(
                   fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                )),
+            SizedBox(
+              width: 10,
+            ),
+            Text(f.FatherJob,
+                style: TextStyle(
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 )),
@@ -270,9 +296,6 @@ Widget InfoEnfant({required Family f}) {
       children: [
         Row(
           children: [
-            SizedBox(
-              width: 30,
-            ),
             Text("Nombre Enfants: ",
                 style: TextStyle(
                   fontSize: 20,
@@ -282,7 +305,7 @@ Widget InfoEnfant({required Family f}) {
             SizedBox(
               width: 10,
             ),
-            Text('5',
+            Text(f.nbChildren.toString(),
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -292,10 +315,7 @@ Widget InfoEnfant({required Family f}) {
         ),
         Row(
           children: [
-            SizedBox(
-              width: 30,
-            ),
-            Text("Nom Pere:",
+            Text("Description:",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -304,14 +324,14 @@ Widget InfoEnfant({required Family f}) {
             SizedBox(
               width: 10,
             ),
-            Text('f.nomPere',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                )),
           ],
         ),
+        Text(f.childrenInfo,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.normal,
+              color: Colors.black,
+            )),
       ],
     ),
   );
@@ -320,7 +340,7 @@ Widget InfoEnfant({required Family f}) {
 Widget FamilyDescription({required Family f}) {
   return Container(
     child: Text(
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      f.familyStatus + '\n' + f.RQs,
       style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
     ),
   );
