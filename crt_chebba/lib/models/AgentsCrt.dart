@@ -30,6 +30,7 @@ class AgentCrt {
   AgentCrt.empty();
 
   AgentCrt.fromMap(Map<String, dynamic> map) {
+    agentId = map["agentId"] ?? '';
     name = map['name'] ?? '';
     lastName = map['lastName'] ?? '';
     birthDate = map['birthDate'] ?? '';

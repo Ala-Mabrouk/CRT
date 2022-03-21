@@ -24,7 +24,9 @@ class splashScreen extends StatelessWidget {
           return new HomePageDirectionAdmin();
         }
       }
-      return new HoldOn();
+      return new HoldOn(
+        agentCrt: ag,
+      );
     } else {
       return new login();
     }

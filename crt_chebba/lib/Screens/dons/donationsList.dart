@@ -1,5 +1,4 @@
 import 'package:crt_chebba/Screens/commun%20Screens/AppBarCrt.dart';
-import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAgentCRT.dart';
 import 'package:crt_chebba/Screens/dons/ajouterDon.dart';
 
 import 'package:crt_chebba/Services/donationServices/donationsServices.dart';
@@ -10,8 +9,10 @@ import 'donDetaille.dart';
 
 //new widget:list of donnation of a specific family ***done !
 class dons extends StatefulWidget {
-  const dons({Key? key, required this.familyId}) : super(key: key);
+  const dons({Key? key, required this.familyId, required this.familyName})
+      : super(key: key);
   final String familyId;
+  final String familyName;
   @override
   _donsState createState() => _donsState();
 }
@@ -25,7 +26,7 @@ class _donsState extends State<dons> {
       body: SafeArea(
         child: Column(
           children: [
-            AppBarCrt(info: 'Les dons de', nomFamille: widget.familyId),
+            AppBarCrt(info: 'Les dons de', nomFamille: widget.familyName),
             Expanded(
               child: StreamBuilder(
                 stream: DonationService()

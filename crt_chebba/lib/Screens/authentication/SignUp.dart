@@ -287,11 +287,14 @@ class _SignUpState extends State<SignUp> {
             // }
             _agentCrt.isAdmin = isAdmin;
             _agentCrt.birthDate = selectedDate.toString();
-            bool res = await auth.registerNewAgent(_agentCrt);
-            if (res) {
+            AgentCrt? res = await auth.registerNewAgent(_agentCrt);
+            if (res.agentId.isNotEmpty) {
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => const HoldOn()),
+                  MaterialPageRoute(
+                      builder: (context) => new HoldOn(
+                            agentCrt: res,
+                          )),
                   (route) => false);
             }
           },

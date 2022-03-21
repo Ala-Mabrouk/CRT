@@ -30,6 +30,7 @@ class AuthenticationService {
         if (ag.isConfirmed) {
           //saving user info
           prefs.setString('userEmail', result.user!.email.toString());
+          prefs.setString('userFullName', ag.name + ' ' + ag.lastName);
           prefs.setString('userId', result.user!.uid);
           prefs.setBool('isAdmin', ag.isAdmin);
           //creation of tokens and expiration date
@@ -53,7 +54,7 @@ class AuthenticationService {
   }
 
   //register a new Agent to firebase
-  Future<bool> registerNewAgent(AgentCrt ag) async {
+  Future<AgentCrt> registerNewAgent(AgentCrt ag) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: ag.email, password: ag.password);
@@ -63,12 +64,15 @@ class AuthenticationService {
       if (result != null) {
         ag.agentId = result.user!.uid;
         UserServices().addUsers(ag);
-        return true;
+        AgentCrt _ag = await UserServices().getUserInfo(ag.agentId);
+
+        return _ag;
       }
-      return false;
+      return AgentCrt.empty();
+      ;
     } catch (e) {
       print(e);
-      return false;
+      return AgentCrt.empty();
     }
   }
 

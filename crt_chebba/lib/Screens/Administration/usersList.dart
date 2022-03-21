@@ -21,7 +21,7 @@ class _AgentsListState extends State<AgentsList> {
   //the wanted function
   Future thefunc(TypeDisplay val) async {
     await AgentManagement()
-        .fetchAgentsAsStream()
+        .fetchAgentsAsFuture()
         .then((value) => _agentsList = value);
     switch (val) {
       case TypeDisplay.Active:
@@ -87,10 +87,10 @@ class _AgentsListState extends State<AgentsList> {
               ),
               TextButton(
                   onPressed: () {
-                    Navigator.push(
+                    /*   Navigator.push(
                         context,
                         new MaterialPageRoute(
-                            builder: (context) => detailleFamille()));
+                            builder: (context) => detailleFamille(selectedFamily: ,))); */
                   },
                   child: Text('test')),
               Row(

@@ -1,3 +1,4 @@
+import 'package:crt_chebba/Screens/Profile/ChangeInfo.dart';
 import 'package:crt_chebba/Screens/authentication/login.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/AppBarCrt.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAgentCRT.dart';
@@ -6,6 +7,7 @@ import 'package:crt_chebba/Services/authentication_Services/auth.dart';
 import 'package:crt_chebba/Services/usersServices/UserServices.dart';
 import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profil extends StatefulWidget {
   const Profil({Key? key}) : super(key: key);
@@ -26,11 +28,11 @@ class _ProfilState extends State<Profil> {
   void initState() {
     print("profil is displayed");
     super.initState();
-    /*    SharedPreferences.getInstance().then((prefValue) => {
+    SharedPreferences.getInstance().then((prefValue) => {
           setState(() {
-            uID = prefValue.getString('UserID') ?? "#####";
+            uID = prefValue.getString('userId') ?? "#####";
           })
-        }); */
+        });
   }
 
   @override
@@ -81,6 +83,7 @@ class _ProfilState extends State<Profil> {
         child: Column(
           children: [
             AppBarCrt(info: 'Profile', nomFamille: ""),
+            Spacer(),
             Center(
               child: FutureBuilder(
                   future: UserServices().getUserInfo(uID),
@@ -110,7 +113,8 @@ class _ProfilState extends State<Profil> {
                                     child: Material(
                                       color: Colors.transparent,
                                       child: Ink.image(
-                                        image: NetworkImage(_user.name),
+                                        image: NetworkImage(
+                                            "https://croissantrougetunisie.files.wordpress.com/2017/05/l-action-du-croissant-rouge-syrien-entravee-par-une-attaque_reference.jpg"),
                                         width: 200,
                                         height: 200,
                                         fit: BoxFit.cover,
@@ -162,13 +166,13 @@ class _ProfilState extends State<Profil> {
               ),
               onPressed: () {
                 _user.agentId = uID;
-                /*  Navigator.push(
+                Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => ChangeInfo(
                             passedUser: _user,
                           )),
-                ); */
+                );
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.grey.shade400,
@@ -180,6 +184,7 @@ class _ProfilState extends State<Profil> {
             const SizedBox(
               height: 30,
             ),
+            Spacer(),
           ],
         ),
       ),

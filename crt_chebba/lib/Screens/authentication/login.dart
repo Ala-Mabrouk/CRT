@@ -137,8 +137,10 @@ class _loginState extends State<login> {
                         builder: (context) => new HomePageDirection()),
                     (route) => false);
               } else {
-                Navigator.push(context,
-                    new MaterialPageRoute(builder: (context) => new HoldOn()));
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new HoldOn(agentCrt: res)));
               }
             }
           },

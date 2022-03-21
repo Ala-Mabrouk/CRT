@@ -4,7 +4,6 @@ import 'package:crt_chebba/Screens/Family/detailleFamille.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/CustomDropDown.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/HomeAppBar.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/RowText.dart';
-import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAgentCRT.dart';
 import 'package:crt_chebba/Services/familyServices/familyServices.dart';
 import 'package:crt_chebba/constants/constants.dart';
 import 'package:crt_chebba/models/Family.dart';
@@ -264,7 +263,9 @@ class _ListAllFamiliesState extends State<ListAllFamilies> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                detailleFamille()));
+                                                detailleFamille(
+                                                  selectedFamily: f,
+                                                )));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
