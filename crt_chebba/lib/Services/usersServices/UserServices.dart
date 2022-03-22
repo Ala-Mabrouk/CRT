@@ -22,4 +22,17 @@ class UserServices {
       'isConfirmed': _AgentCrt.isConfirmed
     });
   }
+
+  Future updateUser(AgentCrt _AgentCrt) async {
+    try {
+      await usersColl
+          .doc(_AgentCrt.agentId)
+          .set(AgentCrt.empty().userToMap(_AgentCrt))
+          .whenComplete(() => print("user is updated !"));
+      return _AgentCrt;
+    } on Exception catch (_, e) {
+      print(e);
+    }
+    return null;
+  }
 }

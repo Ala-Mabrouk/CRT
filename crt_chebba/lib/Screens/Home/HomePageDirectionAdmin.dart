@@ -123,8 +123,7 @@ class _HomePageDirectionAdminState extends State<HomePageDirectionAdmin> {
                 icon: LineIcons.user,
                 leading: CircleAvatar(
                   radius: 12,
-                  backgroundImage: NetworkImage(
-                      'https://www.keejob.com/media/recruiter/recruiter_7343/logo-croissant-rouge-tunisien-20141110-092435.jpg'),
+                  backgroundImage: AssetImage('assets/logo.png'),
                 ),
                 text: 'Profile',
               ),

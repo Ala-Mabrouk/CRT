@@ -3,10 +3,12 @@ import 'package:crt_chebba/Screens/Administration/usersList.dart';
 import 'package:crt_chebba/Screens/Home/HomePageDirection.dart';
 import 'package:crt_chebba/Screens/Home/HomePageDirectionAdmin.dart';
 import 'package:crt_chebba/Screens/Family/ListAllFamilies.dart';
+import 'package:crt_chebba/Screens/authentication/forgetPass.dart';
 import 'package:crt_chebba/Screens/authentication/onHoldScreen.dart';
 import 'package:crt_chebba/Services/authentication_Services/auth.dart';
 import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'SignUp.dart';
@@ -28,6 +30,55 @@ class _loginState extends State<login> {
 
   @override
   Widget build(BuildContext context) {
+    toastMsg(String msg, BuildContext theContext) {
+      ScaffoldMessenger.of(theContext).showSnackBar(SnackBar(
+        content: Text(msg),
+        behavior: SnackBarBehavior.floating,
+        elevation: 15,
+        backgroundColor: Colors.redAccent,
+      ));
+    }
+
+    final GlobalKey<FormState> _formKey1 = GlobalKey<FormState>();
+    /*   final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>(); */
+
+    RegExp exp = RegExp(r'^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$');
+    submitLog(String mail, String pass, BuildContext theContext) async {
+      if (_SignInFomKey.currentState!.validate() == true) {
+        // _formKey.currentState!.save();
+        try {
+          AgentCrt? res =
+              await AuthenticationService().signInEmailPassword(email, pass);
+          if (res != null) {
+            if (res.isConfirmed && res.isAdmin) {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => new HomePageDirectionAdmin()),
+                  (route) => false);
+            } else if (res.isConfirmed) {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => new HomePageDirection()),
+                  (route) => false);
+            } else {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => new HoldOn(agentCrt: res)));
+            }
+          }
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'user-not-found') {
+            toastMsg("e-mail adresse introuvable !", theContext);
+          } else if (e.code == 'wrong-password') {
+            toastMsg("Mot de passe incorrect !", theContext);
+          }
+        }
+      }
+    }
+
     Size size = MediaQuery.of(context).size;
 
     Widget InputField() {
@@ -37,11 +88,11 @@ class _loginState extends State<login> {
           TextFormField(
             validator: (val) =>
                 (val == null || !EmailValidator.validate(val.toString()))
-                    ? 'Email incorect'
+                    ? 'Email format incorect'
                     : null,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.fromLTRB(30, 0, 0, 0),
-              hintText: "foulen@foulen.foulen",
+              hintText: "NomPrenom@mail.fr",
               prefixIcon: Icon(
                 Icons.person,
                 color: Colors.black,
@@ -77,10 +128,9 @@ class _loginState extends State<login> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextFormField(
-            validator: (val) =>
-                (val == null || !EmailValidator.validate(val.toString()))
-                    ? 'pass incorect'
-                    : null,
+            validator: (val) => (val == null || val.length < 6)
+                ? 'Le mot de passe doit comporter au moins six caractères. '
+                : null,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.fromLTRB(30, 0, 0, 0),
               hintText: '*********',
@@ -114,35 +164,14 @@ class _loginState extends State<login> {
       );
     }
 
-    Widget SignInBTN() {
+    Widget SignInBTN(BuildContext cntx) {
       return Container(
         height: 40,
         width: size.width * 0.5,
         child: RaisedButton(
           elevation: 5,
           onPressed: () async {
-            AgentCrt? res =
-                await AuthenticationService().signInEmailPassword(email, pass);
-            if (res != null) {
-              if (res.isConfirmed && res.isAdmin) {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => new HomePageDirectionAdmin()),
-                    (route) => false);
-              } else if (res.isConfirmed) {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => new HomePageDirection()),
-                    (route) => false);
-              } else {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => new HoldOn(agentCrt: res)));
-              }
-            }
+            submitLog(email, pass, cntx);
           },
           padding: EdgeInsets.all(2),
           shape: RoundedRectangleBorder(
@@ -174,6 +203,21 @@ class _loginState extends State<login> {
       ]);
     }
 
+    Widget forgetPass() {
+      return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        TextButton(
+          onPressed: () {
+            Navigator.push(context,
+                new MaterialPageRoute(builder: (context) => ForgotPassword()));
+          },
+          child: Text(
+            "Vous avez oubliez votre mot de passe ? ",
+            style: TextStyle(fontWeight: FontWeight.w500),
+          ),
+        )
+      ]);
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
@@ -185,11 +229,6 @@ class _loginState extends State<login> {
                 Container(
                   width: size.width,
                   child: Image.asset('assets/header.png'),
-
-                  // decoration: BoxDecoration(
-                  //     image: DecorationImage(
-                  //         image: AssetImage('../assets/header.png'),
-                  //         fit: BoxFit.fill)),
                 ),
                 SizedBox(
                   height: 10,
@@ -226,10 +265,10 @@ class _loginState extends State<login> {
                       SizedBox(
                         height: 30,
                       ),
-                      SignInBTN(),
-                      SizedBox(
+                      SignInBTN(context),
+                      /*    SizedBox(
                         height: 20,
-                      ),
+                      ), */
                       Text(
                         err,
                         style: TextStyle(color: Colors.red, fontSize: 14),
@@ -237,6 +276,7 @@ class _loginState extends State<login> {
                     ],
                   ),
                 ),
+                forgetPass(),
                 FinalLine(),
               ],
             ),

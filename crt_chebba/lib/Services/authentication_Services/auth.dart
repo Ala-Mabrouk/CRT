@@ -34,28 +34,30 @@ class AuthenticationService {
           prefs.setString('userId', result.user!.uid);
           prefs.setBool('isAdmin', ag.isAdmin);
           //creation of tokens and expiration date
-          final DateTime expireDate = DateTime.now().add(Duration(hours: 24));
+          final DateTime expireDate = DateTime.now().add(Duration(hours: 12));
           prefs.setString('expireDate', expireDate.toString());
-          setAuthTimeout(24);
+          setAuthTimeout(12);
         }
         return ag;
       }
 
       return null;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
+      rethrow;
 
-      return null;
+      // return null;
     }
+  }
+//reset password
+
+  Future resetPassword(String mail) async {
+    await _auth.sendPasswordResetEmail(email: mail);
   }
 
   //register a new Agent to firebase
   Future<AgentCrt> registerNewAgent(AgentCrt ag) async {
     try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: ag.email, password: ag.password);
 
@@ -65,7 +67,16 @@ class AuthenticationService {
         ag.agentId = result.user!.uid;
         UserServices().addUsers(ag);
         AgentCrt _ag = await UserServices().getUserInfo(ag.agentId);
-
+//
+        prefs.setString('userEmail', result.user!.email.toString());
+        prefs.setString('userFullName', ag.name + ' ' + ag.lastName);
+        prefs.setString('userId', result.user!.uid);
+        prefs.setBool('isAdmin', ag.isAdmin);
+        //creation of tokens and expiration date
+        final DateTime expireDate = DateTime.now().add(Duration(hours: 12));
+        prefs.setString('expireDate', expireDate.toString());
+        setAuthTimeout(12);
+//
         return _ag;
       }
       return AgentCrt.empty();
@@ -76,6 +87,20 @@ class AuthenticationService {
     }
   }
 
+//update info
+  Future updateUSerInfo(AgentCrt _user, bool pass) async {
+    try {
+      if (pass) {
+        User? u = _auth.currentUser;
+        await u!.updatePassword(_user.password);
+      }
+      UserServices().updateUser(_user);
+      return _user;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
   //auto authentication need to be called in the main
 
   Future<AgentCrt?> autoAthenticate() async {

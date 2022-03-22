@@ -40,7 +40,7 @@ class splashScreen extends StatelessWidget {
         body: FutureBuilder(
             future: AuthenticationService().autoAthenticate(),
             builder: (context, snapshot) {
-              print(snapshot.data);
+              //  print(snapshot.data);
               if (snapshot.hasData) {
                 AgentCrt ag = snapshot.data as AgentCrt;
                 return AnimatedSplashScreen(

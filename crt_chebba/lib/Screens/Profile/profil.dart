@@ -5,6 +5,7 @@ import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAgentCRT.
 import 'package:crt_chebba/Screens/commun%20Screens/loading.dart';
 import 'package:crt_chebba/Services/authentication_Services/auth.dart';
 import 'package:crt_chebba/Services/usersServices/UserServices.dart';
+import 'package:crt_chebba/constants/constants.dart';
 import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -78,11 +79,20 @@ class _ProfilState extends State<Profil> {
     } */
 
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.grey[350],
+        title: Text(
+          'Profile Agent CRT',
+          style: TextStyle(
+              fontWeight: FontWeight.bold, color: kSecondryColor, fontSize: 15),
+        ),
+      ),
       // bottomNavigationBar: bottomNavigationBarAgent(),
       body: SafeArea(
         child: Column(
           children: [
-            AppBarCrt(info: 'Profile', nomFamille: ""),
+            // AppBarCrt(info: 'Profile', nomFamille: ""),
             Spacer(),
             Center(
               child: FutureBuilder(
@@ -113,8 +123,7 @@ class _ProfilState extends State<Profil> {
                                     child: Material(
                                       color: Colors.transparent,
                                       child: Ink.image(
-                                        image: NetworkImage(
-                                            "https://croissantrougetunisie.files.wordpress.com/2017/05/l-action-du-croissant-rouge-syrien-entravee-par-une-attaque_reference.jpg"),
+                                        image: AssetImage('assets/logo.png'),
                                         width: 200,
                                         height: 200,
                                         fit: BoxFit.cover,

@@ -43,10 +43,10 @@ class DonationService {
     //need more working on
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    _donation.donationID = getRandomID(8);
+    _donation.donationID = getRandomID(16);
 
     _donation.publierPar = prefs.getString('userEmail').toString();
-    print(_donation.idFamily + '++' + _donation.publierPar);
+
     return await donationsCollection
         .doc(_donation.donationID)
         .set({
