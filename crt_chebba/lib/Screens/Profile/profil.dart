@@ -1,6 +1,7 @@
 import 'package:crt_chebba/Screens/Profile/ChangeInfo.dart';
 import 'package:crt_chebba/Screens/authentication/login.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/AppBarCrt.dart';
+import 'package:crt_chebba/Screens/commun%20Screens/RowText.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAgentCRT.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/loading.dart';
 import 'package:crt_chebba/Services/authentication_Services/auth.dart';
@@ -83,7 +84,7 @@ class _ProfilState extends State<Profil> {
         centerTitle: true,
         backgroundColor: Colors.grey[350],
         title: Text(
-          'Profile Agent CRT',
+          'Profile Agant CRT',
           style: TextStyle(
               fontWeight: FontWeight.bold, color: kSecondryColor, fontSize: 15),
         ),
@@ -91,6 +92,7 @@ class _ProfilState extends State<Profil> {
       // bottomNavigationBar: bottomNavigationBarAgent(),
       body: SafeArea(
         child: Column(
+          //   mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // AppBarCrt(info: 'Profile', nomFamille: ""),
             Spacer(),
@@ -194,6 +196,20 @@ class _ProfilState extends State<Profil> {
               height: 30,
             ),
             Spacer(),
+
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flexible(
+                      child: Text(
+                          "Développer par: Ala Mabrouk && Sabeur Ben Ali")),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
           ],
         ),
       ),

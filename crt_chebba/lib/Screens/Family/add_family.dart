@@ -16,9 +16,9 @@ class addFamily extends StatefulWidget {
   _addFamilyState createState() => _addFamilyState();
 }
 
-int _value = 0;
-String labelTextDatePere = '';
-String labelTextDateMere = '';
+int _value = 1;
+String labelTextDatePere = '2022-03-22  ';
+String labelTextDateMere = '2022-03-22  ';
 
 class _addFamilyState extends State<addFamily> {
   Family myNewFamily = Family();
@@ -70,31 +70,27 @@ class _addFamilyState extends State<addFamily> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        TextFormField(
-          enabled: true,
-          validator: (val) =>
-              (val == null || val == '') ? 'Champ naicessaire' : null,
-          decoration: InputDecoration(
-            suffixIcon: IconButton(
+        Row(
+          children: [
+            Text(
+              "Date de naissance " + theField,
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+            ),
+            IconButton(
               onPressed: () {
                 _selectDate(context, theField);
-                /*     if (theField == 'pere') {
-                  labelText = labelTextDatePere;
-                } else {
-                  labelText = labelTextDateMere;
-                } */
-              }, //_selectDateFather(context),
+              },
               icon: Icon(
                 Icons.calendar_today,
                 color: Colors.black,
               ),
             ),
-            contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-            border: OutlineInputBorder(),
-            labelText: 'Date de naissance du ' + theField,
-          ),
-          keyboardType: TextInputType.datetime,
+          ],
         ),
+        Text((theField == 'pere')
+            ? labelTextDatePere.substring(0, 10)
+            : labelTextDateMere
+          ..substring(0, 10)),
       ],
     );
   }
@@ -134,25 +130,25 @@ class _addFamilyState extends State<addFamily> {
                 child: Column(
                   children: [
                     SizedBox(height: 20),
-                    RowText(champ1: 'informations du pere :', champ2: ''),
+                    RowText(champ1: 'Informations du pére :', champ2: ''),
 
                     SizedBox(height: 9),
                     filed(
-                        text1: "nom du pere",
+                        text1: "Nom du pére",
                         text2: "",
                         theField: (val) {
                           myNewFamily.fatherLastName = val;
                         }),
                     SizedBox(height: 9),
                     filed(
-                        text1: "prénom du pere",
+                        text1: "Prénom du pére",
                         text2: "",
                         theField: (val) {
                           myNewFamily.fatherFirstName = val;
                         }),
                     SizedBox(height: 9),
                     filed(
-                        text1: "CIN",
+                        text1: "CIN pére",
                         text2: "",
                         theField: (val) {
                           myNewFamily.fatherCIN = val;
@@ -174,29 +170,29 @@ class _addFamilyState extends State<addFamily> {
                         }),
                     SizedBox(height: 9),
                     filed(
-                        text1: "Travail du pere",
+                        text1: "Travail du pére",
                         text2: "",
                         theField: (val) {
                           myNewFamily.FatherJob = val;
                         }),
                     SizedBox(height: 50),
-                    RowText(champ1: 'informations du mere :', champ2: ''),
+                    RowText(champ1: 'Informations du mére :', champ2: ''),
                     filed(
-                        text1: "nom du mere",
+                        text1: "Nom du mére",
                         text2: "",
                         theField: (val) {
                           myNewFamily.motherLastName = val;
                         }),
                     SizedBox(height: 9),
                     filed(
-                        text1: "prénom du mere",
+                        text1: "Prénom du mére",
                         text2: "",
                         theField: (val) {
                           myNewFamily.motherFirstName = val;
                         }),
                     SizedBox(height: 9),
                     filed(
-                        text1: "CIN",
+                        text1: "CIN mére",
                         text2: "",
                         theField: (val) {
                           myNewFamily.motherCIN = val;
@@ -219,7 +215,7 @@ class _addFamilyState extends State<addFamily> {
                         }),
                     SizedBox(height: 9),
                     filed(
-                        text1: "Travail du mere",
+                        text1: "Travail du mére",
                         text2: "",
                         theField: (val) {
                           myNewFamily.motherJob = val;
@@ -227,13 +223,14 @@ class _addFamilyState extends State<addFamily> {
                     SizedBox(height: 50),
                     RowText(champ1: 'Etat famille : ', champ2: ''),
                     filed(
-                        text1: "status family",
+                        text1: "Status family",
                         text2: "",
                         theField: (val) {
                           myNewFamily.familyStatus = val;
                         }),
                     SizedBox(height: 50),
-                    RowText(champ1: 'informations des enfants :  ', champ2: ''),
+                    RowText(
+                        champ1: 'Informations sur les enfants :  ', champ2: ''),
 
                     TextField(
                       decoration: InputDecoration(
@@ -282,12 +279,6 @@ class _addFamilyState extends State<addFamily> {
                         borderRadius: BorderRadius.circular(9),
                         value: _value,
                         items: [
-                          DropdownMenuItem(
-                            child: CustomDropDown(
-                              info: 'Tous',
-                            ),
-                            value: 0,
-                          ),
                           DropdownMenuItem(
                             child: CustomDropDown(
                               info: 'Quartier Bassatine',

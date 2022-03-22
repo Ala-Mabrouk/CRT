@@ -1,13 +1,19 @@
 import 'dart:async';
 import 'package:crt_chebba/Screens/Family/add_family.dart';
 import 'package:crt_chebba/Screens/Family/detailleFamille.dart';
+import 'package:crt_chebba/Screens/authentication/login.dart';
+import 'package:crt_chebba/Screens/authentication/onHoldScreen.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/CustomDropDown.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/HomeAppBar.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/RowText.dart';
+import 'package:crt_chebba/Services/authentication_Services/auth.dart';
 import 'package:crt_chebba/Services/familyServices/familyServices.dart';
 import 'package:crt_chebba/constants/constants.dart';
+import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:crt_chebba/models/Family.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class ListAllFamilies extends StatefulWidget {
   static const routeName = '/Home';
@@ -19,12 +25,39 @@ class _ListAllFamiliesState extends State<ListAllFamilies> {
   List<Family>? families = [];
   List<Family> displayedList = [];
   int _value = 0;
+  // bool checked = false;
 
   @override
   void initState() {
     thefunc(_value);
+/*     checkLoged();
+    if (!checked) {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => new login()),
+          (route) => false);
+    } */
     super.initState();
   }
+
+/*   void checkLoged() {
+    FutureBuilder(
+      future: AuthenticationService().autoAthenticate(),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.hasData) {
+          AgentCrt ag = snapshot.data as AgentCrt;
+          if (ag.isConfirmed) {
+            checked = true;
+            // return true;
+          } else {
+            checked = false;
+            AuthenticationService().logout();
+          }
+        }
+        return Container();
+      },
+    );
+  } */
 
 //the wanted function
   Future<void> thefunc(int val) async {

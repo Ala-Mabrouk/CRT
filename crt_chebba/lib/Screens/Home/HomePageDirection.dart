@@ -5,6 +5,7 @@ import 'package:crt_chebba/Screens/authentication/login.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAgentCRT.dart';
 import 'package:crt_chebba/Services/authentication_Services/auth.dart';
 import 'package:crt_chebba/constants/constants.dart';
+import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';

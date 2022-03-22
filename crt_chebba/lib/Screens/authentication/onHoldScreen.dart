@@ -66,19 +66,24 @@ class _HoldOnState extends State<HoldOn> {
                     IconButtonCRT(
                       BackgroundColor: kPrimaryColor,
                       f: () async {
-                        //  print(widget.agentCrt.agentId);
+                        print(widget.agentCrt.agentId);
                         AgentCrt? res = await UserServices()
                             .getUserInfo(widget.agentCrt.agentId);
                         //   print(res.email);
                         if (res != null) {
+                          print("is confirmed" + res.isConfirmed.toString());
+
                           if (res.isConfirmed && res.isAdmin) {
+                            print("test admin");
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         new HomePageDirectionAdmin()),
                                 (route) => false);
-                          } else if (res.isConfirmed) {
+                          } else if (res.isConfirmed == true) {
+                            print("test confirm");
+
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
@@ -87,6 +92,8 @@ class _HoldOnState extends State<HoldOn> {
                                         : new HomePageDirection()),
                                 (route) => false);
                           } else {
+                            print(" trtrtr else");
+
                             Navigator.push(
                                 context,
                                 new MaterialPageRoute(

@@ -6,6 +6,7 @@ import 'package:crt_chebba/Screens/Family/ListAllFamilies.dart';
 import 'package:crt_chebba/Screens/authentication/forgetPass.dart';
 import 'package:crt_chebba/Screens/authentication/onHoldScreen.dart';
 import 'package:crt_chebba/Services/authentication_Services/auth.dart';
+import 'package:crt_chebba/constants/constants.dart';
 import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,6 +28,12 @@ class _loginState extends State<login> {
   String email = '';
   String pass = '';
   String err = '';
+  bool showPassword = true;
+  @override
+  void initState() {
+    //  AuthenticationService().logout();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,12 +138,24 @@ class _loginState extends State<login> {
             validator: (val) => (val == null || val.length < 6)
                 ? 'Le mot de passe doit comporter au moins six caractères. '
                 : null,
+            obscureText: showPassword,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.fromLTRB(30, 0, 0, 0),
-              hintText: '*********',
+              hintText: 'Mot de passe',
               prefixIcon: Icon(
                 Icons.lock,
                 color: Colors.black,
+              ),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  (showPassword) ? Icons.visibility_off : Icons.visibility,
+                  color: kBlackColor,
+                ),
+                onPressed: () {
+                  setState(() {
+                    showPassword = !showPassword;
+                  });
+                },
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
@@ -152,7 +171,6 @@ class _loginState extends State<login> {
               ),
             ),
             keyboardType: TextInputType.emailAddress,
-            obscureText: true,
             onChanged: (value) {
               setState(() => pass = value);
             },
@@ -211,7 +229,7 @@ class _loginState extends State<login> {
                 new MaterialPageRoute(builder: (context) => ForgotPassword()));
           },
           child: Text(
-            "Vous avez oubliez votre mot de passe ? ",
+            "Vous avez oublié votre mot de passe ? ",
             style: TextStyle(fontWeight: FontWeight.w500),
           ),
         )

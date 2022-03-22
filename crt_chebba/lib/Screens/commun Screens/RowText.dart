@@ -16,12 +16,13 @@ class RowText extends StatelessWidget {
     return Column(
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               champ1,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            Text(champ2)
+            Flexible(child: Text(champ2))
           ],
         ),
         SizedBox(height: 5),
