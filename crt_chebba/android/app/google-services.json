@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "347662572741",
+    "project_id": "crt-chebba-app",
+    "storage_bucket": "crt-chebba-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:347662572741:android:ca1fea82f1118148aa24ac",
+        "android_client_info": {
+          "package_name": "com.App.crt_chebba"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "347662572741-4avk5ei2iiao4k05tb8dg7vdusc8mji3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBz1o_t59mzfkYZdOQa4TxZvrQD3a9yf2s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "347662572741-4avk5ei2iiao4k05tb8dg7vdusc8mji3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
