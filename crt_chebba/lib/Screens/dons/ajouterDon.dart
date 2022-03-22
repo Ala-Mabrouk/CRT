@@ -1,10 +1,12 @@
 import 'package:crt_chebba/Screens/commun%20Screens/AppBarCrt.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/RowText.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/TextButtonCrt.dart';
-import 'package:crt_chebba/Screens/commun%20Screens/bottomNavigationBarAgentCRT.dart';
+import 'package:crt_chebba/Services/donationServices/donationsServices.dart';
 import 'package:crt_chebba/constants/constants.dart';
+import 'package:crt_chebba/models/Donation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //new Widget: add donnation to a family !! ******** done!
 class AjouterLeDon extends StatefulWidget {
@@ -14,11 +16,24 @@ class AjouterLeDon extends StatefulWidget {
   _AjouterLeDonState createState() => _AjouterLeDonState();
 }
 
+String userName = '';
+
 class _AjouterLeDonState extends State<AjouterLeDon> {
+  @override
+  void initState() {
+    SharedPreferences.getInstance().then((prefValue) => {
+          setState(() {
+            userName = prefValue.getString('userFullName') ?? '----';
+          })
+        });
+    super.initState();
+  }
+
   @override
   Color get selectionColor => kGreenColor;
 
   Widget build(BuildContext context) {
+    Donation tempDon = Donation();
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -34,16 +49,18 @@ class _AjouterLeDonState extends State<AjouterLeDon> {
                   children: [
                     RowText(
                         champ1: 'Date : ',
-                        champ2: new DateFormat("dd-MM-yyyy")
+                        champ2: new DateFormat("dd-MM-yyyy  HH:mm")
                             .format(DateTime.now())),
                     SizedBox(height: 10),
-                    RowText(
-                        champ1: 'Ajouté par : ', champ2: ' Connected user '),
+                    RowText(champ1: 'Ajouté par : ', champ2: userName),
                     SizedBox(height: 10),
                     RowText(champ1: 'Equipe :', champ2: ''),
                     TextField(
                       onChanged: (value) {
-                        //here we need to save the selected equipe
+                        tempDon.Equipe = value;
+                        tempDon.publierPar = userName;
+                        tempDon.dateDonation = DateTime.now();
+                        tempDon.idFamily = widget.idfamily;
                       },
                       decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(
@@ -59,7 +76,7 @@ class _AjouterLeDonState extends State<AjouterLeDon> {
                       minLines: 1,
                       maxLines: 20,
                       onChanged: (value) {
-                        //here we need to save the description of the donnation
+                        tempDon.description = value;
                       },
                       decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(
@@ -83,7 +100,8 @@ class _AjouterLeDonState extends State<AjouterLeDon> {
               child: TextButtonCrt(
                 BackgroundColor: kSecondryColor,
                 f: () {
-                  //fonction de sauvegarde du dons
+                  DonationService().addDonation(tempDon);
+                  Navigator.pop(context);
                 },
                 myText: 'Ajouter',
                 TextColor: kWhitColor,

@@ -6,6 +6,7 @@ import 'package:crt_chebba/Screens/dons/donationsList.dart';
 import 'package:crt_chebba/constants/constants.dart';
 import 'package:crt_chebba/models/Family.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:intl/intl.dart';
 
@@ -58,7 +59,7 @@ class _detailleFamilleState extends State<detailleFamille>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppBarCrt(
-                nomFamille: widget.selectedFamily.familyName + 'name',
+                nomFamille: ' ' + widget.selectedFamily.familyName,
                 info: 'La Famille de',
               ),
               SizedBox(
@@ -68,9 +69,12 @@ class _detailleFamilleState extends State<detailleFamille>
                 "Localisation:",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              Text("Map here"),
+              Text(
+                widget.selectedFamily.familyLocation,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              ),
               SizedBox(
-                height: 100,
+                height: 40,
               ),
               Container(
                 height: 45,
@@ -202,13 +206,13 @@ Widget choiceInfo(String info) {
 }
 
 Widget InfoParent({required Family f}) {
-  return Container(
+  return SingleChildScrollView(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            Text("Nom Pere:",
+            Text("Nom Père:",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -217,17 +221,19 @@ Widget InfoParent({required Family f}) {
             SizedBox(
               width: 10,
             ),
-            Text(f.fatherFirstName + ' ' + f.fatherLastName,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                )),
+            Flexible(
+              child: Text(f.fatherFirstName + ' ' + f.fatherLastName,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.black,
+                  )),
+            ),
           ],
         ),
         Row(
           children: [
-            Text("numero du pere:",
+            Text("Numéro du père;",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -239,14 +245,14 @@ Widget InfoParent({required Family f}) {
             Text(f.fatherPhone,
                 style: TextStyle(
                   fontSize: 18,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.normal,
                   color: Colors.black,
                 )),
           ],
         ),
         Row(
           children: [
-            Text("date de naissance Pere:",
+            Text("Date de naissance Père:",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -257,18 +263,15 @@ Widget InfoParent({required Family f}) {
             ),
           ],
         ),
-        Text(
-            new DateFormat("EEEE, d-MMMM-y")
-                .format(f.fatherBirthDate)
-                .toString(),
+        Text(new DateFormat("d-MM-y").format(f.fatherBirthDate).toString(),
             style: TextStyle(
               fontSize: 18,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.normal,
               color: Colors.black,
             )),
         Row(
           children: [
-            Text("Profession Pere:",
+            Text("Profession Père:",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -277,12 +280,94 @@ Widget InfoParent({required Family f}) {
             SizedBox(
               width: 10,
             ),
-            Text(f.FatherJob,
+            Flexible(
+              child: Text(f.FatherJob,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.black,
+                  )),
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            Text("Nom Mére:",
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 )),
+            SizedBox(
+              width: 10,
+            ),
+            Flexible(
+              child: Text(f.motherFirstName + ' ' + f.motherLastName,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.black,
+                  )),
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            Text("Numero du mére:",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                )),
+            SizedBox(
+              width: 10,
+            ),
+            Text(f.motherPhone,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.black,
+                )),
+          ],
+        ),
+        Row(
+          children: [
+            Text("Date de naissance Mére:",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                )),
+            SizedBox(
+              width: 10,
+            ),
+          ],
+        ),
+        Text(new DateFormat(" d-MM-y").format(f.motherBirthDate).toString(),
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.normal,
+              color: Colors.black,
+            )),
+        Row(
+          children: [
+            Text("Profession Mére:",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                )),
+            SizedBox(
+              width: 10,
+            ),
+            Flexible(
+              child: Text(f.motherJob,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.black,
+                  )),
+            ),
           ],
         ),
       ],
@@ -293,6 +378,7 @@ Widget InfoParent({required Family f}) {
 Widget InfoEnfant({required Family f}) {
   return Container(
     child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
@@ -326,12 +412,14 @@ Widget InfoEnfant({required Family f}) {
             ),
           ],
         ),
-        Text(f.childrenInfo,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.normal,
-              color: Colors.black,
-            )),
+        Flexible(
+          child: Text(f.childrenInfo,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.normal,
+                color: Colors.black,
+              )),
+        ),
       ],
     ),
   );
@@ -339,9 +427,40 @@ Widget InfoEnfant({required Family f}) {
 
 Widget FamilyDescription({required Family f}) {
   return Container(
-    child: Text(
-      f.familyStatus + '\n' + f.RQs,
-      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+    child: Column(
+      children: [
+        Row(children: [
+          Flexible(
+            child: Text("La famille est localisée dans l'adresse:",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                )),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+        ]),
+        Row(
+          children: [
+            Text(f.IDMap,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.black,
+                )),
+            SizedBox(
+              width: 10,
+            ),
+            IconButton(
+                onPressed: () {
+                  Clipboard.setData(ClipboardData(text: f.IDMap));
+                },
+                icon: Icon(Icons.content_copy))
+          ],
+        ),
+      ],
     ),
   );
 }

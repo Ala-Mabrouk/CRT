@@ -39,4 +39,18 @@ class AgentCrt {
     isAdmin = map['isAdmin'] ?? false;
     isConfirmed = map['isConfirmed'] ?? false;
   }
+
+  Map<String, dynamic> userToMap(AgentCrt user) {
+    Map<String, dynamic> data = <String, dynamic>{};
+    data['agentId'] = user.agentId;
+    data['name'] = user.name;
+    data['lastName'] = user.lastName;
+    data['birthDate'] = user.birthDate;
+    data['phone'] = user.phone;
+    data['email'] = user.email;
+    data['isAdmin'] = user.isAdmin;
+    data['isConfirmed'] = user.isConfirmed;
+
+    return data;
+  }
 }

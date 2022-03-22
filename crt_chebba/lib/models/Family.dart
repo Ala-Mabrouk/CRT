@@ -24,6 +24,7 @@ class Family {
 
   String familyLocation = '';
   String IdQuartier = '';
+  String IDMap = '';
 
   String RQs = '';
 
@@ -58,6 +59,7 @@ class Family {
 
     familyLocation = map['familyLocation'] ?? '';
     IdQuartier = map['IdQuartier'] ?? '';
+    IDMap = map['mapId'] ?? '64P5+6CG La Chebba';
 
     RQs = map['RQs'] ?? '';
   }

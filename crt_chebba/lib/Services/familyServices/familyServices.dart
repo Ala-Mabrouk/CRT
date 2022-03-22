@@ -46,7 +46,7 @@ class FamilyService {
   //adding family
 
   Future addFamily(Family _family) async {
-    _family.familyID = getRandomID(12);
+    _family.familyID = getRandomID(16);
 
     return await familiesCollection
         .doc(_family.familyID)
@@ -75,7 +75,10 @@ class FamilyService {
 
           'familyLocation': _family.familyLocation,
           'IdQuartier': _family.IdQuartier,
+          'mapId': _family.IDMap,
 //
+          'nbChildren': _family.nbChildren,
+          'childrenInfo': _family.childrenInfo,
           'familyRQs': _family.RQs,
         })
         .whenComplete(() => print("family item added to the database"))

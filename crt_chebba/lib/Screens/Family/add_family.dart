@@ -1,16 +1,24 @@
 import 'package:crt_chebba/Screens/Family/ListAllFamilies.dart';
+import 'package:crt_chebba/Screens/Home/HomePageDirection.dart';
+import 'package:crt_chebba/Screens/Home/HomePageDirectionAdmin.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/AppBarCrt.dart';
+import 'package:crt_chebba/Screens/commun%20Screens/CustomDropDown.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/RowText.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/TextButtonCrt.dart';
 import 'package:crt_chebba/Services/familyServices/familyServices.dart';
 import 'package:crt_chebba/constants/constants.dart';
 import 'package:crt_chebba/models/Family.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class addFamily extends StatefulWidget {
   @override
   _addFamilyState createState() => _addFamilyState();
 }
+
+int _value = 0;
+String labelTextDatePere = '';
+String labelTextDateMere = '';
 
 class _addFamilyState extends State<addFamily> {
   Family myNewFamily = Family();
@@ -26,8 +34,10 @@ class _addFamilyState extends State<addFamily> {
       setState(() {
         if (field == 'pere') {
           myNewFamily.fatherBirthDate = picked;
+          labelTextDatePere = picked.toString();
         } else {
           myNewFamily.motherBirthDate = picked;
+          labelTextDateMere = picked.toString();
         }
       });
   }
@@ -56,6 +66,7 @@ class _addFamilyState extends State<addFamily> {
   }
 
   Widget DatePicker(String theField) {
+    // String labelText = "--/--/----";
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -65,8 +76,14 @@ class _addFamilyState extends State<addFamily> {
               (val == null || val == '') ? 'Champ naicessaire' : null,
           decoration: InputDecoration(
             suffixIcon: IconButton(
-              onPressed: () =>
-                  _selectDate(context, theField), //_selectDateFather(context),
+              onPressed: () {
+                _selectDate(context, theField);
+                /*     if (theField == 'pere') {
+                  labelText = labelTextDatePere;
+                } else {
+                  labelText = labelTextDateMere;
+                } */
+              }, //_selectDateFather(context),
               icon: Icon(
                 Icons.calendar_today,
                 color: Colors.black,
@@ -82,6 +99,17 @@ class _addFamilyState extends State<addFamily> {
     );
   }
 
+  bool isAdmin = false;
+  @override
+  void initState() {
+    super.initState();
+    SharedPreferences.getInstance().then((prefValue) => {
+          setState(() {
+            isAdmin = prefValue.getBool('isAdmin') ?? false;
+          })
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -90,9 +118,16 @@ class _addFamilyState extends State<addFamily> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              AppBarCrt(
-                info: 'Ajouter une  famille',
-                nomFamille: '',
+              AppBar(
+                centerTitle: true,
+                backgroundColor: Colors.grey[350],
+                title: Text(
+                  'Ajouter une  famille',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: kSecondryColor,
+                      fontSize: 15),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(15.0),
@@ -236,7 +271,112 @@ class _addFamilyState extends State<addFamily> {
                           myNewFamily.familyLocation = val;
                         }),
                     SizedBox(height: 9),
-                    filed(text1: "Map ID", text2: ""),
+                    DropdownButton(
+                        icon: Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.black,
+                        ),
+                        iconSize: 40,
+                        isExpanded: true,
+                        isDense: true,
+                        borderRadius: BorderRadius.circular(9),
+                        value: _value,
+                        items: [
+                          DropdownMenuItem(
+                            child: CustomDropDown(
+                              info: 'Tous',
+                            ),
+                            value: 0,
+                          ),
+                          DropdownMenuItem(
+                            child: CustomDropDown(
+                              info: 'Quartier Bassatine',
+                            ),
+                            value: 1,
+                          ),
+                          DropdownMenuItem(
+                            child: CustomDropDown(
+                              info: 'Sidi Salem',
+                            ),
+                            value: 2,
+                          ),
+                          DropdownMenuItem(
+                            child: CustomDropDown(
+                              info: 'Garaa tabel + beb nian',
+                            ),
+                            value: 3,
+                          ),
+                          DropdownMenuItem(
+                            child: CustomDropDown(
+                              info: 'Henchir Moussa',
+                            ),
+                            value: 4,
+                          ),
+                          DropdownMenuItem(
+                            child: CustomDropDown(
+                              info: 'Wahab',
+                            ),
+                            value: 5,
+                          ),
+                          DropdownMenuItem(
+                            child: CustomDropDown(
+                              info: 'El marssa',
+                            ),
+                            value: 6,
+                          ),
+                          DropdownMenuItem(
+                            child: CustomDropDown(
+                              info: 'Quartier charquia',
+                            ),
+                            value: 7,
+                          ),
+                          DropdownMenuItem(
+                            child: CustomDropDown(
+                              info: 'Dowira',
+                            ),
+                            value: 8,
+                          ),
+                          DropdownMenuItem(
+                            child: CustomDropDown(
+                              info: 'Centre Ville',
+                            ),
+                            value: 9,
+                          ),
+                          DropdownMenuItem(
+                            child: CustomDropDown(
+                              info: 'Rue de tbarna + hratla',
+                            ),
+                            value: 10,
+                          ),
+                          DropdownMenuItem(
+                            child: CustomDropDown(
+                              info: 'El frahta',
+                            ),
+                            value: 11,
+                          ),
+                          DropdownMenuItem(
+                            child: CustomDropDown(
+                              info: 'Exterieur de la Chebba,rue Mahdia',
+                            ),
+                            value: 12,
+                          ),
+                        ],
+                        onChanged: (value) {
+                          setState(() async {
+                            _value = int.parse(value.toString());
+                            myNewFamily.IdQuartier = _value.toString();
+                            setState(() {});
+                          });
+                        },
+                        hint: Text("Selon le quartier")),
+
+                    SizedBox(height: 9),
+                    filed(
+                        text1: "Map ID",
+                        text2: "",
+                        theField: (val) {
+                          myNewFamily.IDMap = val;
+                        }),
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Row(
@@ -246,11 +386,13 @@ class _addFamilyState extends State<addFamily> {
                             child: TextButtonCrt(
                               BackgroundColor: kSecondryColor,
                               f: () async {
+                                FamilyService().addFamily(myNewFamily);
                                 Navigator.push(
                                     context,
                                     new MaterialPageRoute(
-                                        builder: (context) =>
-                                            new ListAllFamilies()));
+                                        builder: (context) => (isAdmin)
+                                            ? new HomePageDirectionAdmin()
+                                            : new HomePageDirection()));
                               },
                               myText: 'Comfirmer',
                               TextColor: kWhitColor,

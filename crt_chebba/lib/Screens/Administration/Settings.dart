@@ -62,8 +62,10 @@ class _SettingsState extends State<Settings> {
           backgroundColor: Colors.grey[350],
           title: Text(
             'Les membres CRT Chebba',
-            style:
-                TextStyle(fontWeight: FontWeight.bold, color: kSecondryColor, fontSize: 15),
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: kSecondryColor,
+                fontSize: 15),
           ),
         ),
         body: StreamBuilder(
@@ -73,7 +75,9 @@ class _SettingsState extends State<Settings> {
                 allAgents = snapshot.data as List<AgentCrt>;
                 return Column(
                   children: [
-                  SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Center(
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -142,7 +146,6 @@ class _SettingsState extends State<Settings> {
                             const SizedBox(
                               width: 10,
                             ),
-                            
                             const SizedBox(
                               width: 10,
                             ),

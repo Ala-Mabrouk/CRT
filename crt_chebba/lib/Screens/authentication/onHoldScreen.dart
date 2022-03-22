@@ -66,10 +66,10 @@ class _HoldOnState extends State<HoldOn> {
                     IconButtonCRT(
                       BackgroundColor: kPrimaryColor,
                       f: () async {
-                        print(widget.agentCrt.agentId);
+                        //  print(widget.agentCrt.agentId);
                         AgentCrt? res = await UserServices()
                             .getUserInfo(widget.agentCrt.agentId);
-                        print(res.email);
+                        //   print(res.email);
                         if (res != null) {
                           if (res.isConfirmed && res.isAdmin) {
                             Navigator.pushAndRemoveUntil(
@@ -82,8 +82,9 @@ class _HoldOnState extends State<HoldOn> {
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        new HomePageDirection()),
+                                    builder: (context) => (res.isAdmin)
+                                        ? new HomePageDirectionAdmin()
+                                        : new HomePageDirection()),
                                 (route) => false);
                           } else {
                             Navigator.push(

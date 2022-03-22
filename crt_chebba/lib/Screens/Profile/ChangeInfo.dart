@@ -1,8 +1,10 @@
+import 'package:crt_chebba/Screens/commun%20Screens/AppBarCrtType2.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/RoundedButton.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/textFormType2.dart';
 import 'package:crt_chebba/Services/authentication_Services/auth.dart';
 import 'package:crt_chebba/constants/constants.dart';
 import 'package:crt_chebba/models/AgentsCrt.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChangeInfo extends StatefulWidget {
@@ -26,7 +28,7 @@ class _ChangeInfoState extends State<ChangeInfo> {
   }
 
   submitLog(AgentCrt us, bool passChange, BuildContext theContext) async {
-    /*   if (_formkey.currentState!.validate() == true) {
+    if (_formkey.currentState!.validate() == true) {
       try {
         if (await _authService.updateUSerInfo(us, passChange) != null) {
           Navigator.pop(theContext);
@@ -38,12 +40,12 @@ class _ChangeInfoState extends State<ChangeInfo> {
           toastMsg("Problem avec le serveur !", theContext);
         }
       }
-    } */
+    }
   }
 
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   bool showPassword = true;
   String tempStr = '';
-  //final Globalkey<FormState> _formkey = Globalkey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,8 @@ class _ChangeInfoState extends State<ChangeInfo> {
         body: SafeArea(
       child: Column(
         children: [
-          Row(
+          AppBarCrtType2(champ1: "Modifier mes coordonnées", champ2: ""),
+          /*  Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
@@ -64,7 +67,7 @@ class _ChangeInfoState extends State<ChangeInfo> {
                 ),
               ),
             ],
-          ),
+          ), */
           Expanded(
             child: Center(
               child: SingleChildScrollView(
@@ -89,7 +92,7 @@ class _ChangeInfoState extends State<ChangeInfo> {
                       height: 20,
                     ),
                     Form(
-                      // key: _formkey,
+                      key: _formkey,
                       child: Column(
                         children: [
                           TextFiledContainerType2(
@@ -169,12 +172,12 @@ class _ChangeInfoState extends State<ChangeInfo> {
                                     if (value == '') {
                                       return "le télèphone est vide !";
                                     }
-                                    if (value!.length != 12) {
-                                      return "le nemero doit étre 12 chiffre !";
+                                    if (value!.length != 8) {
+                                      return "le nemero doit étre 8 chiffre !";
                                     }
                                   },
                                   decoration: InputDecoration(
-                                    hintText: '+216 ** *** ***',
+                                    hintText: '** *** ***',
                                     labelStyle:
                                         const TextStyle(color: kBlackColor),
                                     labelText: 'Télèphone :',
@@ -290,6 +293,9 @@ class _ChangeInfoState extends State<ChangeInfo> {
                         }
                         // }
                       },
+                    ),
+                    SizedBox(
+                      height: 10,
                     ),
                   ],
                 ),

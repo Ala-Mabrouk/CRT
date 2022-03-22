@@ -31,12 +31,12 @@ class _donDetailleState extends State<donDetaille> {
             children: [
               RowText(
                   champ1: 'Date : ',
-                  champ2: widget.don.dateDonation.toString()),
+                  champ2: widget.don.dateDonation.toString().substring(0, 16)),
               RowText(champ1: 'Equipe : ', champ2: widget.don.Equipe),
               RowText(champ1: 'Description : ', champ2: ''),
               Row(
                 children: [
-                  Text('* data \n* data \n* data \n* data \n'),
+                  Text(widget.don.description),
                 ],
               ),
               Row(
