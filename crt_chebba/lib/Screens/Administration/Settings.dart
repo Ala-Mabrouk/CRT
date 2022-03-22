@@ -5,7 +5,6 @@ import 'package:crt_chebba/constants/constants.dart';
 import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_caller/phone_caller.dart';
-import '../commun Screens/AppBarCrtType2.dart';
 import '../commun Screens/RowText.dart';
 
 class Settings extends StatefulWidget {
@@ -15,7 +14,7 @@ class Settings extends StatefulWidget {
   _SettingsState createState() => _SettingsState();
 }
 
-enum WidgetMarker { all, active, holon, blocked }
+enum WidgetMarker { all, active, holon }
 List<AgentCrt> allAgents = List.empty(growable: true);
 List<AgentCrt> displayedAgents = List.empty(growable: true);
 WidgetMarker selectedWidgetMarker = WidgetMarker.all;
@@ -38,8 +37,7 @@ class _SettingsState extends State<Settings> {
         return getActive();
       case WidgetMarker.holon:
         return getholdon();
-      case WidgetMarker.blocked:
-        return getBlocked();
+
       default:
         return getAll();
     }
@@ -59,6 +57,15 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.grey[350],
+          title: Text(
+            'Les membres CRT Chebba',
+            style:
+                TextStyle(fontWeight: FontWeight.bold, color: kSecondryColor, fontSize: 15),
+          ),
+        ),
         body: StreamBuilder(
             stream: AgentManagement().fetchAgentsAsStream(),
             builder: (context, snapshot) {
@@ -66,10 +73,7 @@ class _SettingsState extends State<Settings> {
                 allAgents = snapshot.data as List<AgentCrt>;
                 return Column(
                   children: [
-                    AppBarCrtType2(
-                      champ1: ' Les membres CRT Chebba',
-                      champ2: '',
-                    ),
+                  SizedBox(height: 10,),
                     Center(
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -129,7 +133,7 @@ class _SettingsState extends State<Settings> {
                                 });
                               },
                               child: Text(
-                                "En attente",
+                                "En attente / Bloqué",
                                 style: TextStyle(
                                   color: c33,
                                 ),
@@ -138,25 +142,7 @@ class _SettingsState extends State<Settings> {
                             const SizedBox(
                               width: 10,
                             ),
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                backgroundColor: c4,
-                                primary: c44,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  selectedWidgetMarker = WidgetMarker.blocked;
-                                  c11 = c22 = c33 = c4 = kSecondryColor;
-                                  c1 = c2 = c3 = c44 = kWhitColor;
-                                });
-                              },
-                              child: Text(
-                                "bloqué",
-                                style: TextStyle(
-                                  color: c44,
-                                ),
-                              ),
-                            ),
+                            
                             const SizedBox(
                               width: 10,
                             ),
@@ -252,30 +238,6 @@ class _getholdonState extends State<getholdon> {
           itemCount: holdonAg.length,
           itemBuilder: (BuildContext context, int index) {
             return CardAgent(etat: 'notConfirmed', ag: holdonAg[index]);
-          }),
-    );
-  }
-}
-
-class getBlocked extends StatefulWidget {
-  const getBlocked({Key? key}) : super(key: key);
-
-  @override
-  _getBlockedState createState() => _getBlockedState();
-}
-
-class _getBlockedState extends State<getBlocked> {
-  @override
-  Widget build(BuildContext context) {
-    List<AgentCrt> blockedAg =
-        allAgents.where((ag) => ag.isConfirmed == false).toList();
-    return Expanded(
-      child: ListView.builder(
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          itemCount: blockedAg.length,
-          itemBuilder: (BuildContext context, int index) {
-            return CardAgent(etat: 'bloquer', ag: blockedAg[index]);
           }),
     );
   }
