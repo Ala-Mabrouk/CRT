@@ -81,42 +81,40 @@ class _detailleFamilleState extends State<detailleFamille>
                 decoration: BoxDecoration(
                   color: Colors.white24,
                 ),
-                child: Expanded(
-                  child: TabBar(
-                    onTap: (value) {
-                      setState(() {
-                        groupValue = value;
-                      });
-                    },
-                    controller: _tabController,
-                    indicator: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(width: 2.5, color: Colors.red),
-                      ),
+                child: TabBar(
+                  onTap: (value) {
+                    setState(() {
+                      groupValue = value;
+                    });
+                  },
+                  controller: _tabController,
+                  indicator: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(width: 2.5, color: Colors.red),
                     ),
-                    labelColor: Colors.blue,
-                    unselectedLabelColor: Colors.blue,
-                    tabs: [
-                      Text("Parants",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: kSecondryColor,
-                          )),
-                      Text("Enfants",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: kSecondryColor,
-                          )),
-                      Text("Endroit",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: kSecondryColor,
-                          )),
-                    ],
                   ),
+                  labelColor: Colors.blue,
+                  unselectedLabelColor: Colors.blue,
+                  tabs: [
+                    Text("Parants",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: kSecondryColor,
+                        )),
+                    Text("Enfants",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: kSecondryColor,
+                        )),
+                    Text("Endroit",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: kSecondryColor,
+                        )),
+                  ],
                 ),
               ),
               Expanded(

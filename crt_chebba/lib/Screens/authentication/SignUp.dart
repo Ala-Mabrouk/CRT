@@ -285,7 +285,8 @@ class _SignUpState extends State<SignUp> {
             //   ScaffoldMessenger.of(context)
             //       .showSnackBar(SnackBar(content: Text('email invalid !!!')));
             // }
-            _agentCrt.isAdmin = isAdmin;
+            // _agentCrt.isAdmin = isAdmin;
+            _agentCrt.isAdmin = false;
             _agentCrt.birthDate = selectedDate.toString();
             AgentCrt? res = await auth.registerNewAgent(_agentCrt);
             if (res.agentId.isNotEmpty) {
@@ -397,7 +398,7 @@ class _SignUpState extends State<SignUp> {
                               _agentCrt.phone = val4;
                             });
                           }),
-                      CheckBoxField(),
+                      //    CheckBoxField(),
                     ],
                   ),
                 ),

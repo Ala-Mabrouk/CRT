@@ -57,13 +57,12 @@ class FamilyService {
 //
           'fatherFirstName': _family.fatherFirstName,
           'fatherLasttName': _family.fatherLastName,
-          'fatherJob': _family.fatherLastName,
+          'fatherJob': _family.FatherJob,
           'fatherCIN': _family.fatherCIN,
           'fatherPhone': _family.fatherPhone,
           'fatherBirthDate': _family.fatherBirthDate,
 
 //
-
           'motherFirstName': _family.motherFirstName,
           'motherLastName': _family.motherLastName,
           'motherCIN': _family.motherCIN,
