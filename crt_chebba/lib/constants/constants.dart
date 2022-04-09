@@ -13,4 +13,3 @@ const kBlackColor = Color(0xFF000000);
 const kLightYellowColor = Color(0xFFfff3cd);
 const kLightBlueColor = Color(0xFFcff4fc);
 const kLightRedColor = Color(0xFFf8d7da);
-

@@ -6,8 +6,10 @@ import 'package:crt_chebba/Screens/Family/ListAllFamilies.dart';
 import 'package:crt_chebba/Screens/authentication/forgetPass.dart';
 import 'package:crt_chebba/Screens/authentication/onHoldScreen.dart';
 import 'package:crt_chebba/Services/authentication_Services/auth.dart';
+import 'package:crt_chebba/Services/familyServices/familyServices.dart';
 import 'package:crt_chebba/constants/constants.dart';
 import 'package:crt_chebba/models/AgentsCrt.dart';
+import 'package:crt_chebba/models/Family.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -251,6 +253,13 @@ class _loginState extends State<login> {
                 SizedBox(
                   height: 10,
                 ),
+                /*  RaisedButton(
+                  onPressed: () {
+                    FamilyService().archiveFamily("BYOgKNnlUIOvCsPM");
+                    //FamilyService().addFamily(new Family());
+                  },
+                  child: Text("add empty family"),
+                ), */
                 Text(
                   "Bienvenue !",
                   style: TextStyle(

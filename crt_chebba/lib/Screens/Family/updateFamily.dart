@@ -1,5 +1,6 @@
 import 'package:crt_chebba/Screens/Home/HomePageDirection.dart';
 import 'package:crt_chebba/Screens/Home/HomePageDirectionAdmin.dart';
+import 'package:crt_chebba/Screens/commun%20Screens/AppBarCrt.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/CustomDropDown.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/RowText.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/TextButtonCrt.dart';
@@ -9,19 +10,21 @@ import 'package:crt_chebba/models/Family.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class addFamily extends StatefulWidget {
+class updateFamily extends StatefulWidget {
+  final Family toUpdateFamily;
+  const updateFamily({Key? key, required this.toUpdateFamily})
+      : super(key: key);
   @override
-  _addFamilyState createState() => _addFamilyState();
+  _updateFamilyState createState() => _updateFamilyState();
 }
 
 int _value = 1;
 String labelTextDatePere = '2022-03-22  ';
 String labelTextDateMere = '2022-03-22  ';
 
-class _addFamilyState extends State<addFamily> {
-  Family myNewFamily = Family();
+class _updateFamilyState extends State<updateFamily> {
   DateTime selectedDate = DateTime.now();
-  final _addFamilyFormkey = GlobalKey<FormState>();
+  final _updateFamilyFormkey = GlobalKey<FormState>();
 
   Future<void> _selectDate(BuildContext context, String field) async {
     final DateTime? picked = await showDatePicker(
@@ -32,10 +35,10 @@ class _addFamilyState extends State<addFamily> {
     if (picked != null && picked != selectedDate)
       setState(() {
         if (field == 'pere') {
-          myNewFamily.fatherBirthDate = picked;
+          widget.toUpdateFamily.fatherBirthDate = picked;
           labelTextDatePere = picked.toString();
         } else {
-          myNewFamily.motherBirthDate = picked;
+          widget.toUpdateFamily.motherBirthDate = picked;
           labelTextDateMere = picked.toString();
         }
       });
@@ -58,6 +61,7 @@ class _addFamilyState extends State<addFamily> {
         labelText: text1,
         hintText: text2,
       ),
+      initialValue: text2,
       onChanged: theField,
     );
   }
@@ -82,6 +86,7 @@ class _addFamilyState extends State<addFamily> {
         labelText: text1,
         hintText: text2,
       ),
+      initialValue: text2,
       keyboardType: TextInputType.number,
       onChanged: theField,
     );
@@ -93,7 +98,7 @@ class _addFamilyState extends State<addFamily> {
         if (val == null || val == '') {
           return 'Champ naicessaire';
         }
-        if (val.toString().length != 8) {
+        if (val.toString().length > 8) {
           return "CIN invalid";
         }
         return null;
@@ -107,6 +112,7 @@ class _addFamilyState extends State<addFamily> {
         labelText: text1,
         hintText: text2,
       ),
+      initialValue: text2,
       keyboardType: TextInputType.number,
       onChanged: theField,
     );
@@ -158,6 +164,7 @@ class _addFamilyState extends State<addFamily> {
             isAdmin = prefValue.getBool('isAdmin') ?? false;
           })
         });
+    _value = int.parse(widget.toUpdateFamily.IdQuartier);
   }
 
   @override
@@ -167,19 +174,23 @@ class _addFamilyState extends State<addFamily> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
-            key: _addFamilyFormkey,
+            key: _updateFamilyFormkey,
             child: Column(
               children: [
-                AppBar(
+                /*  AppBar(
                   centerTitle: true,
                   backgroundColor: Colors.grey[350],
                   title: Text(
-                    'Ajouter une  famille',
+                    'Modifier une  famille',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: kSecondryColor,
                         fontSize: 15),
                   ),
+                ), */
+                AppBarCrt(
+                  nomFamille: ' ' + widget.toUpdateFamily.familyName,
+                  info: 'Modifier la Famille de',
                 ),
                 Padding(
                   padding: const EdgeInsets.all(15.0),
@@ -191,23 +202,23 @@ class _addFamilyState extends State<addFamily> {
                       SizedBox(height: 9),
                       filed(
                           text1: "Nom du pére",
-                          text2: "",
+                          text2: widget.toUpdateFamily.fatherLastName,
                           theField: (val) {
-                            myNewFamily.fatherLastName = val;
+                            widget.toUpdateFamily.fatherLastName = val;
                           }),
                       SizedBox(height: 9),
                       filed(
                           text1: "Prénom du pére",
-                          text2: "",
+                          text2: widget.toUpdateFamily.fatherFirstName,
                           theField: (val) {
-                            myNewFamily.fatherFirstName = val;
+                            widget.toUpdateFamily.fatherFirstName = val;
                           }),
                       SizedBox(height: 9),
                       CINfeild(
                           text1: "CIN pére",
-                          text2: "",
+                          text2: widget.toUpdateFamily.fatherCIN,
                           theField: (val) {
-                            myNewFamily.fatherCIN = val;
+                            widget.toUpdateFamily.fatherCIN = val;
                           }),
                       SizedBox(height: 9),
                       DatePicker('pere'),
@@ -220,38 +231,38 @@ class _addFamilyState extends State<addFamily> {
                       SizedBox(height: 9),
                       Phonefiled(
                           text1: "Numéro de téléphone du pére",
-                          text2: "",
+                          text2: widget.toUpdateFamily.fatherPhone,
                           theField: (val) {
-                            myNewFamily.fatherPhone = val;
+                            widget.toUpdateFamily.fatherPhone = val;
                           }),
                       SizedBox(height: 9),
                       filed(
                           text1: "Travail du pére",
-                          text2: "",
+                          text2: widget.toUpdateFamily.FatherJob,
                           theField: (val) {
-                            myNewFamily.FatherJob = val;
+                            widget.toUpdateFamily.FatherJob = val;
                           }),
                       SizedBox(height: 50),
                       RowText(champ1: 'Informations du mére :', champ2: ''),
                       filed(
                           text1: "Nom du mére",
-                          text2: "",
+                          text2: widget.toUpdateFamily.motherLastName,
                           theField: (val) {
-                            myNewFamily.motherLastName = val;
+                            widget.toUpdateFamily.motherLastName = val;
                           }),
                       SizedBox(height: 9),
                       filed(
                           text1: "Prénom du mére",
-                          text2: "",
+                          text2: widget.toUpdateFamily.motherFirstName,
                           theField: (val) {
-                            myNewFamily.motherFirstName = val;
+                            widget.toUpdateFamily.motherFirstName = val;
                           }),
                       SizedBox(height: 9),
                       CINfeild(
                           text1: "CIN mére",
-                          text2: "",
+                          text2: widget.toUpdateFamily.motherCIN,
                           theField: (val) {
-                            myNewFamily.motherCIN = val;
+                            widget.toUpdateFamily.motherCIN = val;
                           }),
                       SizedBox(height: 9),
                       DatePicker('mere'),
@@ -265,24 +276,24 @@ class _addFamilyState extends State<addFamily> {
                       SizedBox(height: 9),
                       Phonefiled(
                           text1: "Numéro de téléphone du mére",
-                          text2: "",
+                          text2: widget.toUpdateFamily.motherPhone,
                           theField: (val) {
-                            myNewFamily.motherPhone = val;
+                            widget.toUpdateFamily.motherPhone = val;
                           }),
                       SizedBox(height: 9),
                       filed(
                           text1: "Travail du mére",
-                          text2: "",
+                          text2: widget.toUpdateFamily.motherJob,
                           theField: (val) {
-                            myNewFamily.motherJob = val;
+                            widget.toUpdateFamily.motherJob = val;
                           }),
                       SizedBox(height: 50),
                       RowText(champ1: 'Etat famille : ', champ2: ''),
                       filed(
                           text1: "Status family",
-                          text2: "",
+                          text2: widget.toUpdateFamily.familyStatus,
                           theField: (val) {
-                            myNewFamily.familyStatus = val;
+                            widget.toUpdateFamily.familyStatus = val;
                           }),
                       SizedBox(height: 50),
                       RowText(
@@ -300,9 +311,11 @@ class _addFamilyState extends State<addFamily> {
                           labelText: 'Nombre des enfants',
                           hintText: 'Nombre des enfants',
                         ),
+                        initialValue:
+                            widget.toUpdateFamily.nbChildren.toString(),
                         keyboardType: TextInputType.number,
                         onChanged: (val) {
-                          myNewFamily.nbChildren = int.parse(val);
+                          widget.toUpdateFamily.nbChildren = int.parse(val);
                         },
                       ),
                       SizedBox(
@@ -316,7 +329,7 @@ class _addFamilyState extends State<addFamily> {
                           border: OutlineInputBorder(),
                         ),
                         onChanged: (val) {
-                          myNewFamily.childrenInfo = val;
+                          widget.toUpdateFamily.childrenInfo = val;
                         },
                       ),
                       SizedBox(height: 50),
@@ -411,7 +424,8 @@ class _addFamilyState extends State<addFamily> {
                           onChanged: (value) {
                             setState(() async {
                               _value = int.parse(value.toString());
-                              myNewFamily.IdQuartier = _value.toString();
+                              widget.toUpdateFamily.IdQuartier =
+                                  _value.toString();
                               setState(() {});
                             });
                           },
@@ -419,17 +433,17 @@ class _addFamilyState extends State<addFamily> {
                       SizedBox(height: 9),
                       filed(
                           text1: "Adresse",
-                          text2: "",
+                          text2: widget.toUpdateFamily.familyLocation,
                           theField: (val) {
-                            myNewFamily.familyLocation = val;
+                            widget.toUpdateFamily.familyLocation = val;
                           }),
                       SizedBox(height: 9),
 
                       filed(
                           text1: "Map ID",
-                          text2: "",
+                          text2: widget.toUpdateFamily.IDMap,
                           theField: (val) {
-                            myNewFamily.IDMap = val;
+                            widget.toUpdateFamily.IDMap = val;
                           }),
                       Padding(
                         padding: const EdgeInsets.all(20.0),
@@ -440,9 +454,10 @@ class _addFamilyState extends State<addFamily> {
                               child: TextButtonCrt(
                                 BackgroundColor: kSecondryColor,
                                 f: () {
-                                  if (_addFamilyFormkey.currentState!
+                                  if (_updateFamilyFormkey.currentState!
                                       .validate()) {
-                                    FamilyService().addFamily(myNewFamily);
+                                    FamilyService()
+                                        .updateFamily(widget.toUpdateFamily);
                                     Navigator.push(
                                         context,
                                         new MaterialPageRoute(

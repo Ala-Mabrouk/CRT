@@ -9,8 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-bool _isLoged = false;
-bool _isAdmin = false;
 void main() async {
   debugPaintSizeEnabled = false;
   debugPaintBaselinesEnabled = false;

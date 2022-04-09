@@ -50,6 +50,7 @@ class FamilyService {
 
     return await familiesCollection
         .doc(_family.familyID)
+        // .doc("9rismpqZsGAJmNph")
         .set({
           'familyID': _family.familyID,
           'familyName': _family.fatherLastName,
@@ -124,7 +125,7 @@ class FamilyService {
     //delete the document from CRT_Famliy collection
     //save the data in the archive collection
 
-    return await familiesCollection.doc(_familyID).snapshots();
+    return await familiesCollection.doc(_familyID).update({"archived": false});
   }
 
   // random id generator

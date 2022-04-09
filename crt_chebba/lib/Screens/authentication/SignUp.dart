@@ -4,6 +4,7 @@ import 'package:crt_chebba/Services/authentication_Services/auth.dart';
 import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -92,6 +93,47 @@ class _SignUpState extends State<SignUp> {
     }
 
     Widget DatePicker() {
+      // String labelText = "--/--/----";
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: [
+              Text(
+                "Date de naissance ",
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+              ),
+              IconButton(
+                onPressed: () {
+                  _selectDate(context);
+                },
+                icon: Icon(
+                  Icons.calendar_today,
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.grey,
+                width: 2,
+              ), //Border.all
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(selectedDate.toString().substring(0, 10)),
+              //child: Text(DateFormat("d/MMMM/y").format(selectedDate)),
+            ),
+          ),
+        ],
+      );
+    }
+/* 
+    Widget DatePicker() {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -106,7 +148,7 @@ class _SignUpState extends State<SignUp> {
             ),
           ),
           TextFormField(
-            enabled: true,
+            enabled: false,
             validator: (val) =>
                 (val == null || val == '') ? 'Champ naicessaire' : null,
             decoration: InputDecoration(
@@ -139,7 +181,7 @@ class _SignUpState extends State<SignUp> {
           )
         ],
       );
-    }
+    } */
 
     Widget CheckBoxField() {
       return Padding(
@@ -190,8 +232,15 @@ class _SignUpState extends State<SignUp> {
             ),
           ),
           TextFormField(
-              validator: (val) =>
-                  (val == null || val == '') ? 'Champ naicessaire' : null,
+              validator: (val) {
+                if (val == null || val == '') {
+                  return 'Champ naicessaire';
+                }
+                if (val.length < 8) {
+                  return 'Mot de passe faible';
+                }
+                return null;
+              },
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                 hintText: hint,
@@ -240,8 +289,15 @@ class _SignUpState extends State<SignUp> {
             ),
           ),
           TextFormField(
-              validator: (val) =>
-                  (val == null || val == '') ? 'Champ naicessaire' : null,
+              validator: (val) {
+                if (val == null || val == '') {
+                  return 'Champ naicessaire';
+                }
+                if (val.toString().length != 8) {
+                  return 'Numero telephone invalid';
+                }
+                return null;
+              },
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                 hintText: hint,
@@ -258,7 +314,7 @@ class _SignUpState extends State<SignUp> {
                   borderSide: BorderSide(color: Colors.red, width: 2.0),
                 ),
               ),
-              keyboardType: TextInputType.phone,
+              keyboardType: TextInputType.number,
               onChanged: field
               //  (val) {
               //   setState(() {
@@ -280,23 +336,25 @@ class _SignUpState extends State<SignUp> {
         width: size.width * 0.5,
         child: RaisedButton(
           onPressed: () async {
-            // final formstatus = _SignUpFormkey.currentState;
+            final formstatus = _SignUpFormkey.currentState;
             // if (formstatus!.validate()) {
             //   ScaffoldMessenger.of(context)
             //       .showSnackBar(SnackBar(content: Text('email invalid !!!')));
             // }
             // _agentCrt.isAdmin = isAdmin;
-            _agentCrt.isAdmin = false;
-            _agentCrt.birthDate = selectedDate.toString();
-            AgentCrt? res = await auth.registerNewAgent(_agentCrt);
-            if (res.agentId.isNotEmpty) {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => new HoldOn(
-                            agentCrt: res,
-                          )),
-                  (route) => false);
+            if (formstatus!.validate() == true) {
+              _agentCrt.isAdmin = false;
+              _agentCrt.birthDate = selectedDate.toString();
+              AgentCrt? res = await auth.registerNewAgent(_agentCrt);
+              if (res.agentId.isNotEmpty) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => new HoldOn(
+                              agentCrt: res,
+                            )),
+                    (route) => false);
+              }
             }
           },
           padding: EdgeInsets.all(2),
@@ -391,13 +449,14 @@ class _SignUpState extends State<SignUp> {
                       DatePicker(),
                       InputPhoneField(
                           label: 'Telephone:',
-                          hint: '+216 22222222',
+                          hint: '22222222',
                           obscur: false,
                           field: (val4) {
                             setState(() {
                               _agentCrt.phone = val4;
                             });
                           }),
+
                       //    CheckBoxField(),
                     ],
                   ),

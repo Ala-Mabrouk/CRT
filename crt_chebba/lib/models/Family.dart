@@ -4,6 +4,7 @@ class Family {
   String familyName = '';
   String familyID = '';
   String familyStatus = '';
+  bool archived = false;
 
   String fatherFirstName = '';
   String fatherLastName = '';
@@ -28,11 +29,41 @@ class Family {
 
   String RQs = '';
 
-  Family() {}
+  Family() {
+    familyName = 'empty';
+    familyID = 'empty';
+    archived = false;
+    familyStatus = 'empty';
+
+    fatherFirstName = 'empty';
+    fatherLastName = '';
+    fatherCIN = '';
+    fatherPhone = '';
+    fatherBirthDate = DateTime(2021);
+    FatherJob = '';
+
+    motherFirstName = '';
+    motherLastName = '';
+    motherCIN = '';
+    motherPhone = '';
+    motherBirthDate = DateTime(2021);
+    motherJob = '';
+
+    nbChildren = 0;
+    childrenInfo = '';
+
+    familyLocation = '';
+    IdQuartier = '';
+    IDMap = '';
+
+    RQs = '';
+  }
+
   Family.fill({required this.familyName});
   Family.fromJSON(Map<String, dynamic> map) {
     familyName = map['familyName'] ?? '';
     familyID = map['familyID'] ?? '';
+    archived = map['archived'] ?? false;
     familyStatus = map['familyStatus'] ?? '';
 
     fatherFirstName = map['fatherFirstName'] ?? '';

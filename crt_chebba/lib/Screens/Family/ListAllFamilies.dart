@@ -1,19 +1,15 @@
-import 'dart:async';
 import 'package:crt_chebba/Screens/Family/add_family.dart';
 import 'package:crt_chebba/Screens/Family/detailleFamille.dart';
-import 'package:crt_chebba/Screens/authentication/login.dart';
-import 'package:crt_chebba/Screens/authentication/onHoldScreen.dart';
+import 'package:crt_chebba/Screens/Family/updateFamily.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/CustomDropDown.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/HomeAppBar.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/RowText.dart';
-import 'package:crt_chebba/Services/authentication_Services/auth.dart';
+import 'package:crt_chebba/Screens/commun%20Screens/loading.dart';
 import 'package:crt_chebba/Services/familyServices/familyServices.dart';
 import 'package:crt_chebba/constants/constants.dart';
-import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:crt_chebba/models/Family.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ListAllFamilies extends StatefulWidget {
   static const routeName = '/Home';
@@ -25,11 +21,57 @@ class _ListAllFamiliesState extends State<ListAllFamilies> {
   List<Family>? families = [];
   List<Family> displayedList = [];
   int _value = 0;
+  bool isAdmin = false;
   // bool checked = false;
+  showAlertDialog(BuildContext context, String text) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Center(
+              child: Text(
+            '! Attention !',
+            style: TextStyle(
+                fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
+          )),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Vous êtes sur le point de Supprimer la famille de ' +
+                    text +
+                    '!!'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+                child: const Text('Annuler'),
+                onPressed: () {
+                  print('alert dissmiss');
+                  Navigator.pop(context);
+                }),
+            TextButton(
+              child: const Text(
+                'Supprimer',
+                style: TextStyle(
+                    color: kPrimaryColor, fontWeight: FontWeight.w600),
+              ),
+              onPressed: () async {
+                print('Famille archiver !!!');
+                setState(() {});
+                //(context,MaterialPageRoute(builder: (context) => const signIn()));
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
 
   @override
   void initState() {
-    thefunc(_value);
+    // thefunc(_value);
 /*     checkLoged();
     if (!checked) {
       Navigator.pushAndRemoveUntil(
@@ -38,6 +80,11 @@ class _ListAllFamiliesState extends State<ListAllFamilies> {
           (route) => false);
     } */
     super.initState();
+    SharedPreferences.getInstance().then((prefValue) => {
+          setState(() {
+            isAdmin = prefValue.getBool('isAdmin') ?? false;
+          })
+        });
   }
 
 /*   void checkLoged() {
@@ -60,7 +107,7 @@ class _ListAllFamiliesState extends State<ListAllFamilies> {
   } */
 
 //the wanted function
-  Future<void> thefunc(int val) async {
+  /*  Future<void> thefunc(int val) async {
     await FamilyService().fetchFamilies().then((value) => families = value);
     if (val == 0) {
       displayedList = families!;
@@ -70,7 +117,7 @@ class _ListAllFamiliesState extends State<ListAllFamilies> {
           .toList();
     }
     setState(() {});
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -195,7 +242,7 @@ class _ListAllFamiliesState extends State<ListAllFamilies> {
                         setState(() async {
                           _value = int.parse(value.toString());
                           value = _value;
-                          await thefunc(_value);
+                          // await thefunc(_value);
                           setState(() {});
                         });
                       },
@@ -203,17 +250,37 @@ class _ListAllFamiliesState extends State<ListAllFamilies> {
                 ),
               ),
             ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: ListView.builder(
-                    physics: ScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: displayedList.length,
-                    itemBuilder: (BuildContext context, Index) {
-                      return FamilyCard(f: displayedList[Index]);
-                    }),
-              ),
-            ),
+            FutureBuilder(
+                future: FamilyService().fetchFamilies(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    families = snapshot.data as List<Family>?;
+                    if (_value == 0) {
+                      displayedList = families!;
+                    } else {
+                      displayedList = families!
+                          .where((element) =>
+                              element.IdQuartier == _value.toString())
+                          .toList();
+                    }
+                    //setState(() {});
+
+                    return Expanded(
+                      child: SingleChildScrollView(
+                        child: ListView.builder(
+                            physics: ScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: displayedList.length,
+                            itemBuilder: (BuildContext context, Index) {
+                              if (!displayedList[Index].archived)
+                                return FamilyCard(f: displayedList[Index]);
+                              return SizedBox();
+                            }),
+                      ),
+                    );
+                  }
+                  return Loding();
+                }),
           ],
         ),
       ),
@@ -279,42 +346,142 @@ class _ListAllFamiliesState extends State<ListAllFamilies> {
                           height: 10,
                         ),
                         RowText(champ1: 'Adresse: ', champ2: f.familyLocation),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                height: 32,
-                                decoration: BoxDecoration(
-                                  color: kPrimaryColor.withOpacity(0.9),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                detailleFamille(
-                                                  selectedFamily: f,
-                                                )));
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 0),
-                                    child: const Text(
-                                      'Voir Details',
-                                      style: TextStyle(color: Colors.white),
+                        //selon le role on change l'affichage
+                        Container(
+                          child: (!isAdmin)
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        height: 32,
+                                        decoration: BoxDecoration(
+                                          color: kPrimaryColor.withOpacity(0.9),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: TextButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        detailleFamille(
+                                                          selectedFamily: f,
+                                                        )));
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 12, vertical: 0),
+                                            child: const Text(
+                                              'Voir Details',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    SizedBox(
+                                      width: 20,
+                                    )
+                                  ],
+                                )
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Container(
+                                        height: 32,
+                                        decoration: BoxDecoration(
+                                          color: kGreenColor.withOpacity(0.9),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: TextButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        detailleFamille(
+                                                          selectedFamily: f,
+                                                        )));
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 0),
+                                            child: const Text(
+                                              'Details',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Container(
+                                        height: 32,
+                                        decoration: BoxDecoration(
+                                          color:
+                                              kSecondryColor.withOpacity(0.9),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: TextButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        updateFamily(
+                                                          toUpdateFamily: f,
+                                                        )));
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 0),
+                                            child: const Text(
+                                              'Update',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Container(
+                                        height: 32,
+                                        decoration: BoxDecoration(
+                                          color: kPrimaryColor.withOpacity(0.9),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: TextButton(
+                                          onPressed: () {
+                                            showAlertDialog(
+                                                context, f.familyName);
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 0),
+                                            child: const Text(
+                                              'Delete',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            )
-                          ],
                         ),
                       ]),
                 ),
