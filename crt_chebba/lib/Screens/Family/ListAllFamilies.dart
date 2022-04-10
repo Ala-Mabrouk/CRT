@@ -23,7 +23,7 @@ class _ListAllFamiliesState extends State<ListAllFamilies> {
   int _value = 0;
   bool isAdmin = false;
   // bool checked = false;
-  showAlertDialog(BuildContext context, String text) {
+  showAlertDialog(BuildContext context, String textid, String fname) {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -39,7 +39,7 @@ class _ListAllFamiliesState extends State<ListAllFamilies> {
             child: ListBody(
               children: <Widget>[
                 Text('Vous êtes sur le point de Supprimer la famille de ' +
-                    text +
+                    fname +
                     '!!'),
               ],
             ),
@@ -47,9 +47,11 @@ class _ListAllFamiliesState extends State<ListAllFamilies> {
           actions: <Widget>[
             TextButton(
                 child: const Text('Annuler'),
-                onPressed: () {
+                onPressed: () async {
                   print('alert dissmiss');
+
                   Navigator.pop(context);
+                  setState(() {});
                 }),
             TextButton(
               child: const Text(
@@ -59,6 +61,8 @@ class _ListAllFamiliesState extends State<ListAllFamilies> {
               ),
               onPressed: () async {
                 print('Famille archiver !!!');
+                await FamilyService().archiveFamily(textid);
+                Navigator.pop(context);
                 setState(() {});
                 //(context,MaterialPageRoute(builder: (context) => const signIn()));
               },
@@ -335,7 +339,7 @@ class _ListAllFamiliesState extends State<ListAllFamilies> {
                               ),
                             ),
                             Text(
-                              f.familyName + ' ' + f.fatherFirstName,
+                              f.familyName,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.blue[900]),
@@ -412,7 +416,7 @@ class _ListAllFamiliesState extends State<ListAllFamilies> {
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 0),
+                                                horizontal: 5, vertical: 0),
                                             child: const Text(
                                               'Details',
                                               style: TextStyle(
@@ -425,6 +429,7 @@ class _ListAllFamiliesState extends State<ListAllFamilies> {
                                     Padding(
                                       padding: const EdgeInsets.all(4.0),
                                       child: Container(
+                                        alignment: AlignmentDirectional.center,
                                         height: 32,
                                         decoration: BoxDecoration(
                                           color:
@@ -444,9 +449,9 @@ class _ListAllFamiliesState extends State<ListAllFamilies> {
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 0),
+                                                horizontal: 5, vertical: 0),
                                             child: const Text(
-                                              'Update',
+                                              'Modifier',
                                               style: TextStyle(
                                                   color: Colors.white),
                                             ),
@@ -465,12 +470,12 @@ class _ListAllFamiliesState extends State<ListAllFamilies> {
                                         ),
                                         child: TextButton(
                                           onPressed: () {
-                                            showAlertDialog(
-                                                context, f.familyName);
+                                            showAlertDialog(context, f.familyID,
+                                                f.familyName);
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 0),
+                                                horizontal: 7, vertical: 0),
                                             child: const Text(
                                               'Delete',
                                               style: TextStyle(
@@ -482,6 +487,9 @@ class _ListAllFamiliesState extends State<ListAllFamilies> {
                                     ),
                                   ],
                                 ),
+                        ),
+                        SizedBox(
+                          height: 5,
                         ),
                       ]),
                 ),

@@ -67,7 +67,7 @@ class Family {
     familyStatus = map['familyStatus'] ?? '';
 
     fatherFirstName = map['fatherFirstName'] ?? '';
-    fatherLastName = map['fatherLastName'] ?? '';
+    fatherLastName = map['fatherLasttName'] ?? '';
     fatherCIN = map['fatherCIN'] ?? '';
     fatherPhone = map['fatherPhone'] ?? '';
     fatherBirthDate =

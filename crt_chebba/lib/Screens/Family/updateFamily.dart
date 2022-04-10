@@ -72,7 +72,7 @@ class _updateFamilyState extends State<updateFamily> {
         if (val == null || val == '') {
           return 'Champ naicessaire';
         }
-        if (val.toString().length > 8) {
+        if (val.toString().length != 8) {
           return 'Numero telephone invalid';
         }
         return null;
@@ -98,7 +98,7 @@ class _updateFamilyState extends State<updateFamily> {
         if (val == null || val == '') {
           return 'Champ naicessaire';
         }
-        if (val.toString().length > 8) {
+        if (val.toString().length != 8) {
           return "CIN invalid";
         }
         return null;
@@ -152,6 +152,58 @@ class _updateFamilyState extends State<updateFamily> {
             ? labelTextDatePere.substring(0, 10)
             : labelTextDateMere.substring(0, 10)),
       ],
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Center(
+              child: Text(
+            '! Modifer les informations !',
+            style: TextStyle(
+                fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
+          )),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Confirmer les informations modifier ?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+                child: const Text('Annuler'),
+                onPressed: () async {
+                  print('alert dissmiss');
+
+                  Navigator.pop(context);
+                  setState(() {});
+                }),
+            TextButton(
+              child: const Text(
+                'Confirmer',
+                style: TextStyle(
+                    color: kSecondryColor, fontWeight: FontWeight.w600),
+              ),
+              onPressed: () async {
+                FamilyService().updateFamily(widget.toUpdateFamily);
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => (isAdmin)
+                            ? new HomePageDirectionAdmin()
+                            : new HomePageDirection()));
+                setState(() {});
+                //(context,MaterialPageRoute(builder: (context) => const signIn()));
+              },
+            )
+          ],
+        );
+      },
     );
   }
 
@@ -456,17 +508,10 @@ class _updateFamilyState extends State<updateFamily> {
                                 f: () {
                                   if (_updateFamilyFormkey.currentState!
                                       .validate()) {
-                                    FamilyService()
-                                        .updateFamily(widget.toUpdateFamily);
-                                    Navigator.push(
-                                        context,
-                                        new MaterialPageRoute(
-                                            builder: (context) => (isAdmin)
-                                                ? new HomePageDirectionAdmin()
-                                                : new HomePageDirection()));
+                                    showAlertDialog(context);
                                   }
                                 },
-                                myText: 'Comfirmer',
+                                myText: 'Modifier',
                                 TextColor: kWhitColor,
                               ),
                             ),

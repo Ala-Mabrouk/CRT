@@ -92,25 +92,32 @@ class FamilyService {
         .doc(_family.familyID)
         .update({
           'familyName': _family.fatherLastName,
-
+          'familyStatus': _family.familyStatus,
+//
           'fatherFirstName': _family.fatherFirstName,
           'fatherLasttName': _family.fatherLastName,
-
+          'fatherJob': _family.FatherJob,
           'fatherCIN': _family.fatherCIN,
           'fatherPhone': _family.fatherPhone,
           'fatherBirthDate': _family.fatherBirthDate,
-//
 
+//
           'motherFirstName': _family.motherFirstName,
           'motherLastName': _family.motherLastName,
           'motherCIN': _family.motherCIN,
           'motherPhone': _family.motherPhone,
           'motherBirthDate': _family.motherBirthDate,
+          'motherJob': _family.fatherLastName,
 //
 //
 
           'familyLocation': _family.familyLocation,
           'IdQuartier': _family.IdQuartier,
+          'mapId': _family.IDMap,
+//
+          'nbChildren': _family.nbChildren,
+          'childrenInfo': _family.childrenInfo,
+          'familyRQs': _family.RQs,
         })
         .whenComplete(() => print("family is updated in the database"))
         .catchError((e) => print(e));
@@ -125,7 +132,7 @@ class FamilyService {
     //delete the document from CRT_Famliy collection
     //save the data in the archive collection
 
-    return await familiesCollection.doc(_familyID).update({"archived": false});
+    return await familiesCollection.doc(_familyID).update({"archived": true});
   }
 
   // random id generator
