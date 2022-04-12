@@ -5,8 +5,13 @@ import 'package:phone_caller/phone_caller.dart';
 class AppBarCrt extends StatefulWidget {
   final String nomFamille;
   final String info;
+  final String phoneNb;
 
-  const AppBarCrt({Key? key, required this.nomFamille, required this.info})
+  const AppBarCrt(
+      {Key? key,
+      required this.nomFamille,
+      required this.info,
+      required this.phoneNb})
       : super(key: key);
 
   @override
@@ -42,6 +47,7 @@ class _AppBarCrtState extends State<AppBarCrt> {
         iconAppBarphone(
           color: kGreenColor,
           icon: Icons.phone,
+          nbPhone: widget.phoneNb,
         ),
         SizedBox(width: 10),
       ]),
@@ -52,11 +58,13 @@ class _AppBarCrtState extends State<AppBarCrt> {
 class iconAppBarphone extends StatefulWidget {
   final Color color;
   final IconData icon;
+  final String nbPhone;
 
   const iconAppBarphone({
     Key? key,
     required this.color,
     required this.icon,
+    required this.nbPhone,
   }) : super(key: key);
 
   @override
@@ -83,7 +91,7 @@ class _iconAppBarphoneState extends State<iconAppBarphone> {
           size: 13,
         ),
         onPressed: () async {
-          await PhoneCaller.callNumber('number');
+          await PhoneCaller.callNumber(widget.nbPhone);
         },
       ),
     );

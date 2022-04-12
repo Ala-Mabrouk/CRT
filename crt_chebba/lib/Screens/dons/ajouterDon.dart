@@ -1,4 +1,5 @@
 import 'package:crt_chebba/Screens/commun%20Screens/AppBarCrt.dart';
+import 'package:crt_chebba/Screens/commun%20Screens/AppBarCrtType2.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/RowText.dart';
 import 'package:crt_chebba/Screens/commun%20Screens/TextButtonCrt.dart';
 import 'package:crt_chebba/Services/donationServices/donationsServices.dart';
@@ -34,15 +35,13 @@ class _AjouterLeDonState extends State<AjouterLeDon> {
 
   Widget build(BuildContext context) {
     Donation tempDon = Donation();
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
             children: [
-              AppBarCrt(
-                info: 'Ajouter Le Don',
-                nomFamille: '',
-              ),
+              AppBarCrtType2(champ1: "Ajouter un Don", champ2: ""),
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(

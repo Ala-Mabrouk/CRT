@@ -243,6 +243,9 @@ class _updateFamilyState extends State<updateFamily> {
                 AppBarCrt(
                   nomFamille: ' ' + widget.toUpdateFamily.familyName,
                   info: 'Modifier la Famille de',
+                  phoneNb: (widget.toUpdateFamily.fatherFirstName == '..')
+                      ? widget.toUpdateFamily.motherPhone
+                      : widget.toUpdateFamily.fatherPhone,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(15.0),

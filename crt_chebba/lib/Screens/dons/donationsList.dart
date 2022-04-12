@@ -1,4 +1,5 @@
 import 'package:crt_chebba/Screens/commun%20Screens/AppBarCrt.dart';
+import 'package:crt_chebba/Screens/commun%20Screens/AppBarCrtType2.dart';
 import 'package:crt_chebba/Screens/dons/ajouterDon.dart';
 
 import 'package:crt_chebba/Services/donationServices/donationsServices.dart';
@@ -26,7 +27,7 @@ class _donsState extends State<dons> {
       body: SafeArea(
         child: Column(
           children: [
-            AppBarCrt(info: 'Les dons de', nomFamille: widget.familyName),
+            AppBarCrtType2(champ1: "Les dons de", champ2: ""),
             Expanded(
               child: StreamBuilder(
                 stream: DonationService()

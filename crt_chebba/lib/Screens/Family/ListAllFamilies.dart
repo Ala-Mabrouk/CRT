@@ -59,9 +59,9 @@ class _ListAllFamiliesState extends State<ListAllFamilies> {
                 style: TextStyle(
                     color: kPrimaryColor, fontWeight: FontWeight.w600),
               ),
-              onPressed: () async {
+              onPressed: () {
                 print('Famille archiver !!!');
-                await FamilyService().archiveFamily(textid);
+                FamilyService().archiveFamily(textid);
                 Navigator.pop(context);
                 setState(() {});
                 //(context,MaterialPageRoute(builder: (context) => const signIn()));

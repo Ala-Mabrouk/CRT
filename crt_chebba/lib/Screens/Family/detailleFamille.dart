@@ -61,6 +61,9 @@ class _detailleFamilleState extends State<detailleFamille>
               AppBarCrt(
                 nomFamille: ' ' + widget.selectedFamily.familyName,
                 info: 'La Famille de',
+                phoneNb: (widget.selectedFamily.fatherFirstName == '..')
+                    ? widget.selectedFamily.motherPhone
+                    : widget.selectedFamily.fatherPhone,
               ),
               SizedBox(
                 height: 20,
