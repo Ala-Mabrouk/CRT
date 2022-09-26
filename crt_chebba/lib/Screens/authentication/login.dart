@@ -16,6 +16,13 @@ import 'package:flutter/material.dart';
 
 import 'SignUp.dart';
 
+bool validateMail(String mail) {
+  bool emailValid = RegExp(
+          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+      .hasMatch(mail);
+  return emailValid;
+}
+
 class login extends StatefulWidget {
   const login({Key? key}) : super(key: key);
 
@@ -95,10 +102,9 @@ class _loginState extends State<login> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextFormField(
-            validator: (val) =>
-                (val == null || !EmailValidator.validate(val.toString()))
-                    ? 'Email format incorect'
-                    : null,
+            validator: (val) => (val == null || !validateMail(val.toString()))
+                ? 'Email format incorect'
+                : null,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.fromLTRB(30, 0, 0, 0),
               hintText: "NomPrenom@mail.fr",
