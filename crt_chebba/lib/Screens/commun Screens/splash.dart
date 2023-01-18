@@ -45,7 +45,7 @@ class splashScreen extends StatelessWidget {
                 AgentCrt ag = snapshot.data as AgentCrt;
                 return AnimatedSplashScreen(
                     duration: 2000,
-                    splash: Image.asset('assets/logo.png'),
+                    splash: Image.asset('assets/logo.png',height: 200,width: 200,),
                     nextScreen: selcetPath(ag),
                     splashTransition: SplashTransition.fadeTransition,
                     backgroundColor: Colors.grey.shade100);

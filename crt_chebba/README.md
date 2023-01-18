@@ -8,6 +8,19 @@ This Flutter application is dedicated to the CRT (Croissant Rouge Tunisien) orga
 - **Donation tracking:** The application allows CRT members to track donations received and allocate them to registered families. Data is stored in Firestore.
 - **Distribution of aid:** CRT members can mark a family's aid as distributed and keep track of the aid distributed to each registered family.
 - **Reporting:** The application provides various reporting options for CRT members to view the status of registered families, donations and aid distributions.
+- **Access control:** The application provide a separtion between Admins and simple volunteers in order to organize and keep integrity of the users  
+## Screenshots
+
+Here are some screenshots of the app in action:
+
+| | |
+|--------------|--------------|
+|![Screenshot of the app's splash screen](screenshots/splash.jpg)|![Screenshot of the app's login screen](screenshots/login.jpg)|
+|![Screenshot of the app's sign up screen](screenshots/signup.jpg)|![Screenshot of the app's forgetPass screen](screenshots/forgetPass.jpg)|
+|![Screenshot of the app's listUser screen](screenshots/listUser.jpg)|![Screenshot of the app's ListFamily](screenshots/ListFamily.jpg)|
+|![Screenshot of the app's detailsFamily ](screenshots/detailsFamily.jpg)|![Screenshot of the app's updateProfile](screenshots/updateProfile.jpg)|
+
+
 
 ## Dependencies
 - Flutter SDK
@@ -23,16 +36,5 @@ This Flutter application is dedicated to the CRT (Croissant Rouge Tunisien) orga
 
 If you have any questions or would like to get in touch with us, please email us at [alamabrouk007@gmail.com](mailto:alamabrouk007@gmail.com) or [sabeurbenali3@gmail.com](mailto:sabeurbenali3@gmail.com)
 
-## Screenshots
 
-<!-- Here are some screenshots of the app in action:
-
-|<col style="width:50%">|<col style="width:50%">|
-|--------------|--------------|
-|![Screenshot of the app's splash screen](screenshots/splashScreen.jpg)|![Screenshot of the app's login screen](screenshots/login.jpg)|
-|![Screenshot of the app's home screen](screenshots/homeScreen1.jpg)|![Screenshot of the app's sensor data screen](screenshots/homeScreen2.jpg)|
-|![Screenshot of the app's device control screen](screenshots/ControlScreen.jpg)|![Screenshot of the app's StatisticsScreen](screenshots/StatisticsScreen.jpg)|
-|![Screenshot of the app's simulation ](screenshots/Web%20capture_1.jpeg)|![Screenshot of the app's simulation 2](screenshots/Web%20capture_2.jpeg)|
-
--->
 

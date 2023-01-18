@@ -114,12 +114,11 @@ class ForgotPassword extends StatelessWidget {
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
-                                const Color.fromARGB(240, 229, 217, 182),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 35, vertical: 20),
+                                Colors.red,
+                            padding: const EdgeInsets.all(2),
                             shape: const RoundedRectangleBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(50)),
+                                  BorderRadius.all(Radius.circular(20)),
                             ),
                           ),
                           child: Text(
@@ -143,7 +142,7 @@ class ForgotPassword extends StatelessWidget {
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
-                              color: Colors.black),
+                              color: Colors.grey),
                         ),
                       )
                     ],

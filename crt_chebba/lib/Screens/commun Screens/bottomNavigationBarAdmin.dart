@@ -60,11 +60,15 @@ class _bottomNavigationBarAdminState extends State<bottomNavigationBarAdmin> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.white),
                                     child: const Text('Annuler'),
                                     onPressed: () =>
                                         {Navigator.of(context).pop()},
                                   ),
                                   ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.blue),
                                       child: const Text('Continuer'),
                                       onPressed: () {
                                         AuthenticationService().logout();

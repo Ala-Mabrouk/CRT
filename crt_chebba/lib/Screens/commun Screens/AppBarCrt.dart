@@ -90,6 +90,7 @@ class _iconAppBarphoneState extends State<iconAppBarphone> {
           size: 13,
         ),
         onPressed: () async {
+          print("making a call");
          // await PhoneCaller.callNumber(widget.nbPhone);
         },
       ),

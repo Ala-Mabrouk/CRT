@@ -236,9 +236,7 @@ class _SignUpState extends State<SignUp> {
                 if (val == null || val == '') {
                   return 'Champ naicessaire';
                 }
-                if (val.length < 8) {
-                  return 'Mot de passe faible';
-                }
+                
                 return null;
               },
               decoration: InputDecoration(
@@ -342,10 +340,10 @@ class _SignUpState extends State<SignUp> {
                 color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
           ),
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromARGB(240, 229, 217, 182),
-            padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 20),
+            backgroundColor: Colors.red,
+            padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
             shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(50)),
+              borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
           ),
          onPressed: () async {
@@ -490,7 +488,7 @@ class _SignUpState extends State<SignUp> {
                       DatePicker(),
                       InputPhoneField(
                           label: 'Telephone:',
-                          hint: '22222222',
+                          hint: '** *** ***',
                           obscur: false,
                           field: (val4) {
                             setState(() {

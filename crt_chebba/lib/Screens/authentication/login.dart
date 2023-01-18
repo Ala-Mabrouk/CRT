@@ -65,6 +65,7 @@ class _loginState extends State<login> {
         try {
           AgentCrt? res =
               await AuthenticationService().signInEmailPassword(email, pass);
+              print(res);
           if (res != null) {
             if (res.isConfirmed && res.isAdmin) {
               Navigator.pushAndRemoveUntil(
@@ -202,10 +203,9 @@ class _loginState extends State<login> {
                 color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
           ),
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromARGB(240, 229, 217, 182),
-            padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 20),
+            backgroundColor: Colors.red,
             shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(50)),
+              borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
           ),
           onPressed: () async {

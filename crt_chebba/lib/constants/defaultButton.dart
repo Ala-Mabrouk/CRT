@@ -16,10 +16,9 @@ class DefaultButton extends StatelessWidget {
           child:
               Text(text, style: TextStyle(fontSize: 20, color: Colors.white)),
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromARGB(240, 229, 217, 182),
-            padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 20),
+            backgroundColor: kcolor,
             shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(50)),
+              borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
           ),
           onPressed: () {},
