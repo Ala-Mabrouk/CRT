@@ -4,7 +4,6 @@ import 'package:crt_chebba/Services/administrationServices/agentsManagment.dart'
 import 'package:crt_chebba/constants/constants.dart';
 import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:flutter/material.dart';
-import 'package:phone_caller/phone_caller.dart';
 import '../commun Screens/RowText.dart';
 
 class Settings extends StatefulWidget {
@@ -15,6 +14,7 @@ class Settings extends StatefulWidget {
 }
 
 enum WidgetMarker { all, active, holon }
+
 List<AgentCrt> allAgents = List.empty(growable: true);
 List<AgentCrt> displayedAgents = List.empty(growable: true);
 WidgetMarker selectedWidgetMarker = WidgetMarker.all;
@@ -321,8 +321,9 @@ class _CardAgentState extends State<CardAgent> {
                       flex: 2,
                       child: TextButtonCrt(
                         BackgroundColor: kSecondryColor,
-                        f: () async {
-                          await PhoneCaller.callNumber(widget.ag.phone);
+                        f: () {
+                          print("making a call");
+                       //   FlutterPhoneDirectCaller.callNumber(widget.ag.phone);
                         },
                         myText: 'Appeler',
                         TextColor: kWhitColor,

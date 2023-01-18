@@ -236,9 +236,7 @@ class _SignUpState extends State<SignUp> {
                 if (val == null || val == '') {
                   return 'Champ naicessaire';
                 }
-                if (val.length < 8) {
-                  return 'Mot de passe faible';
-                }
+                
                 return null;
               },
               decoration: InputDecoration(
@@ -334,7 +332,48 @@ class _SignUpState extends State<SignUp> {
       return Container(
         height: 40,
         width: size.width * 0.5,
-        child: RaisedButton(
+        child:
+        ElevatedButton(
+          child: Text(
+            "S'INSCRIRE",
+            style: TextStyle(
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.red,
+            padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+            ),
+          ),
+         onPressed: () async {
+            final formstatus = _SignUpFormkey.currentState;
+            // if (formstatus!.validate()) {
+            //   ScaffoldMessenger.of(context)
+            //       .showSnackBar(SnackBar(content: Text('email invalid !!!')));
+            // }
+            // _agentCrt.isAdmin = isAdmin;
+            if (formstatus!.validate() == true) {
+              _agentCrt.isAdmin = false;
+              _agentCrt.birthDate = selectedDate.toString();
+              AgentCrt? res = await auth.registerNewAgent(_agentCrt);
+              if (res.agentId.isNotEmpty) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => new HoldOn(
+                              agentCrt: res,
+                            )),
+                    (route) => false);
+              }
+            }
+          },
+        ),
+        
+        
+        
+        
+         /* RaisedButton(
           onPressed: () async {
             final formstatus = _SignUpFormkey.currentState;
             // if (formstatus!.validate()) {
@@ -367,7 +406,7 @@ class _SignUpState extends State<SignUp> {
             style: TextStyle(
                 color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
           ),
-        ),
+        ) */
       );
     }
 
@@ -449,7 +488,7 @@ class _SignUpState extends State<SignUp> {
                       DatePicker(),
                       InputPhoneField(
                           label: 'Telephone:',
-                          hint: '22222222',
+                          hint: '** *** ***',
                           obscur: false,
                           field: (val4) {
                             setState(() {

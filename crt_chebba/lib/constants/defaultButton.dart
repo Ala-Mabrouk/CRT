@@ -10,15 +10,18 @@ class DefaultButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
-      height: 50,
-      child: FlatButton(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          onPressed: () {},
-          color: kcolor,
+        width: double.infinity,
+        height: 50,
+        child: ElevatedButton(
           child:
-              Text(text, style: TextStyle(fontSize: 20, color: Colors.white))),
-    );
+              Text(text, style: TextStyle(fontSize: 20, color: Colors.white)),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: kcolor,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+            ),
+          ),
+          onPressed: () {},
+        ));
   }
 }

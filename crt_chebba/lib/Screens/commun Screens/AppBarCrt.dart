@@ -1,7 +1,6 @@
 import 'package:crt_chebba/constants/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:phone_caller/phone_caller.dart';
-
+ 
 class AppBarCrt extends StatefulWidget {
   final String nomFamille;
   final String info;
@@ -91,7 +90,8 @@ class _iconAppBarphoneState extends State<iconAppBarphone> {
           size: 13,
         ),
         onPressed: () async {
-          await PhoneCaller.callNumber(widget.nbPhone);
+          print("making a call");
+         // await PhoneCaller.callNumber(widget.nbPhone);
         },
       ),
     );

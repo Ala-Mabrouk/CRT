@@ -16,6 +16,13 @@ import 'package:flutter/material.dart';
 
 import 'SignUp.dart';
 
+bool validateMail(String mail) {
+  bool emailValid = RegExp(
+          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+      .hasMatch(mail);
+  return emailValid;
+}
+
 class login extends StatefulWidget {
   const login({Key? key}) : super(key: key);
 
@@ -58,6 +65,7 @@ class _loginState extends State<login> {
         try {
           AgentCrt? res =
               await AuthenticationService().signInEmailPassword(email, pass);
+              print(res);
           if (res != null) {
             if (res.isConfirmed && res.isAdmin) {
               Navigator.pushAndRemoveUntil(
@@ -95,10 +103,9 @@ class _loginState extends State<login> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextFormField(
-            validator: (val) =>
-                (val == null || !EmailValidator.validate(val.toString()))
-                    ? 'Email format incorect'
-                    : null,
+            validator: (val) => (val == null || !validateMail(val.toString()))
+                ? 'Email format incorect'
+                : null,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.fromLTRB(30, 0, 0, 0),
               hintText: "NomPrenom@mail.fr",
@@ -188,7 +195,24 @@ class _loginState extends State<login> {
       return Container(
         height: 40,
         width: size.width * 0.5,
-        child: RaisedButton(
+        child: 
+        ElevatedButton(
+          child: Text(
+            "SE CONNECTER",
+            style: TextStyle(
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.red,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+            ),
+          ),
+          onPressed: () async {
+            submitLog(email, pass, cntx);
+          },
+        )
+        /* RaisedButton(
           elevation: 5,
           onPressed: () async {
             submitLog(email, pass, cntx);
@@ -203,7 +227,7 @@ class _loginState extends State<login> {
             style: TextStyle(
                 color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
           ),
-        ),
+        ), */
       );
     }
 
