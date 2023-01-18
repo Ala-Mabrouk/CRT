@@ -15,10 +15,10 @@ Here are some screenshots of the app in action:
 
 | | |
 |--------------|--------------|
-|![Screenshot of the app's splash screen](screenshots/splash.jpg)|![Screenshot of the app's login screen](screenshots/login.jpg)|
-|![Screenshot of the app's sign up screen](screenshots/signup.jpg)|![Screenshot of the app's forgetPass screen](screenshots/forgetPass.jpg)|
-|![Screenshot of the app's listUser screen](screenshots/listUser.jpg)|![Screenshot of the app's ListFamily](screenshots/ListFamily.jpg)|
-|![Screenshot of the app's detailsFamily ](screenshots/detailsFamily.jpg)|![Screenshot of the app's updateProfile](screenshots/updateProfile.jpg)|
+|![Screenshot of the app's splash screen](screenshot/splash.jpg)|![Screenshot of the app's login screen](screenshot/login.jpg)|
+|![Screenshot of the app's sign up screen](screenshot/signup.jpg)|![Screenshot of the app's forgetPass screen](screenshot/forgetPass.jpg)|
+|![Screenshot of the app's listUser screen](screenshotslistUser.jpg)|![Screenshot of the app's ListFamily](screenshot/ListFamily.jpg)|
+|![Screenshot of the app's detailsFamily ](screenshot/detailsFamily.jpg)|![Screenshot of the app's updateProfile](screenshot/updateProfile.jpg)|
 
 
 
