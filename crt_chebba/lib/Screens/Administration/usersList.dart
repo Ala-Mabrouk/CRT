@@ -189,7 +189,11 @@ class _AgentsListState extends State<AgentsList> {
           ButtonBar(
             alignment: MainAxisAlignment.end,
             children: [
-              FlatButton(
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text('Voir Details'),
+              )
+              /* FlatButton(
                 onPressed: () {
                   // Navigator.push(
                   //     context,
@@ -198,8 +202,8 @@ class _AgentsListState extends State<AgentsList> {
                   //             new detailleFamille(theFamily: f))
                   //             );
                 },
-                child: const Text('Voir Details'),
-              ),
+                
+              ), */
             ],
           ),
         ],

@@ -4,8 +4,8 @@ import 'package:crt_chebba/Services/administrationServices/agentsManagment.dart'
 import 'package:crt_chebba/constants/constants.dart';
 import 'package:crt_chebba/models/AgentsCrt.dart';
 import 'package:flutter/material.dart';
-import 'package:phone_caller/phone_caller.dart';
 import '../commun Screens/RowText.dart';
+
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -321,8 +321,11 @@ class _CardAgentState extends State<CardAgent> {
                       flex: 2,
                       child: TextButtonCrt(
                         BackgroundColor: kSecondryColor,
-                        f: () async {
-                          await PhoneCaller.callNumber(widget.ag.phone);
+                        f: ()  {
+                          var FlutterPhoneDirectCaller;
+                          FlutterPhoneDirectCaller.callNumber(
+                                        widget.ag.phone);
+                           
                         },
                         myText: 'Appeler',
                         TextColor: kWhitColor,

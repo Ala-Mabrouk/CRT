@@ -194,7 +194,25 @@ class _loginState extends State<login> {
       return Container(
         height: 40,
         width: size.width * 0.5,
-        child: RaisedButton(
+        child: 
+        ElevatedButton(
+          child: Text(
+            "SE CONNECTER",
+            style: TextStyle(
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color.fromARGB(240, 229, 217, 182),
+            padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 20),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+            ),
+          ),
+          onPressed: () async {
+            submitLog(email, pass, cntx);
+          },
+        )
+        /* RaisedButton(
           elevation: 5,
           onPressed: () async {
             submitLog(email, pass, cntx);
@@ -209,7 +227,7 @@ class _loginState extends State<login> {
             style: TextStyle(
                 color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
           ),
-        ),
+        ), */
       );
     }
 

@@ -86,8 +86,7 @@ class ForgotPassword extends StatelessWidget {
                       Container(
                         height: 45,
                         width: size.width * 0.8,
-                        child: RaisedButton(
-                          elevation: 5,
+                        child: ElevatedButton(
                           onPressed: () async {
                             if (_SignInFomKey.currentState!.validate() ==
                                 true) {
@@ -113,11 +112,16 @@ class ForgotPassword extends StatelessWidget {
                               }
                             }
                           },
-                          padding: EdgeInsets.all(2),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(240, 229, 217, 182),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 35, vertical: 20),
+                            shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(50)),
+                            ),
                           ),
-                          color: Colors.red,
                           child: Text(
                             "ENVOYER",
                             style: TextStyle(

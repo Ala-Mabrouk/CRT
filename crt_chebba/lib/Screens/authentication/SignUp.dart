@@ -334,7 +334,48 @@ class _SignUpState extends State<SignUp> {
       return Container(
         height: 40,
         width: size.width * 0.5,
-        child: RaisedButton(
+        child:
+        ElevatedButton(
+          child: Text(
+            "S'INSCRIRE",
+            style: TextStyle(
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color.fromARGB(240, 229, 217, 182),
+            padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 20),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+            ),
+          ),
+         onPressed: () async {
+            final formstatus = _SignUpFormkey.currentState;
+            // if (formstatus!.validate()) {
+            //   ScaffoldMessenger.of(context)
+            //       .showSnackBar(SnackBar(content: Text('email invalid !!!')));
+            // }
+            // _agentCrt.isAdmin = isAdmin;
+            if (formstatus!.validate() == true) {
+              _agentCrt.isAdmin = false;
+              _agentCrt.birthDate = selectedDate.toString();
+              AgentCrt? res = await auth.registerNewAgent(_agentCrt);
+              if (res.agentId.isNotEmpty) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => new HoldOn(
+                              agentCrt: res,
+                            )),
+                    (route) => false);
+              }
+            }
+          },
+        ),
+        
+        
+        
+        
+         /* RaisedButton(
           onPressed: () async {
             final formstatus = _SignUpFormkey.currentState;
             // if (formstatus!.validate()) {
@@ -367,7 +408,7 @@ class _SignUpState extends State<SignUp> {
             style: TextStyle(
                 color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
           ),
-        ),
+        ) */
       );
     }
 
